@@ -4,15 +4,14 @@ import numpy as np
 
 def to_table(score,size):
     
-    columns = ['set','size','mse','rmse','rse_score','pearson']
+    columns = ['set','size','Precision','Recall','F1-Score','F05-Score','Accuracy','MCC']
     index = ['Train','Test','Validation']
     
     scores = []
     for j,i in enumerate(score):
-        s = np.insert(i[:-1],0,index[j])
+        s = np.insert(i,0,index[j])
         s = np.insert(s,1,size[j])
         scores.append(s)
-    print('\nScore Table:\n',scores)
     df = pd.DataFrame(scores,columns = columns)
     return df
 

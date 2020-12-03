@@ -1,0 +1,7 @@
+
+Since the size of the file chembl27_chemreps.txt that consists of compound names and their SMILES demonstrations is too big,
+it cannot be added. 
+However it can be downloaded from this adress: http://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/releases/chembl_27/
+
+
+
