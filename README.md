@@ -6,16 +6,16 @@ This platform is generated to provide some machine learning algorithms like SVM,
 
 - **scale_learn_evaluate**: is a folder that contain scaler.py, classifications.py, regrassions.py and evaluation_metrics.py. These files are used to scale, to train and to check the trained model on test sets
 
-- **bioactivity_dataset**: is a folder to train bioactivity dataset that are taken from ChEMBLdb/Chembl_27. By training a regression model, bioactivity prediction btw compounds and targets(proteins) is done.
+- **platform_dtiPred**: is a folder to train bioactivity dataset that are taken from ChEMBLdb/Chembl_27. By training a regression model, bioactivity prediction btw compounds and targets(proteins) is done.
 
-- **ecNo_dataset**: is a folder to train enzyme comission number(EC No) dataset that are taken from UniProt/SwissProt. By training a classification model, EC No prediction is done. 
+- **platform_ecNoPred**: is a folder to train enzyme comission number(EC No) dataset that are taken from UniProt/SwissProt. By training a classification model, EC No prediction is done. 
 
 - **uniref_protein**: is a folder that contain only Uniref50 proteins.. It is used to separate the protein accoring to their similarities. Ours, uniref50 2020 05, download date was 20/11/2020 
 
 - **bio_main.py**: a main file to run bioactivity dataset prediction main file. 
 It can be done by a line of code (dataset_name = 'nr_data' for this example, others are default parameters):
 ```
-python bio_main.py --dataset_name: nr_data --split_type: random_split --scaler_type: MinMax_Scaler --learning_type: Regression --machine_type = random_forest --ratio: 0.2 --cv: None
+python bio_main.py --dataset_name nr_data --split_type random_split --scaler_type MinMax_Scaler --learning_type Regression --machine_type random_forest --ratio 0.2 --cv None
 ```
 
 Explanation of particular parameters for bioactivity dataset prediction
@@ -24,7 +24,7 @@ Explanation of particular parameters for bioactivity dataset prediction
 - **ec_main.py**: a main file to run EC number dataset prediction main file. 
 It can be done by a line of code (dataset_name = '../EC_level_1/class_1' for this example, others are default parameters):
 ```
-python ec_main.py --dataset_name: ../EC_level_1/class_1 --split_type: random --scaler_type: MinMax_Scaler --learning_type: Regression --machine_type = random_forest --ratio: 0.2 --cv: None
+python ec_main.py --dataset_name ../EC_level_1/class_1 --split_type random --scaler_type MinMax_Scaler --learning_type Classification --machine_type random_forest --ratio 0.2 --cv None
 ```
 Explanation of particular parameters for EC number dataset prediction
 *    -**split_type**, {'random_split','target_split'}, (default:'random'): it is used to split data according features of compound and target
