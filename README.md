@@ -42,7 +42,7 @@ Explanation of common parameters
    	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
    	    (default: 'random_forest(for both))': to choose which machine will be to train the dataset.
 *    -**ratio**: Train test and validation sets split ratios. For ratio:0.2, 
-                60% is train %20 test and %20 validation set 
+                72% is train %10 test and %18 validation set 
 *    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied to use in RandomizedSearch() function
 
 
