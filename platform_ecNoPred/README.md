@@ -18,12 +18,12 @@ Our data, UniProtKB 2020 05 results, was downloaded on 06/11/2020,
 Due to its size, a supply link is provided: https://www.uniprot.org/uniprot/?query=reviewed:yes 
 - ***target_featurization***: is a folder that is used to create the feature matrices for both train and validation datasets that are used in machine learning algorithms. 
 	- **ec_propagation.py** : It is used to propagate the enzyme data that downloaded from UniProt SwissProt. 
-	- **ec_split_methods.py** : splits the data into train and validation set and save them into the EC_level_L where L stands for level number.
+	- **ec_spliting_means.py** : splits the data into train and validation set and save them into the EC_level_L where L stands for level number.
 	- **ec_fasta_to_array.py** : converts protein sequences .txt file to fasta format to use in ILearn tool
 The order to follow:
 ```
 -ec_propagation.py
--split_methods.py
+-ec_spliting_means.py
 -ec_fasta_to_array.py
 -obtain the protein numerical features from iLearn tool: https://ilearn.erc.monash.edu/
 ```
@@ -36,6 +36,7 @@ Finally, training and showing evaluation in a table were done in the following f
 
 - ***bin***: is a folder that involves main functions to run the machine learning algorithms
 	- **ec_loading_features_indices.py** : is used to prepare the dataset to the main function
+	- **ec_loading_features_indices.py** : is used to prepare the dataset to the main function but this time all sets are fixed 
 	- **ec_to_table** : to make a .csv file that shows the evaluation scores of model
 	- **ec_main_setup** : main function to do job. The parameters it has:
 - ***EC_level_1*** : is a folder where all processed data, training models prediction part and scores of validation set are stored. 
