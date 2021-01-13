@@ -9,10 +9,10 @@ import numpy as np
 
 def import_data(dataset_name,split_type):
 
-    neg_train = np.loadtxt(dataset_name +  '/' + split_type + '/train_negative_set_PAAC.txt',dtype = '<U11')
-    pos_train = np.loadtxt(dataset_name +  '/' + split_type + '/train_positive_set_PAAC.txt',dtype = '<U11')
-    pos_valid = np.loadtxt(dataset_name +  '/' + split_type + '/validation_positive_set_PAAC.txt',dtype = '<U11')
-    neg_valid = np.loadtxt(dataset_name +  '/' + split_type + '/validation_negative_set_PAAC.txt',dtype = '<U11')
+    neg_train = np.loadtxt(dataset_name +  '/' + split_type + '/train_negative_feature.txt',dtype = '<U11')
+    pos_train = np.loadtxt(dataset_name +  '/' + split_type + '/train_positive_feature.txt',dtype = '<U11')
+    pos_valid = np.loadtxt(dataset_name +  '/' + split_type + '/validation_positive_feature.txt',dtype = '<U11')
+    neg_valid = np.loadtxt(dataset_name +  '/' + split_type + '/validation_negative_feature.txt',dtype = '<U11')
     
     return pos_train,pos_valid,neg_train,neg_valid
     
