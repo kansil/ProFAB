@@ -8,53 +8,55 @@ Created on Wed Nov  4 21:10:03 2020
 import os
 import re 
 import numpy as np
-from tqdm import tqdm
 
+file_name = 'uniprot-reviewed_yes.tab'
 
-def propagate_data(file_name,folder_name):
-
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-        
-    with open(file_name) as f:
-        for k,rows in enumerate(tqdm(f)):
-            if k == 0:continue 
-            rows = re.split('\t',rows.strip('\n'))
-            if len(rows[-3]) <= 7:
-                j = [rows[0], rows[-3], rows[-2][0],rows[-1]]
-                a = [rows[0], rows[-2][0],rows[-1]]
-                
-                if j[1] !='':
-                    i = j[1].split('.')
-                    
-                    for level in range(1,5):
-                        if not os.path.exists(folder + '/level_' + str(level)):
-                            os.makedirs(folder + '/level_' + str(level))
-                            
-                    with open(folder + '/level_1/ecNo_' + str(i[0]) + '.txt','a') as f:
-                        np.savetxt(f,[j],fmt = '%s')
-                    
-                    if i[1] != '-':
-                        with open(folder + '/level_2/ecNo_' + str(i[0]) + '-' + str(i[1])+ '.txt','a') as f:
-                            np.savetxt(f,[j],fmt = '%s')
-                            
-                    if i[2] != '-':
-                        with open(folder + '/level_3/ecNo_' + str(i[0]) +'-' + str(i[1])  + '-' + str(i[2])+ '.txt','a') as f:
-                            np.savetxt(f,[j],fmt = '%s')
-                            
-                    if i[3] != '-':
-                        with open(folder + '/level_4/ecNo_' + str(i[0]) + '-' + str(i[1]) + '-' + str(i[2]) + '-' + str(i[3]) + '.txt','a') as f:
-                            np.savetxt(f,[j],fmt = '%s')
-                    
-                if j[1] == '':
-                    with open(folder + '/no_ecNo' + '.txt','a') as f:
-                        np.savetxt(f,[a],fmt = '%s')         
-
-        
-file_name = '../uniprot-reviewed_yes.tab'
 folder = '../ecNo_propagated_data'
 
-propagate_data(file_name,folder):
+if not os.path.exists(folder):
+    os.makedirs(folder)
+    
+with open(file_name) as f:
+    for k,rows in enumerate(f):
+        if k == 0:continue 
+        rows = re.split('\t',rows.strip('\n'))
+        if len(rows[-3]) <= 7:
+            j = [rows[0], rows[-1]]
+            a = [rows[0], rows[-2][0],rows[-1]]
+            if rows[-3] !='':
+                i = rows[-3].split('.')
+                
+                for level in range(1,5):
+                    if not os.path.exists(folder + '/level_' + str(level)):
+                        os.makedirs(folder + '/level_' + str(level))
+                        
+                with open(folder + '/level_1/ecNo_' + str(i[0]) + '.txt','a') as f:
+                    f.write('%s\n' % ' '.join(j))    
+                
+                if i[1] != '-':
+                    with open(folder + '/level_2/ecNo_' + str(i[0]) + '-' + str(i[1])+ '.txt','a') as f:
+                        f.write('%s\n' % ' '.join(j))
+                        #np.savetxt(f,[j],fmt = '%s') 
+                if i[2] != '-':
+                    with open(folder + '/level_3/ecNo_' + str(i[0]) +'-' + str(i[1])  + '-' + str(i[2])+ '.txt','a') as f:
+                        f.write('%s\n' % ' '.join(j))
+                        
+                if i[3] != '-':
+                    with open(folder + '/level_4/ecNo_' + str(i[0]) + '-' + str(i[1]) + '-' + str(i[2]) + '-' + str(i[3]) + '.txt','a') as f:
+                        f.write('%s\n' % ' '.join(j))
+                
+        
+            with open(folder + '/no_ecNo' + '.txt','a') as f:
+                if a[-2] == '5' or a[-2] == '4':
+                    f.write('%s\n' % ' '.join([a[0],a[-1]]))
+                    #np.savetxt(f,[a],fmt = '%s')         
+
+        # if k == 2000: break
+        if k % 8000 == 0:print('checkpoint {}'.format(k))
+            
+
+        
+        
         
         
         
