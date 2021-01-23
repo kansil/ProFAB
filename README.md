@@ -28,7 +28,7 @@ Explanation of particular parameters for bioactivity dataset prediction
 - **ec_main.py**: a main file to run EC number dataset prediction main file. 
 It can be done by a line of code (dataset_name = '../EC_level_1/class_1' for this example, others are default parameters):
 ```
-python ec_main.py --dataset_name ../EC_level_1/class_1 --split_type random --scaler_type MinMax_Scaler --learning_type Classification --machine_type random_forest --ratio 0.2 --cv None
+python ec_main.py --dataset_name ../EC_level_1/class_1 --split_type random --scaler_type MinMax_Scaler --learning_type Regression --machine_type random_forest --ratio 0.2 --cv None
 ```
 Explanation of particular parameters for EC number dataset prediction
 *    -**split_type**, {'random_split','target_split'}, (default:'random'): it is used to split data according features of compound and target
@@ -36,11 +36,12 @@ Explanation of particular parameters for EC number dataset prediction
 Explanation of common parameters
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
 *    -**scaler_type**:{'Standard_Scaler','Normalization','MinMax_Scaler','MaxAbs_Scaler','Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
-*    -**learning_type**:{'Regression','Classification'}, (default: 'Regression'): to select which learning type will be used to train your data.
-*    -**machine_type**:
+*    -**learning_type**:{'Regression','Classification'}, (default: 'Regression'), to select which learning type will be used to train your data.
+* 	 -**protein_feature**: {'paac',''}, (default: 'paac'), numerical ways to define protein sequences
+*    -**machine_type**: 
         for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
    	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
-   	    (default: 'random_forest(for both))': to choose which machine will be to train the dataset.
+   	    (default: 'random_forest(for both))', to choose which machine will be to train the dataset.
 *    -**ratio**: Train test and validation sets split ratios. For ratio:0.2, 
                 72% is train %10 test and %18 validation set 
 *    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied to use in RandomizedSearch() function
