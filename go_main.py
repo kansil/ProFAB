@@ -7,7 +7,7 @@ Created on Sat Jan 23 13:22:08 2021
 import sys
 import argparse
 
-sys.append('platform_ecNoPred/bin')
+sys.append('platform_goPred/bin')
 from go_main_setup import model_training_scoring
 
 parser = argparse.ArgumentParser(description='Benchmark Platform arguments')
