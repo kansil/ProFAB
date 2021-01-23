@@ -32,12 +32,13 @@ python ec_main.py --dataset_name ../EC_level_1/class_1 --split_type random --sca
 ```
 Explanation of particular parameters for EC number dataset prediction
 *    -**split_type**, {'random_split','target_split'}, (default:'random'): it is used to split data according features of compound and target
+- **go_main.py**: a main file to run GO
 
 Explanation of common parameters
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
 *    -**scaler_type**:{'Standard_Scaler','Normalization','MinMax_Scaler','MaxAbs_Scaler','Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
 *    -**learning_type**:{'Regression','Classification'}, (default: 'Regression'), to select which learning type will be used to train your data.
-* 	 -**protein_feature**: {'paac',''}, (default: 'paac'), numerical ways to define protein sequences
+*    -**protein_feature**: {'paac',''}, (default: 'paac'), numerical ways to define protein sequences
 *    -**machine_type**: 
         for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
    	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
