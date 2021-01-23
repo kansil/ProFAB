@@ -36,7 +36,7 @@ Finally, training and showing evaluation in a table were done in the following f
 
 - ***bin***: is a folder that involves main functions to run the machine learning algorithms
 	- **ec_loading_features_indices.py** : is used to prepare the dataset to the main function
-	- **ec_loading_features_indices.py** : is used to prepare the dataset to the main function but this time all sets are fixed 
+	- **ec_loading_features_indices_fixed.py** : is used to prepare the dataset to the main function but this time all sets are fixed 
 	- **ec_to_table** : to make a .csv file that shows the evaluation scores of model
 	- **ec_main_setup** : main function to do job. The parameters it has:
 - ***EC_level_1*** : is a folder where all processed data, training models prediction part and scores of validation set are stored. 
