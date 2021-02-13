@@ -35,7 +35,7 @@ compound_features.txt: main file will be used in traning
     - **READ_uniref.txt**: includes a link where needed files can be downloaded.
     - **get_target_feature.py**: write the pre_determined target features and their original indices to a file 'dataset_name/target_features.txt'.
     - **protein_get_data.py**: get the representatives from the clusters determined in the file 'uniref-identity.tab' and write them to a file 'uniref_reps.txt'. 
-    - **protein_main.py** = is the main module that run the the file 'protein_selection.py'. The parameters:
+    - **protein_main.py**: is the main module that run the the file 'protein_selection.py'. The parameters:
         - **dataset_name**: data name where final data are saved
         - **similarity**: Target similarity in percent. For example, for targets show 30% similarity, it should be 30
     - **protein_selection.py**: includes the functions that find the target names written on 'target_ids_list.txt' file in the file 'uniref_reps.txt' and write these targets to a file 'dataset_name/cluster_protein' + 'similarity' + '_idx.json' where similarity indicates target similarities in uniref-identity.
