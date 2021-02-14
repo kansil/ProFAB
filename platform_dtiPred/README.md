@@ -1,32 +1,31 @@
+# platform_dtiPred:
+It is the a kind of benchmarking platform that can be used to compare your machine algorithms with classic machine learning algorithms and also, it can be used as ready-to-use compound and target datasets suplier. In this platform, we supplied some algorithms to prepare your drug target interaction datasets to use in machine learning.
+
 ## Description of folders and files in the Repository
-- ***proj_data***: is folder that includes compound name, target name and bioactivity results between them. The folder inside is **nr_data** and it includes 3 file these are:
+**Note**: *Other folders and files will occur as directives dedicated in compound_filtration and target_filtration folders are followed*
+- ***nr_data***: is a folder where all feature matrices, models and metrics are stored. It will be seen and filled with the files as following programs are executed. The pre-files it stores are:
     - **bioactivity_data.csv**: is a file that keeps bioactivity results btw compound and target.(unit: nM) It is a sparse matrix such as:
     [['nan','nan',...],['nan',7.21354684,'nan'],...]
     - **compound_ids_list.txt**: is a file that contains Chembl IDs of compound. It look like : [CHEMBL3645270,CHEMBL3314028,CHEMBL3957820,...].transpose()
     - **target_ids_list.txt**: is a file that contains Chembl IDs of targets. It looks like: [CHEMBL4797,CHEMBL2269,CHEMBL5304,...].transpose()
-**Note**: *Other folders and files will occur as directives dedicated in compound_filtration and target_filtration folders are followed*
-- ***nr_data***: is a folder where all feature matrices, models and metrics are stored. It will be seen and filled with the files as following programs are executed. 
 - ***compound_filtration***: This folder is used to define the compounds in their Morgan Fingerprints by using their SMILES demonstrations. The files are in the folder:
     - **compound_get_data.txt**: supplies an adress to download the relevant files to form the dataset
     - **get_smiles.py**: gets SMILES data for compound(CHEMBL_ID) and write on a file to use later.
     - **load_cluster.py**: clusters the compound according to their Morgan fingerprints then save the indices of the compounds
-    - **whole.py**: aranging the file of chembl27_chemreps.txt to use in get_smiles.py
+    - **stringTo_array.py**: aranging the file of chembl27_chemreps.txt to use in get_smiles.py
     - **compound_setup.py**: setup py file for compound features. 
-    - **compound_main.py**: main function compounds. Parameters it has:
-    	- **dataset_name**: is a name of folder where files are stored 
-    	- **cluster**:bolean,(default:False): It decides to run clustering algorithm on data. If cluster = False, no cluster and whole compound data will be used in the training section otherwise only cluster senters will be used.
 ```
 - The order will be followed is:
     - dowload the files from dedicated links in get_data.txt
-    - execute whole.py
-    - python compound_main.py --dataset_name: nr_data --cluster: False
+    - stringTo_array.py to extract SMILES from the file chembl27_chemreps.txt to the file chembl27_chemreps.txt in the same folder
+    - compound_setup.py to get needed files to use in prediction.
 ```
 The files will occur after running these programs in 'nr_data' folder are:
-```
-Compound_Smiles_Idx.txt: in-between file
-representatives.json: cluster centers of compounds, (optional, if cluster:True)
-compound_features.txt: main file will be used in traning 
-```
+
+- compound_smiles_idx.txt: in-between file, specific for each dataset
+- compound_split_compound_feature.txt main file be used in training but selected based similarity of compounds (distance cutoff > 0.3) 
+- random_split_compound_feature.txt: main file will be used in training
+    
 - ***target_filtration***: This folder includes the files that define targets for dedicated dataset.The files are in the folder:
     - **get_data.txt**: is a file that provides a link where UnitProt Uniref %50 similarity data can be dowloaded
     - **chembl_27.fa**: a fasta file of targets obtained by Chembl
