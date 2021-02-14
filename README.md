@@ -1,6 +1,6 @@
 # Benchmarking Platform Computational Protein Annotation Prediction Methods
 
-This platform is generated to provide some machine learning algorithms like SVM, random forest etc. for the tasked dataset like drug-interaction, EC number prediction. This platform is based on supervised learning, and regression and binary classifaction leaning types are proposed. 
+This platform is generated to provide some machine learning algorithms like SVM, random forest etc. for the tasked dataset drug-target interaction, EC number prediction and GO ID prediction. This platform is based on supervised learning. 
 Repository can be obtained by a single line of command:
 ```
 git clone https://github.com/Sametle06/benchmark_platform.git
