@@ -26,7 +26,6 @@ Before running the algorithms, it should be noted that the dataset folder which 
 ```
 python bio_main.py --dataset_name folder_name
 ```
-
 - **ec_main.py**: main file to run learning methods to train enzyme commission number datasets. To run simply define the followning line as a command
 ```
 python ec_main.py --dataset_name file_name
@@ -36,7 +35,7 @@ python ec_main.py --dataset_name file_name
 python go_main.py --dataset_name file_name
 ```
 
-Explanation of parameters that are used to train models:
+#### Explanation of parameters that are used to train models:
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
 *    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
 *    -**protein_feature**: {'paac', 'aac', 'gaac', 'eaac', 'ctriad', 'socnumber'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule.  
@@ -44,16 +43,22 @@ Explanation of parameters that are used to train models:
         for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
    	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
    	    (default: 'random_forest(for both))', to choose which machine will be to train the dataset.
-*    -**ratio**: Train test and validation sets split ratios. For ratio:0.2, 
-                72% is train %10 test and %18 validation set 
-*    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied to use in RandomizedSearch() function
+*    -**ratio**: to split the datasets to train, test and validation in that ratio. If test data was supplied, only validation data will be obtained from train set.
+*    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
 
 
 #### Output of both main python files
-    - **Model_Data**: saves the model of training to use in later datasets
-    - **Score_Data**: saves the evaluation metrics of test and train sets
 
-
+As output, we supply both parameters and evaludation scores. While parameters are given as binary data, evaluation metrics are supplied in .csv format. The name of the file are pressed as:
+```
+Model Data: Model_machine_type_split_type_protein_feature.txt
+Score Data: Score_machine_type_split_type_protein_feature.csv
+```
+For example, if machine_type = 'random_forest', split_type = 'random_split' and protein_feature = 'paac':
+```
+Model Data: Model_random_forest_random_split_paac.txt
+Score Data: Score_random_forest_random_split_paac.csv
+```
 
 
 
