@@ -13,9 +13,10 @@ This project is made to provide some platforms that includes some pre-processed 
 - **[platform_dtiPred](platform_dtiPred)**: includes run programs files and sample datasets for drug target interaction platform
 - **[platform_ecNoPred](platform_ecNoPred)**: includes run programs files and sample datasets for ec number platform
 - **[platfrom_goPred](platform_goPred)**: includes run programs files and sample datasets for GO ID platform
-- **[scale_learn_evaluate](scale_learn_evaluate)**: is a folder that includes some file to scale, to train and to evaluate the perfomance of learnings.
-- **[uniref_protein](uniref_protein)**: is a folder that contains information how to get UniRef Proteins. The data we get was uniref50-2020-05, download date was 20/11/2020.
 - **[compound_featuring](compound_featuring)**: can be used to get rdkit.Bitvector of molecules.
+- **[scale_learn_evaluate](scale_learn_evaluate)**: is a folder that includes files to scale, to train and to evaluate the perfomance of learnings.
+- **[uniref_protein](uniref_protein)**: is a folder that contains information how to get UniRef Proteins. The data we get was uniref50-2020-05, download date was 20/11/2020.
+
 - **to_fasta_**: To convert target sequence file to fasta format to get numerical features from iLearn web-tool(Chen, 2019).
 
 ## How to run the machine learning algorithms 
@@ -34,7 +35,6 @@ python ec_main.py --dataset_name file_name
 ```
 python go_main.py --dataset_name file_name
 ```
-
 #### Explanation of parameters that are used to train models:
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
 *    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
@@ -59,7 +59,6 @@ For example, if machine_type = 'random_forest', split_type = 'random_split' and 
 Model Data: Model_random_forest_random_split_paac.txt
 Score Data: Score_random_forest_random_split_paac.csv
 ```
-
 
 
 
