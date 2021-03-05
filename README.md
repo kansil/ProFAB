@@ -8,37 +8,38 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 
 ## Folders Description
 
-- **scale_learn_evaluate**: is a folder that contain scaler.py, classifications.py, regrassions.py and evaluation_metrics.py. These files are used to scale, to train and to check the trained model on test sets
+This project is made to provide some platforms that includes some pre-processed datasets(without scaling) and training algorithms. The platforms are based on Drug-Target Interaction prediction (dtiPred), Enzyme Commission Number prediction(ecNoPred) and Gene Ontology ID prediction (goIdPred). These files include a lot of datasets from small size (n < 500) to big size (n > 200000) to train with a numerous learning algorithms. Also, to train these datasets, we provide easy to use machine learning algorithm. By defining the name of function, optimized and tuned results can be obtained. The links to the folders and simple descriptions are given below:
 
-- **platform_dtiPred**: is a folder to train bioactivity dataset that are taken from ChEMBLdb/Chembl_27. By training a regression model, bioactivity prediction btw compounds and targets(proteins) is done.
+- **(platform_dtiPred)[platform_dtiPred]**
+- **(platform_ecNoPred)[platform_ecNoPred]**
+- **(platfrom_goPred)[platform_goPred]**
+- **(scale_learn_evaluate)[scale_learn_evaluate]**: is a folder that includes some file to scale, to train and to evaluate the perfomance of learnings.
+- **(uniref_protein)[uniref_protein]**: is a folder that contains information how to get UniRef Proteins. The data we get was uniref50-2020-05, download date was 20/11/2020.
+- **(compound_featuring)[compound_featuring]**: can be used to get rdkit.Bitvector of molecules.
+- **to_fasta_**: To convert target sequence file to fasta format to get numerical features from iLearn web-tool(Chen, 2019).
 
-- **platform_ecNoPred**: is a folder to train enzyme comission number(EC No) dataset that are taken from UniProt/SwissProt. By training a classification model, EC No prediction is done. 
+## How to run the machine learning algorithms 
 
-- **uniref_protein**: is a folder that contain only Uniref50 proteins.. It is used to separate the protein accoring to their similarities. Ours, uniref50 2020 05, download date was 20/11/2020 
+Before running the algorithms, it should be noted that the dataset folder which includes datasets needs to include some specific files. The name of these files are given in their section in details.
 
-- **bio_main.py**: a main file to run bioactivity dataset prediction main file. 
-It can be done by a line of code (dataset_name = 'nr_data' for this example, others are default parameters):
+- **bio_main.py**: main file to run learning methods to train drug target interaction datasets. To run simply define the followning line as a command 
 ```
-python bio_main.py --dataset_name nr_data --split_type random_split --scaler_type MinMax_Scaler --learning_type Regression --machine_type random_forest --ratio 0.2 --cv None
+python bio_main.py --dataset_name folder_name
 ```
 
-Explanation of particular parameters for bioactivity dataset prediction
-*    -**split_type**, {'random_split','compound_split','target_split','compound_target_split'}, (default:'random_split'): it is used to split data according features of compound and target
-
-- **ec_main.py**: a main file to run EC number dataset prediction main file. 
-It can be done by a line of code (dataset_name = '../EC_level_1/class_1' for this example, others are default parameters):
+- **ec_main.py**: main file to run learning methods to train enzyme commission number datasets. To run simply define the followning line as a command
 ```
-python ec_main.py --dataset_name ../EC_level_1/class_1 --split_type random --scaler_type MinMax_Scaler --learning_type Regression --machine_type random_forest --ratio 0.2 --cv None
+python ec_main.py --dataset_name file_name
 ```
-Explanation of particular parameters for EC number dataset prediction
-*    -**split_type**, {'random_split','target_split'}, (default:'random'): it is used to split data according features of compound and target
-- **go_main.py**: a main file to run GO
+- **go_main.py**: main file to run learning methods to train GO ID datasets. To run simply define the followning line as a command:
+```
+python go_main.py --dataset_name file_name
+```
 
-Explanation of common parameters
+Explanation of parameters that are used to train models:
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
 *    -**scaler_type**:{'Standard_Scaler','Normalization','MinMax_Scaler','MaxAbs_Scaler','Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
-*    -**learning_type**:{'Regression','Classification'}, (default: 'Regression'), to select which learning type will be used to train your data.
-*    -**protein_feature**: {'paac',''}, (default: 'paac'), numerical ways to define protein sequences
+*    -**protein_feature**: {'paac','aac','gaac','eaac','ctriad','socnumber'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule.  
 *    -**machine_type**: 
         for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
    	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
@@ -53,8 +54,6 @@ Explanation of common parameters
     - **Score_Data**: saves the evaluation metrics of test and train sets
 
 
-
-[this is the link](platform_dtiPred)
 
 
 
