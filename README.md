@@ -38,8 +38,8 @@ python go_main.py --dataset_name file_name
 
 Explanation of parameters that are used to train models:
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
-*    -**scaler_type**:{'Standard_Scaler','Normalization','MinMax_Scaler','MaxAbs_Scaler','Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
-*    -**protein_feature**: {'paac','aac','gaac','eaac','ctriad','socnumber'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule.  
+*    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
+*    -**protein_feature**: {'paac', 'aac', 'gaac', 'eaac', 'ctriad', 'socnumber'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule.  
 *    -**machine_type**: 
         for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
    	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
