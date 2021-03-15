@@ -82,3 +82,93 @@ Source code folder contains.
    		    - *Only Compound based*: compound are clustered by their FingerPrints and their centers are used to train model
    			- *Only Target based*: get the centers of clustered data of target by UnitProt Uniref(%50 similarity) and their centers are used to train model
    			- *Compound & Target based*: both compounds and targets are clustered by their similarities and their centers of clusters are used to train the model
+
+
+
+
+# Benchmarking Platform for Computational Protein Annotation Prediction
+
+This platform is generated to provide some machine learning algorithms like SVM, random forest etc. for the tasked dataset drug-target interaction, EC number prediction and GO ID prediction. This platform is based on supervised learning. 
+Repository can be obtained by a single line of command:
+```
+git clone https://github.com/Sametle06/benchmark_platform.git
+```
+
+## Folders Description
+
+This project is made to provide some platforms that includes some pre-processed datasets(without scaling) and training algorithms. The platforms are based on Drug-Target Interaction prediction (dtiPred), Enzyme Commission Number prediction(ecNoPred) and Gene Ontology ID prediction (goPred). These files include a lot of datasets from small size (n < 500) to big size (n > 200000) to train with a numerous learning algorithms. Also, to train these datasets, we provide easy to use machine learning algorithm. By defining the name of function, optimized and tuned results can be obtained. The links to the folders and simple descriptions are given below:
+
+- **[compound_featuring](compound_featuring)**: can be used to get rdkit.Bitvector of molecules.
+- **[process_learn_evaluate](process_learn_evaluate)**: is a folder that includes files to scale, to train and to evaluate the perfomance of learnings.
+
+
+
+## How to run the machine learning algorithms 
+
+Training algorithms can be used in two ways. If the user has his/her dataset, s/he can use the learning algorithm by simply defining the following line to the terminal:
+```
+python learn_main.py --dataset_name exp_folder_name
+``` 
+All other parameters have their default values. They can be also changed by defining in the line. However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [datasets](import_dataset)
+
+The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. It can be done by simply:
+
+
+
+
+Before running the algorithms, it should be noted that the dataset folder which includes datasets needs to include some specific files. The name of these files are given in their section in details.
+
+- **bio_main.py**: main file to run learning methods to train drug target interaction datasets. To run simply define the followning line as a command 
+```
+python bio_main.py --dataset_name folder_name
+```
+
+#### Explanation of parameters that are used to train models:
+
+
+
+*    -**dataset_name**: folder that training model and scores are stored (user_determined)
+*    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
+*    -**protein_feature**: {'paac', 'aac', 'gaac'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule. 
+*	 -**learning_type**: {}
+*    -**machine_type**: 
+        for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
+   	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
+   	    (default: 'random_forest(for both))', to choose which machine will be to train the dataset.
+*    -**ratio**: to split the datasets to train, test and validation in that ratio. If test data was supplied, only validation data will be obtained from train set.
+*    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
+
+
+#### Output of both main python files
+
+As output, we supply both parameters and evaludation scores. While parameters are given as binary data, evaluation metrics are supplied in .csv format. The name of the file are pressed as:
+```
+Model Data: Model_machine_type_split_type_protein_feature.txt
+Score Data: Score_machine_type_split_type_protein_feature.csv
+```
+For example, if machine_type = 'random_forest', split_type = 'random_split' and protein_feature = 'paac':
+```
+Model Data: Model_random_forest_random_split_paac.txt
+Score Data: Score_random_forest_random_split_paac.csv
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
