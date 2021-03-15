@@ -1,6 +1,0 @@
-
-Since targets are clusters are taken by UniProt-Uniref, these should be downloaded due to their enormous sizes
-Uniref files can be downloaded from the following line: 
-	Uniref50 proteins:	https://www.uniprot.org/uniref/?query=&fil=identity:0.5
-
-After downloaded it must be sended to unitref_proteins folder.
