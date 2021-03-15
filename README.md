@@ -36,7 +36,7 @@ All other parameters have their default values. They can be also changed by defi
             If None, train and test data will be used to train and calculate scores. (default = 0.2)
 *    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
 
-However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [datasets](import_dataset). 
+However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [import_datasets](import_dataset). 
 The output of this methods are:
 ```
 Model_file: Model_machine_type_protein_type.txt
@@ -46,5 +46,5 @@ Score_file: Score_machine_type_protein_type.csv
 The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. It can be done by simply:
 ![machine_apply](https://user-images.githubusercontent.com/37181660/111209461-19ad8180-85dd-11eb-8f3b-149cf6224031.PNG)
 
-The parameters used in dataset importing are explained in [datasets](import_dataset). Other steps are explained in [process_learn_evaluate](process_learn_evaluate).
+The parameters used in dataset importing are explained in [import_datasets](import_dataset). Other steps are explained in [process_learn_evaluate](process_learn_evaluate).
 
