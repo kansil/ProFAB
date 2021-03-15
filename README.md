@@ -10,72 +10,41 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 
 This project is made to provide some platforms that includes some pre-processed datasets(without scaling) and training algorithms. The platforms are based on Drug-Target Interaction prediction (dtiPred), Enzyme Commission Number prediction(ecNoPred) and Gene Ontology ID prediction (goPred). These files include a lot of datasets from small size (n < 500) to big size (n > 200000) to train with a numerous learning algorithms. Also, to train these datasets, we provide easy to use machine learning algorithm. By defining the name of function, optimized and tuned results can be obtained. The links to the folders and simple descriptions are given below:
 
-- **[platform_dtiPred](platform_dtiPred)**: includes run programs files and sample datasets for drug target interaction platform
-- **[platform_ecNoPred](platform_ecNoPred)**: includes run programs files and sample datasets for ec number platform
-- **[platfrom_goPred](platform_goPred)**: includes run programs files and sample datasets for GO ID platform
 - **[compound_featuring](compound_featuring)**: can be used to get rdkit.Bitvector of molecules.
-- **[scale_learn_evaluate](scale_learn_evaluate)**: is a folder that includes files to scale, to train and to evaluate the perfomance of learnings.
-- **[uniref_protein](uniref_protein)**: is a folder that contains information how to get UniRef Proteins. The data we get was uniref50-2020-05, download date was 20/11/2020.
+- **[process_learn_evaluate](process_learn_evaluate)**: is a folder that includes files to scale, to train and to evaluate the perfomance of learnings.
 
-- **to_fasta_**: To convert target sequence file to fasta format to get numerical features from iLearn web-tool(Chen, 2019).
+
 
 ## How to run the machine learning algorithms 
 
-Before running the algorithms, it should be noted that the dataset folder which includes datasets needs to include some specific files. The name of these files are given in their section in details.
+Training algorithms can be used in two ways. If the user has his/her dataset, s/he can use the learning algorithm by simply defining the following line to the terminal:
+```
+python learn_main.py --dataset_name exp_folder_name
+``` 
+All other parameters have their default values. They can be also changed by defining the values in the line. The description of the paramters:
 
-- **bio_main.py**: main file to run learning methods to train drug target interaction datasets. To run simply define the followning line as a command 
-```
-python bio_main.py --dataset_name folder_name
-```
-- **ec_main.py**: main file to run learning methods to train enzyme commission number datasets. To run simply define the followning line as a command
-```
-python ec_main.py --dataset_name file_name
-```
-- **go_main.py**: main file to run learning methods to train GO ID datasets. To run simply define the followning line as a command:
-```
-python go_main.py --dataset_name file_name
-```
-#### Explanation of parameters that are used to train models:
 *    -**dataset_name**: folder that training model and scores are stored (user_determined)
 *    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
-*    -**protein_feature**: {'paac', 'aac', 'gaac', 'eaac', 'ctriad', 'socnumber'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule.  
-*    -**machine_type**: 
-        for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'},
-   	    for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
+*    -**protein_feature**: {'paac', 'aac', 'gaac'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule. 
+*	 -**learning_type**: {}
+*    -**machine_type**: for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'}, for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
    	    (default: 'random_forest(for both))', to choose which machine will be to train the dataset.
-*    -**ratio**: to split the datasets to train, test and validation in that ratio. If test data was supplied, only validation data will be obtained from train set.
+*    -**ratio**: Train test and validation sets split ratios. If float, train and test sets will be formed,
+            If list with size = 2, ratio = [test_ratio,validation_ratio], train, test and validation sets
+            will be formed. If datasets are already diveded in train and test, 
+            ratio must be None, or float. If float, validation set will be formed via train set. 
+            If None, train and test data will be used to train and calculate scores. (default = 0.2)
 *    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
 
-
-#### Output of both main python files
-
-As output, we supply both parameters and evaludation scores. While parameters are given as binary data, evaluation metrics are supplied in .csv format. The name of the file are pressed as:
+However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [datasets](import_dataset). 
+The output of this methods are:
 ```
-Model Data: Model_machine_type_split_type_protein_feature.txt
-Score Data: Score_machine_type_split_type_protein_feature.csv
-```
-For example, if machine_type = 'random_forest', split_type = 'random_split' and protein_feature = 'paac':
-```
-Model Data: Model_random_forest_random_split_paac.txt
-Score Data: Score_random_forest_random_split_paac.csv
+Model_file: Model_machine_type_protein_type.txt
+Score_file: Score_machine_type_protein_type.csv
 ```
 
+The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. It can be done by simply:
+![machine_apply](https://user-images.githubusercontent.com/37181660/111201861-44dfa300-85d4-11eb-8b09-b387b4843e55.PNG)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The parameters used in dataset importing are explained in [datasets](import_dataset). Other steps and theri parameters are explained in [process_learn_evaluate](process_learn_evaluate).
 
