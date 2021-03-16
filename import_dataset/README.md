@@ -1,5 +1,6 @@
 # Import Dataset
 
+## Importing from our database
 In this project, we tried to present the datasets to the user in almost every way. User can get the set in splitted or directly or s/he can get only negative or positive datasets by defining the parameters clearly. 
 
 The parameters shows difference for datasets are used in regression algoritm and sets in binary classification. Because of that, this section should be examined carefully to import the datasets.
@@ -17,3 +18,6 @@ The parameters:
 	- **protein_feature**: {'paac','aac','gaac'}, (default = 'paac'), indicates numerical feature of proteins obtained from sequence data.
 	- **label**: {None,'positive','negative'}, (default = None), to obtain which set of data will be obtained. The user can get positive or negative sets of whole dataset by defining this parameter.
 	- **pre_determined**: {False,True}, (default = False), indicate how data will be get. We upload our dataset as train and test set. So user can get them without randomly foming the test and train sets from the whole data. 
+
+## Importing User Datasets
+
