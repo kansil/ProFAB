@@ -24,7 +24,6 @@ def forming_path(dataset_name,machine_type,protein_feature):
     Parameters
     ----------
     dataset_name: folder name where data is stored
-    learning_type, {regression,classification}, default: regression
     machine_type: machine learning type name
     split_type: split type of dataset
         
