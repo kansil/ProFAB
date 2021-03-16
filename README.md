@@ -23,7 +23,7 @@ python learn_main.py --dataset_name exp_folder_name
 ``` 
 All other parameters have their default values. They can be also changed by defining the values in the line. The description of the paramters:
 
-*    -**dataset_name**: folder that training model and scores are stored (user_determined)
+*    -**dataset_name**: folder where user datasets are stored in here. Also, in this folder outputs that aretraining model and scores will be stored.
 *    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
 *    -**protein_feature**: {'paac', 'aac', 'gaac', 'ctdc'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule. 
 *	 -**learning_type**: {'Regression,'Classification}, (default: Classification), It will be used to indicate with learining method will be used to train and the evaluate the score.
