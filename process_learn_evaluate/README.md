@@ -32,8 +32,7 @@ In this folder, there are machine learning, scaling and evaluation alogirthms. T
 		- root mean sqeared error
 		- Pearson correlation coefficient
 		- Spearman's rank correlation coefficient
-
-	-Classification:
+	- Classification:
 		- precision
 		- recall
 		- f1
