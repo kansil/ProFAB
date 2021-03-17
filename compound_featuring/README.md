@@ -11,12 +11,9 @@ In result file, except from the Chembl_IDs of molecules and their bitvectors. Al
 
 - **chembl27_chemreps**: is a file that contains Chembl molecules SMILES and InChi data.
 
-By writing the following code to the terminal, categorical values of molecules can be obtained:
-```
-python compound_to_ --data_name smiles.txt --save_data feature.txt --save_idx compound_indices.txt --bits 1024
-```
-## Output
-```
-	- feature.txt: contains Chembl Molecules and BitVectors by rdkit.
-	- indices.txt: contains indices of original data.
-```
+## The Parameters:
+
+- **data_name**: Name of file of SMILES data
+- **save_data**: Name of file where fingerprits are stored. Its format can be .csv, .txt and .tsv
+- **save_idx**: Name of file where indices of data points are stored. It is beacuse some data points can be lost during process.
+- **bits**: number of dimensions of fingerprints
