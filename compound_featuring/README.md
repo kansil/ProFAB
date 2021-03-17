@@ -13,7 +13,7 @@ In result file, except from the Chembl_IDs of molecules and their bitvectors. Al
 
 ## The Parameters:
 
-- **data_name**: Name of file of SMILES data
-- **save_data**: Name of file where fingerprits are stored. Its format can be .csv, .txt and .tsv
-- **save_idx**: Name of file where indices of data points are stored. It is beacuse some data points can be lost during process.
-- **bits**: number of dimensions of fingerprints
+- **data_name**: SMILES data of molecules
+- **save_data**: (default: 'feature.txt'), name of file where fingerprits are stored. Its format can be .csv, .txt and .tsv
+- **save_idx**: (default: indices.txt), name of file where indices of data points are stored. It is beacuse some data points can be lost during process.
+- **bits**: (default: 1024), number of dimensions of fingerprints
