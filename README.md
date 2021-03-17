@@ -48,3 +48,11 @@ The other way to use the learning algorithms is passing from using any Python ID
 
 The parameters used in dataset importing are explained in [import_datasets](import_dataset). Other steps are explained in [process_learn_evaluate](process_learn_evaluate).
 
+## Compound Featurization
+
+For the users who want to obtain trainable data from molecules, we provides a program that converts SMILES data of compound to rdkit.BitVector. For a clear explanation visit [compound_featuring](compound_featuring). The program can be run with a line of command:
+```
+python compound_to_ --data_name smiles.txt --save_data feature.txt --save_idx compound_indices.txt --bits 1024
+```
+
+
