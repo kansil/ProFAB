@@ -8,12 +8,7 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 
 ## Folders Description
 
-This project is made to provide some platforms that includes some pre-processed datasets(without scaling) and training algorithms. The platforms are based on Drug-Target Interaction prediction (dtiPred), Enzyme Commission Number prediction(ecNoPred) and Gene Ontology ID prediction (goPred). These files include a lot of datasets from small size (n < 500) to big size (n > 200000) to train with a numerous learning algorithms. Also, to train these datasets, we provide easy to use machine learning algorithm. By defining the name of function, optimized and tuned results can be obtained. The links to the folders and simple descriptions are given below:
-
-- **[compound_featuring](compound_featuring)**: can be used to get rdkit.Bitvector of molecules.
-- **[process_learn_evaluate](process_learn_evaluate)**: is a folder that includes files to scale, to train and to evaluate the perfomance of learnings.
-
-
+This project is made to provide some platforms that includes some pre-processed datasets(without scaling) and training algorithms. The platforms are based on Drug-Target Interaction prediction (dtiPred), Enzyme Commission Number prediction(ecNoPred) and Gene Ontology ID prediction (goPred). These files include a lot of datasets from small size (n < 500) to big size (n > 200000) to train with a numerous learning algorithms. Also, to train these datasets, we provide easy to use machine learning algorithm. By defining the name of function, optimized and tuned results can be obtained.
 
 ## How to run the machine learning algorithms 
 
