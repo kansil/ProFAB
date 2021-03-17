@@ -49,7 +49,7 @@ For the users who want to obtain trainable data from molecules, we provides a pr
 ```
 python compound_to_ --data_name smiles.txt --save_data feature.txt --save_idx compound_indices.txt --bits 1024
 ```
-## Output
+Output of the command: 
 ```
 - feature.txt: contains Chembl Molecules and BitVectors in string by rdkit.
 - indices.txt: contains indices of original data.
