@@ -51,7 +51,7 @@ python compound_to_ --data_name smiles.txt --save_data feature.txt --save_idx co
 ```
 ## Output
 ```
-	- feature.txt: contains Chembl Molecules and BitVectors by rdkit.
-	- indices.txt: contains indices of original data.
+- feature.txt: contains Chembl Molecules and BitVectors in string by rdkit.
+- indices.txt: contains indices of original data.
 ```
 
