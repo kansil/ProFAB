@@ -1,4 +1,4 @@
-# Compound Featuring via rdkit Python Package
+# Compound Featurization via rdkit Python Package
 
 Here, we tried to ease to obtain the numerical features of Chembl Compounds by using Python package 'rdkit'. By simply defining your file name you can get your categorical data of compounds. The results can strored as tab seperated, comma seperated and space separated.
 In result file, except from the Chembl_IDs of molecules and their bitvectors. Also, a file that includes indices of the original data points is supplied. It is because rdkit package may give none value for some SMILES values. To not lose the places of points, indices of molecules were also supplied in the 2nd file. 
