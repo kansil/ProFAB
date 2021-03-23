@@ -23,7 +23,7 @@ class file_to_data_():
         feature,label = [],[]
         for row in f:
             row = re.split(self.delimiter,row.strip('\n'))
-            feature.append(list(np.array(row[:-1])))
+            feature.append(list(np.array(row[:-1],dtype = 'float64')))
             label.append(float(row[-1]))
 
         return feature,label
@@ -37,7 +37,7 @@ class file_to_data_():
         
         for row,l in zip(xf,yf):
             row = re.split(self.delimiter,row.strip('\n'))
-            feature.append(list(np.array(row[:-1])))
+            feature.append(list(np.array(row,dtype = 'float64')))
             label.append(float(l))
 
         return feature,label
@@ -48,8 +48,8 @@ class file_to_data_():
         feature,label = [],[]
         for row in f:
             row = re.split(self.delimiter,row.strip('\n'))
-            feature.append(list(np.array(row[:-1])))
-            label.append(float(row[-1]))
+            feature.append(list(np.array(row[:-1],dtype = 'float64')))
+            label.append(int(row[-1]))
 
         return feature,label
         
@@ -63,8 +63,8 @@ class file_to_data_():
         
         for row,l in zip(xf,yf):
             row = re.split(self.delimiter,row.strip('\n'))
-            feature.append(list(np.array(row[:-1])))
-            label.append(float(l))
+            feature.append(list(np.array(row),dtype = 'float64'))
+            label.append(int(l))
 
         return feature,label
 
@@ -78,12 +78,12 @@ class file_to_data_():
         
         for row in pf:
             row = re.split(self.delimiter,row.strip('\n'))
-            feature.append(list(np.array(row[:-1])))
+            feature.append(list(np.array(row,dtype = 'float64')))
             label.append(1)
 
         for row in nf:
             row = re.split(self.delimiter,row.strip('\n'))
-            feature.append(list(np.array(row[:-1])))
+            feature.append(list(np.array(row,dtype = 'float64')))
             label.append(-1)            
 
         rdn = list(zip(feature,label))
@@ -91,11 +91,8 @@ class file_to_data_():
         return zip(*rdn)    
 
     
-def separator(X,y,ratio = None):
+def separator(X,y,ratio):
     
-    if not ratio:
-        return X,y
-        
     if type(ratio) == float:
 
         return train_test_split(X,y, test_size = ratio)
@@ -111,7 +108,7 @@ def separator(X,y,ratio = None):
         return X_train,X_test,X_validation,y_train,y_test,y_validation
     
     else:
-        raise AttributeError('Please enter correct ratio value in true type. Options: "None, float, list"')
+        raise AttributeError('Please enter correct ratio value in true type. Options: float or list')
         
     
 def regress_data_import(xf,yf,indices_file = None):
