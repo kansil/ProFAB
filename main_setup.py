@@ -77,19 +77,22 @@ def model_all(dataset_name,
     model_path,score_path = forming_path(dataset_name, machine_type, protein_feature)
     
     data = get_final_dataset(dataset_name,learning_type = learning_type)
+    
     if len(data) == 2:
         X,y = data
-        splitted = separator(X,y, ratio = ratio)
+        if type(ratio) == float:
+            X_train,X_test,y_train,y_test = separator(X,y, ratio = ratio)
+        else:
+            X_train,X_test,X_validation,y_train,y_test,y_validation = separator(X,y, ratio = ratio)
     
     elif len(data) == 4:
         #if pre_determined dataset, ratio should be None, Float
-        X_train,X_test,y_train,y_test = data
-        splitted = separator(X_train,y_train,ratio = ratio)
-        
-    if len(splitted) == 4:
-        X_train,X_test,y_train,y_test = splitted
-    elif len(splitted) == 6:
-        X_train,X_test,X_validation,y_train,y_test,y_validation = splitted
+        if ratio == None:
+            X_train,X_test,y_train,y_test = data
+        else:
+            X_train,X_test,y_train,y_test = data
+            X_train,X_validation,y_train,y_validation = separator(X_train,y_train,ratio = ratio)
+         
     X_train,scaler = scale_methods(X_train,scale_type = scaler_type)
     
     if not os.path.isfile(model_path):
@@ -107,18 +110,8 @@ def model_all(dataset_name,
     model = pickle.load(open(model_path,'rb'))
     
     score_train,f_train = evaluate_score(model,X_train,y_train)
-    if len(splitted) == 4:
-        
-        score_test,f_test = evaluate_score(model,X_test,y_test)
-        scores = [score_train,score_test]
-        size_of = [str(X_train.shape),str(X_test.shape)]
-        preds = [f_train,f_test]
-        names = ['Train','Test']
-        form_table(score_path = score_path, names = names, scores = scores,
-                    sizes = size_of, learning_type = learning_type,
-                    preds = preds)
-    
-    elif len(splitted) == 6:
+
+    try:
         score_test,f_test = evaluate_score(model,X_test,y_test)
         score_validation,f_validation = evaluate_score(model,X_validation,y_validation)
         scores = [score_train,score_test,score_validation]
@@ -128,8 +121,13 @@ def model_all(dataset_name,
         form_table(names = names,scores = scores,
                     sizes = size_of, learning_type = learning_type,
                     preds = preds)
-    
-    Description: This function train the datasets through some machine learning algorithms and evaluate
-                  extracted model. Then, it forms an table and saves the metrics to csv file.
-    Parameters:
-                 
+    except:
+        score_test,f_test = evaluate_score(model,X_test,y_test)
+        scores = [score_train,score_test]
+        size_of = [str(X_train.shape),str(X_test.shape)]
+        preds = [f_train,f_test]
+        names = ['Train','Test']
+        form_table(score_path = score_path, names = names, scores = scores,
+                    sizes = size_of, learning_type = learning_type,
+                    preds = preds)
+
