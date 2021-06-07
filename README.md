@@ -39,6 +39,9 @@ Score_file: Score_machine_type_protein_type.csv
 ```
 
 The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. It can be done by simply:
+```python
+print('lol')
+```
 ![machine_apply](https://user-images.githubusercontent.com/37181660/111209461-19ad8180-85dd-11eb-8f3b-149cf6224031.PNG)
 
 The parameters used in dataset importing are explained in [import_datasets](import_dataset). Other steps are explained in [process_learn_evaluate](process_learn_evaluate).
