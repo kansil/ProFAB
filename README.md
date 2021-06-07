@@ -56,7 +56,7 @@ model_path = 'model_path.txt'
 X_train,scaler = scale_methods(X_train,scale_type = 'Standard_Scaler')
 X_test,X_validation = scaler.transform(X_test),scaler.transform(X_validation)
 
-#After assigning paths and scaling models, training can be done manually like this way:
+#After assigning paths and scaling datasets, training can be done manually like this way:
 classification_methods(path = model_path,ml_type = m,
                                         X_train = X_train,
                                         y_train = y_train,
