@@ -38,7 +38,7 @@ Model_file: Model_machine_type_protein_type.txt
 Score_file: Score_machine_type_protein_type.csv
 ```
 
-The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. The way to implement the code is given in [test_file.ipynb](test_file).
+The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. The way to implement the code is given in [test_file](test_file.ipynb).
 
 The parameters used in dataset importing are explained in [import_datasets](prb/import_dataset). Other steps are explained in [process_learn_evaluate](prb/process_learn_evaluate).
 
