@@ -31,20 +31,20 @@ All other parameters have their default values. They can be also changed by defi
             If None, train and test data will be used to train and calculate scores. (default = 0.2)
 *    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
 
-However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [prb/import_datasets](import_dataset). 
+However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [import_datasets](prb/import_dataset). 
 The output of this methods are:
 ```
 Model_file: Model_machine_type_protein_type.txt
 Score_file: Score_machine_type_protein_type.csv
 ```
 
-The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. The way to implement the code is given in [prb/test_file.ipynb](test_file).
+The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. The way to implement the code is given in [test_file.ipynb](test_file).
 
-The parameters used in dataset importing are explained in [prb/import_datasets](import_dataset). Other steps are explained in [prb/process_learn_evaluate](process_learn_evaluate).
+The parameters used in dataset importing are explained in [import_datasets](prb/import_dataset). Other steps are explained in [process_learn_evaluate](prb/process_learn_evaluate).
 
 ## Compound Featurization
 
-For the users who want to obtain trainable data from molecules, we provides a program that converts SMILES data of compound to rdkit.BitVector. For a clear explanation visit [prb/compound_featuring](compound_featuring). The program can be run with a line of command:
+For the users who want to obtain trainable data from molecules, we provides a program that converts SMILES data of compound to rdkit.BitVector. For a clear explanation visit [compound_featuring](prb/compound_featuring). The program can be run with a line of command:
 ```
 python compound_to_ --data_name smiles.txt --save_data feature.txt --save_idx compound_indices.txt --bits 1024
 ```
