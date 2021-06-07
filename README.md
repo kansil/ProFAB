@@ -40,7 +40,52 @@ Score_file: Score_machine_type_protein_type.csv
 
 The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. It can be done by simply:
 ```python
-print('lol')
+#To import the data:
+
+from profab.import_dataset impor ECNO
+data_model = ECNO(ratio = 0.2, protein_feature = pf, pre_determined = True, set_type = 'target')
+X_train,X_test,X_validation,y_train,y_test,y_validation = data_model.get_data(data_name = ec_1-2-2)
+
+#To train the data:
+from bp.process_learn_evaluate import scale_methods, classification_methods, evaluate_score
+
+#Let's define model path where training model will be saved.
+model_path = 'model_path.txt'
+
+#Then sets are scaled to eleminate bias. Scaler is obtained from train data and can be used for different sets
+X_train,scaler = scale_methods(X_train,scale_type = 'Standard_Scaler')
+X_test,X_validation = scaler.transform(X_test),scaler.transform(X_validation)
+
+#After assigning paths and scaling models, training can be done manually like this way:
+classification_methods(path = model_path,ml_type = m,
+                                        X_train = X_train,
+                                        y_train = y_train,
+                                        cv = None)
+
+#To get saved model, following code can be run.
+model = pickle.load(open(model_path,'rb'))
+
+#After that, for all sets evaluation metrics can be obtained separately.
+score_train,f_train = evaluate_score(model,X_train,y_train)
+score_test,f_test = evaluate_score(model,X_test,y_test)
+score_validation,f_validation = evaluate_score(model,X_validation,y_validation)
+
+#If user wants to see all results in a table, following codes can be run:
+
+score_path = 'score_path.csv' #To save the results.
+
+scores = [score_train,score_test,score_validation]
+size_of = [str(len(X_train))  + 
+            'x' + str(len(X_train[0])),str(len(X_test))  +
+            'x' + str(len(X_test[0])),str(len(X_validation))  +
+            'x' + str(len(X_validation [0]))]
+
+preds = [f_train,f_test,f_validation]
+names = ['Train','Test','Validation']
+form_table(score_path = score_path, names = names,
+         scores = scores,sizes = size_of, 
+         learning_type = learning_type,preds = preds)
+
 ```
 ![machine_apply](https://user-images.githubusercontent.com/37181660/111209461-19ad8180-85dd-11eb-8f3b-149cf6224031.PNG)
 
