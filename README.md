@@ -47,6 +47,7 @@ data_model = ECNO(ratio = 0.2, protein_feature = pf, pre_determined = True, set_
 X_train,X_test,X_validation,y_train,y_test,y_validation = data_model.get_data(data_name = ec_1-2-2)
 
 #To train the data:
+import pickle
 from bp.process_learn_evaluate import scale_methods, classification_methods, evaluate_score
 
 #Let's define model path where training model will be saved.
