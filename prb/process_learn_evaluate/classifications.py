@@ -13,7 +13,6 @@ from sklearn.metrics import classification_report
 from sklearn.model_selection import RandomizedSearchCV,RepeatedStratifiedKFold
 from sklearn.metrics import confusion_matrix
 import pickle
-from pathlib import Path
 import os
     
 class classifiers(object):
@@ -22,22 +21,13 @@ class classifiers(object):
                 RandomizedSearchCV and all methods return only their hyperparameters that give the best accoring to cv
                 that is created by RepeatedStraitKFold.
     
-    Parameters
-    ----------
-        X_train: feature matrix
-        y_train: label matrix
-       : path that model will be saved
-                
     """
     
-    def __init__(self,path,ml_type,cv = None):
-        
+    def __init__(self,path,ml_type,cv = None):     
         """
-        ------------
-        parameters: Traning model parameters
-        cv: repeated K-Fold Cross Validation 
-        ------------
-
+        Parameters:
+            path: where outcome of training is saved
+            cv: repeated K-Fold Cross Validation      
         """
         self.path = path
         self.ml_type = ml_type 
@@ -47,8 +37,6 @@ class classifiers(object):
         
     def get_best_model(self, X_train,y_train,model):
         """
-        
-
         Parameters
         ----------
         X_train : Feature matrix
@@ -101,7 +89,7 @@ class classifiers(object):
     def KNN(self,X_train,y_train):
         from sklearn.neighbors import KNeighborsClassifier
         
-        neighbors = np.arange(5,15)
+        neighbors = np.arange(50,150)
         weights = ['uniform', 'distance']
         metric = ['euclidean', 'manhattan', 'minkowski']
         leaf_size = np.linspace(10,100,num = 20)
@@ -166,10 +154,11 @@ class classifiers(object):
     def decision_tree(self,X_train,y_train):
         from sklearn.tree import DecisionTreeClassifier
         max_features = ["auto", "sqrt", "log2"]
-        #max_depth = np.arange(1,32)
+        max_depth = np.arange(1,32)
+        min_samples_leaf = np.arange(10,50)
         criterion = ['gini','entropy']
-        self.parameters = dict(max_features = max_features,#max_depth = max_depth,
-                               criterion = criterion)
+        self.parameters = dict(max_features = max_features,max_depth = max_depth,
+                               criterion = criterion,min_samples_leaf = min_samples_leaf)
         model = DecisionTreeClassifier()
         self.get_best_model(X_train,y_train,model)
     
@@ -178,23 +167,20 @@ class classifiers(object):
 
         loss = ['deviance','exponential']
         learning_rate = np.linspace(0.01,0.15,num = 10)
-        n_estimators = np.arange(100,170)
+        n_estimators = np.arange(100,150)
         criterion = ['mse','mae','friedman_mse']
         max_depth = np.arange(3,10)
         self.parameters = dict(loss=loss,learning_rate=learning_rate,n_estimators=n_estimators,criterion=criterion,max_depth=max_depth)
         model = GBC()
         self.get_best_model(X_train,y_train,model)
 
-def classification_methods(path = 'model_path.txt', ml_type,X_train,y_train,cv = None):
+def classification_methods(ml_type,X_train,y_train,cv = None,path = 'model_path.txt'):
     
     """
     Description: Selecting classification method and apply it to the dataset
     
     Parameters:
         X_train,X_test,y_train,y_test: splitted datasets and corresponding labels
-    
-    Return : 
-        Scores: F1,MCC,Precision, Recall, Accuracy, F0.5
     """
         
     c = classifiers(path,ml_type,cv)

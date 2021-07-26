@@ -11,12 +11,8 @@ import numpy as np
 from sklearn.metrics import classification_report
 from sklearn.model_selection import RandomizedSearchCV,RepeatedKFold,RepeatedStratifiedKFold
 from sklearn.metrics import confusion_matrix
-import pickle
-from pathlib import Path
 import os
 import pickle
-from sklearn.preprocessing import LabelEncoder,OneHotEncoder
-
 from scipy.sparse import csr_matrix
     
 class regressors(object):
@@ -24,22 +20,15 @@ class regressors(object):
     Description:In class,6 different machine learning methods for regression are introduced. Their hyperparameters are tuned by
                 RandomizedSearchCV and all methods return only their hyperparameters that give the best accoring to cv
                 that is created by RepeatedStraitKFold.
-    
-    Parameters
-    ----------
-        X_train: feature matrix
-        y_train: label matrix
-        name: path that model will be saved
-                
+      
     """
 
     def __init__(self,path,cv):
         """
-        
-        parameters: Traning model parameters
-        cv: repeated K-Fold Cross Validation 
+        Parameters: 
+	        path: where outcome of training is saved
+	        cv: repeated K-Fold Cross Validation 
  
-
         """
         self.path = path
         self.parameters = None
@@ -69,7 +58,6 @@ class regressors(object):
 
         clf.fit(X_train,y_train)
         best_model = clf.best_estimator_
-        print(self.path)
         with open(self.path, 'wb') as f:
             pickle.dump(best_model,f)
 
@@ -144,17 +132,14 @@ class regressors(object):
         model = GBR()
         self.get_best_model(X_train,y_train,model)
 
-def regression_methods(path,ml_type,X_train,y_train,cv = None):
+def regression_methods(ml_type,X_train,y_train,cv = None,path = 'model_path.txt'):
     
     """
     Description: Selecting classification method and apply it to the dataset
     
     Parameters:
         X_train,X_test,y_train,y_test: splitted datasets and corresponding labels
-    
-    Return : 
-        Scores: F1,MCC,Precision, Recall, Accuracy, F0.5
-    
+
     """
 
     r = regressors(path,cv)
