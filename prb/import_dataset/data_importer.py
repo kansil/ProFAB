@@ -8,7 +8,7 @@ Created on Tue Mar  9 01:00:05 2021
 import os
 import random
 from ..utils import separator, regress_data_import, clssfy_data_import
-from datetime import datetime 
+
 
 class rgs_data_loader():
     
@@ -70,9 +70,9 @@ class cls_data_loader():
         pPath = os.path.split(os.path.realpath(__file__))[0]
         file_path = pPath + '/' + self.main_set + '/' + data_name
         
-        if self.set_type not in ['random','target']:
-         	raise AttributeError('Please enter correct set_type. Options are: "random, target"')
-        if self.protein_feature not in ['paac', 'aac', 'eaac', 'gaac', 'ctdc','ctriad','socnumber']:
+        if self.set_type not in ['random','target','temporal']:
+         	raise AttributeError('Please enter correct set_type. Options are: "random, target, temporal"')
+        if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdc','ctriad','socnumber']:
          	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, eaac, gaac, ctdc, ctriad, socnumber"')
         
         if not self.pre_determined:
@@ -83,10 +83,7 @@ class cls_data_loader():
             data_files = [neg_file,pos_file]
             for i in data_files:
                 if not os.path.isfile(i):
-                    if self.set_type == 'target':
-                        raise FileNotFoundError(f'The file {i} has not been uploaded yet or data size is not enough')
-                    else:
-                        raise FileNotFoundError(f'The file {i} has not been uploaded yet')
+                    raise FileNotFoundError(f'The file {i} has not been uploaded yet')
 
             pX,py,nX,ny,X,y = clssfy_data_import(pos_file = pos_file,neg_file = neg_file, label = self.label)
 
@@ -120,11 +117,7 @@ class cls_data_loader():
             
             for i in data_files:
                 if not os.path.isfile(i):
-                    if self.set_type == 'target':
-                        raise FileNotFoundError(f'The file {i} has not been uploaded yet or data size is not enough')
-
-                    else:
-                        raise FileNotFoundError(f'The file {i} has not been uploaded yet')
+                    raise FileNotFoundError(f'The file {i} has not been uploaded yet')
             
             
             tpX,tpy,tnX,tny,tX,ty = clssfy_data_import(pos_file = pos_file, neg_file = neg_file, 
