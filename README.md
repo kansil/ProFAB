@@ -14,13 +14,12 @@ This project is made to provide some platforms that includes some pre-processed 
 
 Training algorithms can be used in two ways. If the user has his/her dataset, s/he can use the learning algorithm by simply defining the following line to the terminal:
 ```
-python learn_main.py --dataset_name exp_folder_name
+python train_self.py --dataset_name exp_folder_name 
 ``` 
 All other parameters have their default values. They can be also changed by defining the values in the line. The description of the paramters:
 
 *    -**dataset_name**: folder where user datasets are stored in here. Also, in this folder outputs that aretraining model and scores will be stored.
 *    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
-*    -**protein_feature**: {'paac', 'aac', 'gaac', 'ctdc'}, (default: 'paac'), numerical feature of targets according to their sequences. If defined datasets do not come from these feature, please define the name of your feature and give a name to your dataset according to naming rule. 
 *	 -**learning_type**: {'Regression,'Classification}, (default: Classification), It will be used to indicate with learining method will be used to train and the evaluate the score.
 *    -**machine_type**: for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'}, for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
    	    (default: 'random_forest(for both))', to choose which machine will be to train the dataset.
@@ -31,11 +30,11 @@ All other parameters have their default values. They can be also changed by defi
             If None, train and test data will be used to train and calculate scores. (default = 0.2)
 *    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
 
-However, to use this way, the user has to define some files before the assignment. The name of the file is given in this section in detail: [import_datasets](prb/import_dataset). 
+However, to use this way, the user has to define some files in a folder before the assignment. The name of the file is given in this section in detail: [import_datasets](prb/import_dataset).
 The output of this methods are:
 ```
-Model_file: Model_machine_type_protein_type.txt
-Score_file: Score_machine_type_protein_type.csv
+Model_file: Model_machine_type.txt
+Score_file: Score_machine_type.csv
 ```
 
 The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. The way to implement the code is given in [test_file](test_file.ipynb).
