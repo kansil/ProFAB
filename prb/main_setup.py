@@ -19,7 +19,7 @@ from process_learn_evaluate import classification_methods,regression_methods
 from process_learn_evaluate import evaluate_score
 
 
-def forming_path(dataset_name,machine_type,protein_feature):
+def forming_path(dataset_name,machine_type):
     '''
     Parameters
     ----------
@@ -32,9 +32,9 @@ def forming_path(dataset_name,machine_type,protein_feature):
     model_path: path where machine learning parameters are stored in bytes 
     score_path: path where scores of machine are stored
     '''
-    model_path = dataset_name + '/Model' + '_' + protein_feature + '_' + machine_type + ".txt"
+    model_path = dataset_name + '/Model' + '_' + machine_type + ".txt"
 
-    score_path = dataset_name + '/Score' + '_' + protein_feature + '_' + machine_type + ".csv" 
+    score_path = dataset_name + '/Score' + '_' + machine_type + ".csv" 
 
     return model_path,score_path
 
@@ -74,7 +74,7 @@ def model_all(dataset_name,
         raise AttributeError(f'ratio type is not applicable. Options: float or List')
     
     
-    model_path,score_path = forming_path(dataset_name, machine_type, protein_feature)
+    model_path,score_path = forming_path(dataset_name, machine_type)
     
     data = get_final_dataset(dataset_name,learning_type = learning_type)
     
