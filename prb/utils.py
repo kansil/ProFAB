@@ -193,9 +193,9 @@ def clssfy_data_import(pos_file,neg_file, label, pos_indices = None,neg_indices 
     return pX,py,nX,ny,X,y
 
 
-def form_table(score_path = 'score_path.csv', names, scores, sizes, learning_type, preds):
+def form_table(names, scores, sizes, learning_method, preds,score_path = 'score_path.csv'):
     
-    if learning_type == 'Regression':
+    if learning_method == 'Regression':
         
         th_col = list(scores[0]['threshold based Metrics'].keys())
         columns = ['Set','Size'] + list(scores[0].keys())[:-1] + th_col
@@ -233,7 +233,7 @@ def form_table(score_path = 'score_path.csv', names, scores, sizes, learning_typ
             f.write('%s\n' % ','.join(test))
             f.write('%s\n' % ','.join(validation))
     
-    elif learning_type == 'Classification':
+    elif learning_method == 'Classification':
         
         columns = ['Set','Size'] + list(scores[0].keys())
         
@@ -263,9 +263,9 @@ def form_table(score_path = 'score_path.csv', names, scores, sizes, learning_typ
             f.write('%s\n' % ','.join(validation))
 
 
-def get_final_dataset(dataset_name, learning_type):
+def get_final_dataset(dataset_name, learning_method):
 
-    if learning_type == 'Regression':
+    if learning_method == 'Regression':
         
         for format_type,delimiter in zip(['tsv','txt','csv'],['\t',' ',',']):
             
@@ -316,7 +316,7 @@ def get_final_dataset(dataset_name, learning_type):
                     'could not be found in the dataset folder.'/
                     'Please gives the rights names to files to import')
 
-    if learning_type == 'Classification':
+    if learning_method == 'Classification':
         
         for format_type,delimiter in zip(['tsv','txt','csv'],['\t',' ',',']):
             
