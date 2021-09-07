@@ -11,13 +11,13 @@ import random
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-class file_to_data_():
+class file_to_data():
 
     def __init__(self, delimiter):
         self.delimiter = delimiter
         
 
-    def reg_feature_label(self,file_feature_label):
+    def _rgr_feature_label(self,file_feature_label):
 
         f = open(file_feature_label)
         feature,label = [],[]
@@ -28,7 +28,7 @@ class file_to_data_():
 
         return feature,label
 
-    def reg_feature_label_divided(self,file_feature,file_label):
+    def _rgr_feature_label_divided(self,file_feature,file_label):
 
         feature,label = [],[]
         
@@ -42,7 +42,7 @@ class file_to_data_():
 
         return feature,label
 
-    def cls_feature_label(self,file_feature_label):
+    def _classif_feature_label(self,file_feature_label):
 
         f = open(file_feature_label)
         feature,label = [],[]
@@ -54,7 +54,7 @@ class file_to_data_():
         return feature,label
         
 
-    def cls_feature_label_divided(self,file_feature,file_label):
+    def _classif_feature_label_divided(self,file_feature,file_label):
 
         feature,label = [],[]
         
@@ -69,7 +69,7 @@ class file_to_data_():
         return feature,label
 
 
-    def cls_pos_neg(self,file_pos,file_neg):
+    def _classif_pos_neg(self,file_pos,file_neg):
 
         feature,label = [],[]
         
@@ -90,186 +90,13 @@ class file_to_data_():
         random.shuffle(rdn)
         return zip(*rdn)    
 
-    
-def separator(X,y,ratio):
-    
-    if type(ratio) == float:
+def get_final_dataset(dataset_name, learning_method = 'classif'):
 
-        return train_test_split(X,y, test_size = ratio)
-
-    elif type(ratio) == list:
-
-        X_train,X_test,y_train,y_test = train_test_split(X,y, test_size = ratio[0])
-
-        X_train,X_validation,y_train,y_validation = train_test_split(X_train,y_train,
-                                                                     test_size = ratio[1]/(
-                                                                         1-ratio[0]))
-            
-        return X_train,X_test,X_validation,y_train,y_test,y_validation
-    
-    else:
-        raise AttributeError('Please enter correct ratio value in true type. Options: float or list')
-        
-    
-def regress_data_import(xf,yf,indices_file = None):
-    ready_indices = set(np.loadtxt(indices_file))
-    X,y = [],[]
-    xff =  open(xf)
-    yff = open(yf)
-    if indices_file != None:
-        for k,(rowx,rowy) in enumerate(zip(xff,yff)):
-            if k in ready_indices:
-                rowx = re.split(' ',rowx.strip('\n'))
-                rowx = list(np.array(rowx,dtype = 'float64'))
-                X.append(rowx)
-                y.append(rowy.strip('\n'))
-
-    else:
-        for rowx,rowy in zip(xff,yff):
-        
-            rowx = re.split(' ',rowx.strip('\n'))
-            rowx = list(np.array(rowx,dtype = 'float64'))
-            X.append(rowx)
-            y.append(rowy.strip('\n'))
-    xf.close()
-    yf.close()
-    
-    return X,y
-    
-
-def clssfy_data_import(pos_file,neg_file, label, pos_indices = None,neg_indices = None):
-    
-    
-    pX,py,nX,ny,X,y = [],[],[],[],[],[]
-
-    pf =  open(pos_file)
-    nf = open(neg_file)
-    if pos_indices != None and neg_indices != None:
-        pos_idx = set(np.loadtxt(pos_indices))
-        neg_idx = set(np.loadtxt(neg_indices))            
-        for k,(rowx) in enumerate(pf):
-            if k in pos_idx:
-                rowx = re.split('\t',rowx.strip('\n'))
-                rowx = list(np.array(rowx[1:],dtype = 'float64'))
-                if label == 'positive':
-                    pX.append(rowx)
-                    py.append(1)
-                if label == None:
-                    X.append(rowx)
-                    y.append(1)
-        for k,(rowx) in enumerate(nf):
-            if k in neg_idx:
-                rowx = re.split('\t',rowx.strip('\n'))
-                rowx = list(np.array(rowx[1:],dtype = 'float64'))
-                if label == 'negative':
-                    nX.append(rowx)
-                    ny.append(-1)
-                if label == None:
-                    X.append(rowx)
-                    y.append(-1)
-    else:
-        
-        for rowx in pf:
-            rowx = re.split('\t',rowx.strip('\n'))
-            rowx = list(np.array(rowx[1:],dtype = 'float64'))
-            if label == 'positive':
-                pX.append(rowx)
-                py.append(1)
-            if label == None:
-                X.append(rowx)
-                y.append(1)
-        for rowx in nf:
-            rowx = re.split('\t',rowx.strip('\n'))
-            rowx = list(np.array(rowx[1:],dtype = 'float64'))
-            if label == 'negative':
-                nX.append(rowx)
-                ny.append(-1)
-            if label == None:
-                X.append(rowx)
-                y.append(-1)
-    pf.close()
-    nf.close()
-    
-    return pX,py,nX,ny,X,y
-
-
-def form_table(names, scores, sizes, learning_method, preds,score_path = 'score_path.csv'):
-    
-    if learning_method == 'Regression':
-        
-        th_col = list(scores[0]['threshold based Metrics'].keys())
-        columns = ['Set','Size'] + list(scores[0].keys())[:-1] + th_col
-        
-        if len(names) == 2:            
-            
-            th_train = list(scores[0]['threshold based Metrics'].values())
-            train = np.array(
-                [names[0]] + [sizes[0]] + list(scores[0].keys())[:-1] + th_train,dtype = str)
-
-            th_test = list(scores[1]['threshold based Metrics'].values())
-            test = np.array(
-                [names[1]] + [sizes[1]] + list(scores[1].values)[:-1] + th_test,dtype = str)
-
-            f = open(score_path, 'w')
-            f.write('%s\n' % ','.join(columns))
-            f.write('%s\n' % ','.join(train))
-            f.write('%s\n' % ','.join(test))
-
-        elif len(names) == 3:
-            
-            th_train = list(scores[0]['threshold based Metrics'].values())
-            train = np.array([names[0]] + [sizes[0]] + list(scores[0].keys())[:-1] + th_train,dtype = str)
-
-            th_test = list(scores[1]['threshold based Metrics'].values())
-            test = np.array([names[1]] + [sizes[1]] + list(scores[1].values)[:-1] + th_test,dtype = str)
-
-            th_validation = list(scores[2]['threshold based Metrics'].values())
-            validation = np.array(
-                [names[2]] + [sizes[2]] + list(scores[2].values)[:-1] + th_validation,dtype = str)       
-
-            f = open(score_path, 'w')
-            f.write('%s\n' % ','.join(columns))
-            f.write('%s\n' % ','.join(train))
-            f.write('%s\n' % ','.join(test))
-            f.write('%s\n' % ','.join(validation))
-    
-    elif learning_method == 'Classification':
-        
-        columns = ['Set','Size'] + list(scores[0].keys())
-        
-        if len(names) == 2:            
-
-            train = np.array([names[0]] + [sizes[0]] + list(scores[0].values()),dtype = str)
-
-            test = np.array([names[1]] +  [sizes[1]] + list(scores[1].values()),dtype = str)
-
-            f = open(score_path, 'w')
-            f.write('%s\n' % ','.join(columns))
-            f.write('%s\n' % ','.join(train))
-            f.write('%s\n' % ','.join(test))
-
-        elif len(names) == 3:
-            
-            train = np.array([names[0]] + [sizes[0]] + list(scores[0].values()),dtype = str)
-
-            test = np.array([names[1]] + [sizes[1]] + list(scores[1].values()),dtype = str)
-
-            validation = np.array([names[2]] + [sizes[2]] + list(scores[2].values()),dtype = str)
-
-            f = open(score_path, 'w')
-            f.write('%s\n' % ','.join(columns))
-            f.write('%s\n' % ','.join(train))
-            f.write('%s\n' % ','.join(test))
-            f.write('%s\n' % ','.join(validation))
-
-
-def get_final_dataset(dataset_name, learning_method):
-
-    if learning_method == 'Regression':
+    if learning_method == 'rgr':
         
         for format_type,delimiter in zip(['tsv','txt','csv'],['\t',' ',',']):
             
-            ftd = file_to_data_(delimiter)
+            ftd = file_to_data(delimiter)
 
             file_feature_label = dataset_name + '/feature_label_dataset.' + format_type
             if os.path.isfile(file_feature_label):
@@ -316,11 +143,11 @@ def get_final_dataset(dataset_name, learning_method):
                     'could not be found in the dataset folder.'/
                     'Please gives the rights names to files to import')
 
-    if learning_method == 'Classification':
+    if learning_method == 'classif':
         
         for format_type,delimiter in zip(['tsv','txt','csv'],['\t',' ',',']):
             
-            ftd = file_to_data_(format_type,delimiter)
+            ftd = file_to_data(format_type,delimiter)
 
             file_feature_label = dataset_name + '/feature_label_dataset.' + format_type
             if os.path.isfile(file_feature_label):
@@ -389,3 +216,138 @@ def get_final_dataset(dataset_name, learning_method):
                     '{file_train_neg} and {file_test_pos} and {file_test_neg}" '/
                     'could not be found in the dataset folder. '/
                     'Please gives the rights names to files to import')
+                
+
+def separator(X,y,ratio):
+    
+    if type(ratio) == float:
+
+        return train_test_split(X,y, test_size = ratio)
+
+    elif type(ratio) == list:
+
+        X_train,X_test,y_train,y_test = train_test_split(X,y, test_size = ratio[0])
+
+        X_train,X_validation,y_train,y_validation = train_test_split(X_train,y_train,
+                                                                     test_size = ratio[1]/(
+                                                                         1-ratio[0]))
+            
+        return X_train,X_test,X_validation,y_train,y_test,y_validation
+    
+    
+def _rgr_data_import(xf,yf,indices_file = None):
+    ready_indices = set(np.loadtxt(indices_file))
+    X,y = [],[]
+    xff =  open(xf)
+    yff = open(yf)
+    if indices_file != None:
+        for k,(rowx,rowy) in enumerate(zip(xff,yff)):
+            if k in ready_indices:
+                rowx = re.split(' ',rowx.strip('\n'))
+                rowx = list(np.array(rowx,dtype = 'float64'))
+                X.append(rowx)
+                y.append(rowy.strip('\n'))
+
+    else:
+        for rowx,rowy in zip(xff,yff):
+        
+            rowx = re.split(' ',rowx.strip('\n'))
+            rowx = list(np.array(rowx,dtype = 'float64'))
+            X.append(rowx)
+            y.append(rowy.strip('\n'))
+    xf.close()
+    yf.close()
+    
+    return X,y
+    
+
+def _classif_data_import(pos_file,neg_file, label, pos_indices = None,neg_indices = None):
+    
+    
+    pX,py,nX,ny,X,y = [],[],[],[],[],[]
+
+    pf =  open(pos_file)
+    nf = open(neg_file)
+    if pos_indices != None and neg_indices != None:
+        pos_idx = set(np.loadtxt(pos_indices))
+        neg_idx = set(np.loadtxt(neg_indices))            
+        for k,(rowx) in enumerate(pf):
+            if k in pos_idx:
+                rowx = re.split('\t',rowx.strip('\n'))
+                rowx = list(np.array(rowx[1:],dtype = 'float64'))
+                if label == 'positive':
+                    pX.append(rowx)
+                    py.append(1)
+                if label == None:
+                    X.append(rowx)
+                    y.append(1)
+        for k,(rowx) in enumerate(nf):
+            if k in neg_idx:
+                rowx = re.split('\t',rowx.strip('\n'))
+                rowx = list(np.array(rowx[1:],dtype = 'float64'))
+                if label == 'negative':
+                    nX.append(rowx)
+                    ny.append(-1)
+                if label == None:
+                    X.append(rowx)
+                    y.append(-1)
+    else:
+        
+        for rowx in pf:
+            rowx = re.split('\t',rowx.strip('\n'))
+            rowx = list(np.array(rowx[1:],dtype = 'float64'))
+            if label == 'positive':
+                pX.append(rowx)
+                py.append(1)
+            if label == None:
+                X.append(rowx)
+                y.append(1)
+        for rowx in nf:
+            rowx = re.split('\t',rowx.strip('\n'))
+            rowx = list(np.array(rowx[1:],dtype = 'float64'))
+            if label == 'negative':
+                nX.append(rowx)
+                ny.append(-1)
+            if label == None:
+                X.append(rowx)
+                y.append(-1)
+    pf.close()
+    nf.close()
+    
+    return pX,py,nX,ny,X,y
+
+def _classif_form_table(scores, score_path = 'score_path.csv'):
+    
+    if type(scores) is not dict:
+        raise TypeError(f'type "scores" should be dictionary')
+    f = open(score_path,'w')
+    
+    scores.values()
+    columns = ['Set'] + list(list(scores.values())[0].keys())
+    f.write(f'{",".join(columns)}\n')
+    
+    for sc in scores.keys():
+        score = np.array([sc] + list(scores[sc].values()),dtype = str)          
+        f.write(f'{",".join(score)}\n')
+    
+    f.close()
+    
+def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
+    
+    if type(scores) is not dict:
+        raise TypeError(f'type "scores" should be dictionary')
+    
+    f = open(score_path,'w')
+    columns = ['Set'] + list(list(scores.values())[0].keys())[:-1] + list(
+        
+        list(scores.values())[0]['threshold based Metrics'].keys())
+    
+    f.write(f'{",".join(columns)}\n')
+    
+    for sc in scores.keys():   
+                   
+        score = np.array([sc] + list(scores[sc].values())[:-1] + list(
+            scores[sc]['threshold based Metrics'].values()) ,dtype = str)
+        f.write(f'{",".join(score)}\n')
+
+    f.close()

@@ -14,9 +14,9 @@ from .utils import separator
 from .utils import get_final_dataset
 from .utils import form_table
 
-from process_learn_evaluate import scale_methods
-from process_learn_evaluate import classification_methods,regression_methods
-from process_learn_evaluate import evaluate_score
+from model_process import scale_methods
+from model_process import classification_methods,regression_methods
+from model_evaluate import evaluate_score
 
 
 def forming_path(dataset_name,machine_type):
