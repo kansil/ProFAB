@@ -14,7 +14,7 @@ This project is made to provide some platforms that includes some pre-processed 
 
 Training algorithms can be used in two ways. If the user has his/her dataset, s/he can use the learning algorithm by simply defining the following line to the terminal:
 ```
-python train_self.py --dataset_name exp_folder_name --protein_feature 'any_protein_feature_name'
+python train_self.py --dataset_name exp_folder_name
 ``` 
 All other parameters have their default values. They can be also changed by defining the values in the line. The description of the paramters:
 
