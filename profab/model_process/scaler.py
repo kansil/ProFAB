@@ -77,9 +77,9 @@ def scale_methods(X_train,scale_type = 'Standard_Scaler'):
     
     s = ScalerNormalizer()
 
-    scaler_ways = {'Normalizer':s.normalizer,'Standard_Scaler':s.standard_scaler,
-                   'MaxAbs_Scaler':s.maxabs_scaler,'MinMax_Scaler': s.minmax_scaler,
-                   'Robust Scaler': s.robust_scaler}
+    scaler_ways = {'normalizer':s.normalizer,'standard':s.standard_scaler,
+                   'max_abs':s.maxabs_scaler,'min_max': s.minmax_scaler,
+                   'robust': s.robust_scaler}
     
     X_train,scaler = scaler_ways[scale_type](X_train)
     
