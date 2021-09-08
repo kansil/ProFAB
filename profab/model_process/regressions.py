@@ -80,8 +80,9 @@ class regressors(object):
         else:
             clf.fit(X_train)
         best_model = clf.best_estimator_
-        with open(self.path, 'wb') as f:
-            pickle.dump(best_model,f)
+        if self.path is not None:
+            with open(self.path, 'wb') as f:
+                pickle.dump(best_model,f)
         return best_model
 
 
@@ -137,7 +138,7 @@ class regressors(object):
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
-def regression_methods(ml_type,X_train,y_train = None ,X_valid = None,y_valid = None, path = 'model.txt'):
+def regression_methods(ml_type,X_train,y_train = None ,X_valid = None,y_valid = None, path = None):
     
     """
     Description: Selecting classification method and apply it to the dataset
