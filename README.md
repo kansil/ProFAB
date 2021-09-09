@@ -1,4 +1,4 @@
-# Benchmarking Platform for Computational Protein Annotation Prediction
+# ProFAB: Protein Functional Annotation Benchmark
 
 This platform is generated to provide some machine learning algorithms like SVM, random forest etc. for the tasked dataset drug-target interaction, EC number prediction and GO ID prediction. This platform is based on supervised learning. 
 Repository can be obtained by a single line of command:
