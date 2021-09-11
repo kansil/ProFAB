@@ -12,32 +12,7 @@ This project is made to provide some platforms that includes some pre-processed 
 
 ## How to run the machine learning algorithms 
 
-Training algorithms can be used in two ways. If the user has his/her dataset, s/he can use the learning algorithm by simply defining the following line to the terminal:
-```
-python train_self.py --dataset_name exp_folder_name
-``` 
-All other parameters have their default values. They can be also changed by defining the values in the line. The description of the paramters:
-
-*    -**dataset_name**: folder where user datasets are stored in here. Also, in this folder outputs that aretraining model and scores will be stored.
-*    -**scaler_type**:{'Standard_Scaler', 'Normalization', 'MinMax_Scaler', 'MaxAbs_Scaler', 'Robust_Scaler'}, (default: 'MinMax_Scaler'), It is used to scale the data to eleminate biases among the data
-*	 -**learning_type**: {'Regression,'Classification}, (default: Classification), It will be used to indicate with learining method will be used to train and the evaluate the score.
-*    -**machine_type**: for regression: {'random_forest','SVR','DNN','decision_tree','gradient_boosting'}, for classification:{'random_forest','SVM','DNN','KNN','naive_bayes,decision_tree',gradient_boosting}, 
-   	    (default: 'random_forest(for both))', to choose which machine will be to train the dataset.
-*    -**ratio**: Train test and validation sets split ratios. If float, train and test sets will be formed,
-            If list with size = 2, ratio = [test_ratio,validation_ratio], train, test and validation sets
-            will be formed. If datasets are already diveded in train and test, 
-            ratio must be None, or float. If float, validation set will be formed via train set. 
-            If None, train and test data will be used to train and calculate scores. (default = 0.2)
-*    -**cv**, (default: None): cross_validation which can be determined by user. If left None, RepeatedKFold() function will be applied for tuning.
-
-However, to use this way, the user has to define some files in a folder before the assignment. The name of the file is given in this section in detail: [import_datasets](profab/import_dataset).
-The output of this methods are:
-```
-Model_file: Model_machine_type.txt
-Score_file: Score_machine_type.csv
-```
-
-The other way to use the learning algorithms is passing from using any Python IDE by importing the packages. The way to implement the code is given in [test_file](test_file.ipynb).
+The way to implement the code is given in [test_file](test_file.ipynb).
 
 The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_process](probab/model_process) and in [model_evaluate](profab/model_evaluate).
 
