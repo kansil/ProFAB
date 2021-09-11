@@ -73,7 +73,7 @@ def model_all(dataset_name,
         raise AttributeError(f'ratio type is not applicable. Options: float or List')
     
     
-    model_path,score_path = forming_path(dataset_name, machine_type)
+    model_path,score_path = forming_path(dataset_name, machine_type)#to save model and its scores in to a file
     
     data = get_final_dataset(dataset_name,learning_type = learning_type)
     
@@ -111,23 +111,13 @@ def model_all(dataset_name,
     try:
         score_test,f_test = evaluate_score(model,X_test,y_test)
         score_validation,f_validation = evaluate_score(model,X_validation,y_validation)
-        scores = [score_train,score_test,score_validation]
-        size_of = [str(len(X_train))  + 'x' + str(len(X_train[0])),
-                           str(len(X_test))  + 'x' + str(len(X_test[0])),
-                           str(len(X_validation))  + 'x' + str(len(X_validation [0]))]
-        preds = [f_train,f_test,f_validation]
-        names = ['Train,Test','Validation']
-        form_table(names = names,scores = scores,
-                    sizes = size_of, learning_type = learning_type,
-                    preds = preds)
+        scores = {'train':score_train,'test':score_test,'validation':score_validation}
+        form_table(scores = scores, path = score_path)
+        
     except:
         score_test,f_test = evaluate_score(model,X_test,y_test)
-        scores = [score_train,score_test]
-        size_of = [str(len(X_train))  + 'x' + str(len(X_train[0])),
-                           str(len(X_test))  + 'x' + str(len(X_test[0])),
-                           str(len(X_validation))  + 'x' + str(len(X_validation [0]))]
-        preds = [f_train,f_test]
-        names = ['Train','Test']
+        scores = {'train':score_train,'test':score_test}
+        form_table(scores = scores, path = score_path)
         form_table(score_path = score_path, names = names, scores = scores,
                     sizes = size_of, learning_type = learning_type,
                     preds = preds)
