@@ -11,12 +11,11 @@ import os
 import pickle
 
 from .utils import separator
-from .utils import get_final_dataset
-from .utils import form_table
+from .utils import get_final_dataset 
 
 from model_process import scale_methods
 from model_process import classification_methods,regression_methods
-from model_evaluate import evaluate_score
+from model_evaluate import evaluate_score, form_table
 
 
 def forming_path(dataset_name,machine_type):
@@ -40,7 +39,7 @@ def forming_path(dataset_name,machine_type):
 
 def model_all(dataset_name,
           scaler_type = 'minmax',
-          learning_type = 'Regression',
+          learning_type = 'Classification',
           machine_type = 'SVM',
           ratio = 0.2,
           cv = None):
@@ -96,18 +95,16 @@ def model_all(dataset_name,
     X_train,scaler = scale_methods(X_train,scale_type = scaler_type)
     
     if not os.path.isfile(model_path):
-        if learning_type == 'Regression':regression_methods(path = model_path,
+        if model = learning_type == 'Regression':regression_methods(path = model_path,
                                                             ml_type = machine_type,
                                                             X_train = X_train,
                                                             y_train = y_train,
                                                             cv = cv)    
-        elif learning_type == 'Classification':classification_methods(path = model_path,
+        elif model = learning_type == 'Classification':classification_methods(path = model_path,
                                                             ml_type = machine_type,
                                                             X_train = X_train,
                                                             y_train = y_train,
                                                             cv = cv)
-    
-    model = pickle.load(open(model_path,'rb'))
     
     score_train,f_train = evaluate_score(model,X_train,y_train)
 
