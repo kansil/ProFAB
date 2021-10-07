@@ -17,6 +17,3 @@ The parameters:
 	- **protein_feature**: {'paac','aac','gaac', 'ctdc'}, (default = 'paac'), indicates numerical feature of proteins obtained from sequence data.
 	- **label**: {None,'positive','negative'}, (default = None), to obtain which set of data will be obtained. The user can get positive or negative sets of whole dataset by defining this parameter.
 	- **pre_determined**: {False,True}, (default = False), indicate how data will be get. We upload our dataset as train and test set. So user can get them without randomly foming the test and train sets from the whole data. 
-
-Importing from the database can be done via following codes:
-![import_ec](https://user-images.githubusercontent.com/37181660/111300299-fd075d00-8661-11eb-9e73-a33c8a11bf2b.PNG)
