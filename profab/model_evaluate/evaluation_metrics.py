@@ -146,7 +146,8 @@ def cl_prec_rec_f1_acc_mcc(y_true, y_pred):
     mcc = metrics.matthews_corrcoef(y_true, y_pred)
     f05_score = 1.25*precision*recall/(0.25*precision+recall)
     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-    
+    auc = classif_AUC(y_true,y_pred)
+    auprc = classif_AUPRC(y_true, y_pred)
     
     performance_threshold_dict["Precision"] = precision
     performance_threshold_dict["Recall"] = recall
@@ -154,11 +155,13 @@ def cl_prec_rec_f1_acc_mcc(y_true, y_pred):
     performance_threshold_dict["F05-Score"] = f05_score
     performance_threshold_dict["Accuracy"] = accuracy
     performance_threshold_dict["MCC"] = mcc
+    performance_threshold_dict["AUC"] = auc
+    performance_threshold_dict["AUPRC"] = auprc
     performance_threshold_dict["TP"] = tp
     performance_threshold_dict["FP"] = fp
     performance_threshold_dict["TN"] = tn
     performance_threshold_dict["FN"] = fn
-
+    
     return performance_threshold_dict
 
 
@@ -182,7 +185,6 @@ def reg_prec_rec_f1_acc_mcc(y,f):
     for str_thre, threshold in dict_threshold.items():
         y_binary = copy.deepcopy(y)
         y_binary = preprocessing.binarize(y_binary.reshape(1,-1), threshold, copy=False)[0]
-        # print(y_binary)
         f_binary = copy.deepcopy(f)
         f_binary = preprocessing.binarize(f_binary.reshape(1,-1), threshold, copy=False)[0]
         precision = metrics.precision_score(y_binary, f_binary)
@@ -198,6 +200,29 @@ def reg_prec_rec_f1_acc_mcc(y,f):
 
     return performance_threshold_dict
 
+def classif_AUC(y,f):
+    
+    """
+    Task:    To compute average area under the ROC curves (AUC)
+
+    Input:   y      Vector with original labels (pKd [M])
+             f      Vector with predicted labels (pKd [M])
+
+    Output:  avAUC   average AUC
+
+    """
+    fpr, tpr, thresholds = metrics.roc_curve(y, f, pos_label=1)
+    auc = metrics.auc(fpr, tpr)
+    return auc
+    
+def classif_AUPRC(y,f):
+    
+    precision, recall, thresholds = metrics.precision_recall_curve(y, f, pos_label=1)
+    auprc = metrics.auc(recall, precision)
+
+
+    return auprc
+ 
 
 def average_AUC(y,f):
 
