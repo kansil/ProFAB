@@ -9,9 +9,7 @@ from ..utils import _classif_form_table, _rgr_form_table
 
 def form_table(scores, learning_method = 'classif',path = 'score_path.csv'):
 
-
     form_methods = {'classif':_classif_form_table,'rgr':_rgr_form_table}
-
     form_methods[learning_method](scores = scores, score_path = path)    
     
     
