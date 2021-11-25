@@ -12,6 +12,8 @@ from ..utils import separator, _rgr_data_import, _classif_data_import
 
 class rgs_data_loader():
     
+    
+    
     def __init__(self,ratio,protein_feature ,set_type):
         self.ratio = ratio
         self.protein_feature = protein_feature
@@ -19,12 +21,16 @@ class rgs_data_loader():
     
     def get_data(self,data_name):
         pPath = os.path.split(os.path.realpath(__file__))[0]
-        file_path = pPath + '/dti_dataset/' + data_name
+        
+        
+        data_folder = pPath + '/dataset.zip'# + self.main_set + '/' + data_name
+        file_path = 'dti_dataset/' + data_name
+        
         
         if self.set_type not in ['random','compound','target','compound_target']:
          	raise AttributeError('Please enter correct set_type. Options are: "random, compound, target, compound_target"')
         if self.protein_feature not in ['paac', 'aac', 'eaac', 'gaac', 'ctdt','ctriad','socnumber']:
-         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, eaac, gaac, ctdc, ctriad, socnumber"')
+         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, eaac, gaac, ctdt, ctriad, socnumber"')
 
         file_x = file_path + '/feature_' + self.protein_feature + '.txt'
         file_y = file_path + '/label_' + self.protein_feature + '.txt'
@@ -33,9 +39,6 @@ class rgs_data_loader():
             indices_file = file_path + '/' + self.set_type + '_indices.txt'
             data_files = [file_x,file_y,self.indices_file]
             
-            for i in data_files:
-                if not os.path.isfile(i):
-                    raise FileNotFoundError(f'The file {i} does not exist')
         
             X,y = _rgr_data_import(indices_file = indices_file,xf = file_x,yf = file_y)
 
@@ -69,27 +72,39 @@ class cls_data_loader():#only get positive and negative data, if needed return t
         self.main_set = main_set
         
     def get_data(self,data_name):
-        pPath = os.path.split(os.path.realpath(__file__))[0]
-        file_path = pPath + '/' + self.main_set + '/' + data_name
         
+        
+        pPath = os.path.split(os.path.realpath(__file__))[0]
+        
+        if os.path.exists(pPath + '/' + self.main_set):
+            data_folder = pPath + '/' + self.main_set + '/' + data_name + '.zip'
+            
+            file_path =  data_name
+            
+        elif os.path.isfile(pPath + '/' + data_name + '.zip'):
+                
+            data_folder = pPath + '/' + data_name + '.zip'
+            file_path = data_name
+        else:
+            print(f'No dataset for {data_name} is available. Downloading from server ...')
+            
+            data_folder = pPath + '/' + data_name + '.zip'
+            file_path = data_name
+            pass
+            
         if self.set_type not in ['random','target','temporal']:
          	raise AttributeError('Please enter correct set_type. Options are: "random, target, temporal"')
         if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber']:
-         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, eaac, gaac, ctdc, ctriad, socnumber"')
+         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber"')
         
-        #if self.set_type == 'temporal':
-        #    self.pre_determined = True
         if not self.pre_determined:
 
-            pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
-            neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
+            pos_file = file_path + self.set_type + '_positive_' + self.protein_feature + '.txt'
+            neg_file = file_path + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
-            data_files = [neg_file,pos_file]
-            for i in data_files:
-                if not os.path.isfile(i):
-                    raise FileNotFoundError(f'The file {i} has not been uploaded yet')
 
-            pX,py,nX,ny,X,y = _classif_data_import(pos_file = 
+            
+            pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_folder, pos_file = 
                                                    pos_file,neg_file = neg_file, label = self.label)
 
 
@@ -123,22 +138,14 @@ class cls_data_loader():#only get positive and negative data, if needed return t
             test_pos_idx = file_path + '/' + self.set_type + '_positive_test_indices.txt'
             test_neg_idx = file_path + '/' + self.set_type + '_negative_test_indices.txt'
             
-            data_files = [pos_file, neg_file, train_pos_idx, train_neg_idx, test_pos_idx, test_neg_idx]
-            
-            for i in data_files:
-                if not os.path.isfile(i):
-                    raise FileNotFoundError(f'The file {i} has not been uploaded yet.')
-            
-
                 
-            tpX,tpy,tnX,tny,tX,ty = _classif_data_import(pos_file = pos_file, neg_file = neg_file, 
+            tpX,tpy,tnX,tny,tX,ty = _classif_data_import(zip_data = data_folder, pos_file = pos_file, neg_file = neg_file, 
                 pos_indices = train_pos_idx,neg_indices = train_neg_idx,
                 label = self.label)
-            tepX,tepy,tenX,teny,teX,tey = _classif_data_import(pos_file = pos_file, neg_file = neg_file, 
+            tepX,tepy,tenX,teny,teX,tey = _classif_data_import(zip_data = data_folder, pos_file = pos_file, neg_file = neg_file, 
                 pos_indices = test_pos_idx,neg_indices = test_neg_idx,
                 label = self.label)
 
-            
             return_pos = [tpX,tepX,tpy,tepy]
             return_neg = [tnX,tenX,tny,teny]
             
@@ -147,11 +154,7 @@ class cls_data_loader():#only get positive and negative data, if needed return t
                 valid_pos_idx = file_path + '/' + self.set_type + '_positive_validation_indices.txt'
                 valid_neg_idx = file_path + '/' + self.set_type + '_negative_validation_indices.txt'
                 
-                for i in [valid_pos_idx,valid_neg_idx]:
-                    if not os.path.isfile(i):
-                        raise FileNotFoundError(f'The file {i} has not been uploaded yet.')
-                        
-                vpX,vpy,vnX,vny,vX,vy = _classif_data_import(pos_file = pos_file, neg_file = neg_file, 
+                vpX,vpy,vnX,vny,vX,vy = _classif_data_import(zip_data = data_folder,pos_file = pos_file, neg_file = neg_file, 
                     pos_indices = valid_pos_idx,neg_indices = valid_neg_idx,
                     label = self.label)            
                 

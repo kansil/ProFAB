@@ -55,7 +55,7 @@ class ECNO(data_importer.cls_data_loader):
                  set_type = 'random',
                  ratio = None,
                  label = None,
-                 pre_determined = False):
+                 pre_determined = True):
 
         super().__init__(ratio = ratio, protein_feature = protein_feature,
                          set_type = set_type,label = label,
