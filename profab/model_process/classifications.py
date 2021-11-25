@@ -75,7 +75,9 @@ class classifiers(object):
             clf.fit(X_train,y_train)
         else:
             clf.fit(X_train)
+
         best_model = clf.best_estimator_
+        print(best_model)
         if self.path is not None:
 	        with open(self.path, 'wb') as f:
 	            pickle.dump(best_model,f)
