@@ -27,11 +27,12 @@ class rgs_data_loader():
         file_path = 'dti_dataset/' + data_name
         
         
-        if self.set_type not in ['random','compound','target','compound_target']:
-         	raise AttributeError('Please enter correct set_type. Options are: "random, compound, target, compound_target"')
+        if self.set_type not in ['random','compound','similarity']:
+         	raise AttributeError('Please enter correct set_type. Options are: "random, compound, similarity"')
+        if self.set_type == 'similarity': self.set_type = 'target'
         if self.protein_feature not in ['paac', 'aac', 'eaac', 'gaac', 'ctdt','ctriad','socnumber']:
-         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, eaac, gaac, ctdt, ctriad, socnumber"')
-
+         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber"')
+        
         file_x = file_path + '/feature_' + self.protein_feature + '.txt'
         file_y = file_path + '/label_' + self.protein_feature + '.txt'
         
@@ -92,8 +93,9 @@ class cls_data_loader():#only get positive and negative data, if needed return t
             file_path = data_name
             pass
             
-        if self.set_type not in ['random','target','temporal']:
-         	raise AttributeError('Please enter correct set_type. Options are: "random, target, temporal"')
+        if self.set_type not in ['random','similarity','temporal']:
+         	raise AttributeError('Please enter correct set_type. Options are: "random, similarity, temporal"')
+        if self.set_type == 'similarity': self.set_type = 'target'
         if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber']:
          	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber"')
         
