@@ -37,10 +37,10 @@ class ECNO(data_importer.cls_data_loader):
     and y data separately 
     Parameters:
         ratio: {None, float, list}, (default = None): used to split data 
-                into train, test, validation set as given values. 
-        protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number'},
+                into train, test, validation sets as given values. 
+        protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
                 (default = 'paac'): numerical features of protein sequences
-        set_type: {'random','target','temporal'}, (default = 'random'):
+        set_type: {'random','similarity','temporal'}, (default = 'random'):
                 split type of data, random:random splitting, target:
                 similarity based splitting, temporal: splitting according to
                 annotation time
@@ -67,10 +67,10 @@ class GOID(data_importer.cls_data_loader):
     y data separately.
     Parameters:
         ratio: {None, float, list}, (default = None): used to split data 
-                into train, test, validation set as given values. 
-        protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number'},
+                into train, test, validation sets as given values. 
+        protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
                 (default = 'paac'): numerical features of protein sequences
-        set_type: {'random','target','temporal'}, (default = 'random'):
+        set_type: {'random','similarity','temporal'}, (default = 'random'):
                 split type of data, random:random splitting, target:
                 similarity based splitting, temporal: splitting according to
                 annotation time

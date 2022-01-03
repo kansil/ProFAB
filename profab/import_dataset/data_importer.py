@@ -5,8 +5,9 @@ Created on Tue Mar  9 01:00:05 2021
 @author: Sameitos
 """
 
-import os
+import os,sys
 import random
+from zipfile import ZipFile
 from ..utils import separator, _rgr_data_import, _classif_data_import
 
 
@@ -74,6 +75,9 @@ class cls_data_loader():#only get positive and negative data, if needed return t
         
     def get_data(self,data_name):
         
+        if self.main_set[:2].lower() != data_name[:2].lower():
+            
+            raise FileNotFoundError(f'Please enter a correct data name: {data_name} not found in {self.main_set[:2].upper()} sets')
         
         pPath = os.path.split(os.path.realpath(__file__))[0]
         
@@ -96,18 +100,21 @@ class cls_data_loader():#only get positive and negative data, if needed return t
         if self.set_type not in ['random','similarity','temporal']:
          	raise AttributeError('Please enter correct set_type. Options are: "random, similarity, temporal"')
         if self.set_type == 'similarity': self.set_type = 'target'
-        if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber, 'kpssm']:
+        if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber', 'kpssm']:
          	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
         
         if not self.pre_determined:
 
             pos_file = file_path + self.set_type + '_positive_' + self.protein_feature + '.txt'
+            if pos_file not in ZipFile(data_folder).namelist():
+                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
+                
             neg_file = file_path + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
 
-            
+
             pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_folder, pos_file = 
-                                                   pos_file,neg_file = neg_file, label = self.label)
+                                               pos_file,neg_file = neg_file, label = self.label)
 
 
             if self.label == 'positive':
@@ -132,6 +139,9 @@ class cls_data_loader():#only get positive and negative data, if needed return t
         else:
         
             pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
+            if pos_file not in ZipFile(data_folder).namelist():
+                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
+            
             neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
 
             train_pos_idx = file_path + '/' + self.set_type + '_positive_train_indices.txt'
@@ -139,14 +149,18 @@ class cls_data_loader():#only get positive and negative data, if needed return t
 
             test_pos_idx = file_path + '/' + self.set_type + '_positive_test_indices.txt'
             test_neg_idx = file_path + '/' + self.set_type + '_negative_test_indices.txt'
-            
+                        
+
+            tpX,tpy,tnX,tny,tX,ty = _classif_data_import(zip_data = data_folder, pos_file = pos_file,
+                                                         neg_file = neg_file, pos_indices = train_pos_idx,
+                                                         neg_indices = train_neg_idx,
+                                                         label = self.label)
+            tepX,tepy,tenX,teny,teX,tey = _classif_data_import(zip_data = data_folder, pos_file = pos_file,
+                                                               neg_file = neg_file,
+                                                               pos_indices = test_pos_idx,
+                                                               neg_indices = test_neg_idx,
+                                                               label = self.label)
                 
-            tpX,tpy,tnX,tny,tX,ty = _classif_data_import(zip_data = data_folder, pos_file = pos_file, neg_file = neg_file, 
-                pos_indices = train_pos_idx,neg_indices = train_neg_idx,
-                label = self.label)
-            tepX,tepy,tenX,teny,teX,tey = _classif_data_import(zip_data = data_folder, pos_file = pos_file, neg_file = neg_file, 
-                pos_indices = test_pos_idx,neg_indices = test_neg_idx,
-                label = self.label)
 
             return_pos = [tpX,tepX,tpy,tepy]
             return_neg = [tnX,tenX,tny,teny]
