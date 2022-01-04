@@ -5,11 +5,7 @@ Repository can be obtained by a single line of command:
 ```
 git clone https://github.com/Sametle06/benchmark_platform.git
 ```
-Operating System: Platform independent
-
-Programming language: Python: 3.7.6
-
-Other Requirements: numpy, scikit-learn, scipy
+Operating System: Platform independent  Programming language: Python: 3.7  Package Requirements: numpy, scikit-learn, scipy
 
 ## Folders Description
 
