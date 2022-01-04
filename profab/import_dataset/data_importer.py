@@ -107,7 +107,7 @@ class cls_data_loader():#only get positive and negative data, if needed return t
 
             pos_file = file_path + self.set_type + '_positive_' + self.protein_feature + '.txt'
             if pos_file not in ZipFile(data_folder).namelist():
-                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
+                raise FileNotFoundError(f'Specified set type "{self.set_type} type" is not available for {data_name}')
                 
             neg_file = file_path + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
@@ -134,13 +134,13 @@ class cls_data_loader():#only get positive and negative data, if needed return t
                     return separator(ratio = self.ratio,X = X,y =y)
                 else:
                     raise AttributeError(
-                        'Please enter ratio value in true type. Options: "None, float and list" for pre_determined = False')
+                        'Please enter ratio value in true type. Options: "None, float and list" if pre_determined = False')
                     
         else:
         
             pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
             if pos_file not in ZipFile(data_folder).namelist():
-                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
+                raise FileNotFoundError(f'Specified set type "{self.set_type} type" is not available for {data_name}')
             
             neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
 
@@ -210,5 +210,5 @@ class cls_data_loader():#only get positive and negative data, if needed return t
                 
                 else:
                     raise AttributeError(
-                        'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')
+                        'Please enter ratio value in true type. Options: "None, float" if pre_determined = True')
                     
