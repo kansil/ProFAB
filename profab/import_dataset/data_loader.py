@@ -13,7 +13,7 @@ class DTI(data_importer.rgs_data_loader):
     and y data separately
     Parameters:
         ratio: {None, float, list}, (default = None): used to split data 
-                into train, test, validation set as given values. 
+                into train, test, validation set as given values.
         protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number'},
                 (default = 'paac'): numerical features of protein sequences
         set_type: {'random','target','temporal'}, (default = 'random'):
@@ -38,6 +38,7 @@ class ECNO(data_importer.cls_data_loader):
     Parameters:
         ratio: {None, float, list}, (default = None): used to split data 
                 into train, test, validation sets as given values. 
+                If set_type = 'temporal', then ratio = None automatically
         protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
                 (default = 'paac'): numerical features of protein sequences
         set_type: {'random','similarity','temporal'}, (default = 'random'):
@@ -68,6 +69,7 @@ class GOID(data_importer.cls_data_loader):
     Parameters:
         ratio: {None, float, list}, (default = None): used to split data 
                 into train, test, validation sets as given values. 
+                If set_type = 'temporal', then ratio = None automatically
         protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
                 (default = 'paac'): numerical features of protein sequences
         set_type: {'random','similarity','temporal'}, (default = 'random'):
