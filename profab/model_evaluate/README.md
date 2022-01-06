@@ -10,6 +10,7 @@ In this folder, there are machine learning, scaling and evaluation alogirthms. T
         - root mean sqeared error
         - Pearson correlation coefficient
         - Spearman's rank correlation coefficient
+        - Threshold based classification Metrics
     - Classification:
         - precision
         - recall
@@ -17,5 +18,7 @@ In this folder, there are machine learning, scaling and evaluation alogirthms. T
         - f0.5
         - accuracy
         - Matthews correlation coefficient
+        - AUROC
+        - AUPRC
 
 
