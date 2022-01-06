@@ -14,21 +14,19 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-
-
 class classifiers(object):
-    """
-    Description: In class,6 different machine learning methods for regression are introduced. Their hyperparameters are tuned by
-                RandomizedSearchCV and all methods return only their hyperparameters that give the best accoring to cv
-                that is created by RepeatedStraitKFold.
-    
-    """
+
     
     def __init__(self,path):     
         """
+
+        Description: In class,6 different machine learning methods for regression 
+                are introduced. Their hyperparameters are tuned by
+                RandomizedSearchCV and all methods return only their hyperparameters 
+                that give the best accoring to cvthat is created by RepeatedStraitKFold.
+    
         Parameters:
-            path: where outcome of training is saved
-            cv: repeated K-Fold Cross Validation      
+            path: where outcome of training is saved    
         """
         self.path = path
         self.parameters = None
@@ -49,7 +47,7 @@ class classifiers(object):
 
         if X_valid is None: 
             
-            cv = RepeatedStratifiedKFold(n_splits=10,n_repeats = 5,random_state= 2)
+            cv = RepeatedStratifiedKFold(n_splits=10,n_repeats = 5,random_state= self.random_state)
             
         else:
             

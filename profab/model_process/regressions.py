@@ -14,28 +14,24 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-
-
-
 class regressors(object):
-    """
-    Description:In class,6 different machine learning methods for regression are introduced. Their hyperparameters are tuned by
-                RandomizedSearchCV and all methods return only their hyperparameters that give the best accoring to cv
-                that is created by RepeatedStraitKFold.
-      
-    """
 
-    def __init__(self,path,cv):
+
+    def __init__(self,path):
         """
+
+        Description: In class,6 different machine learning methods for regression 
+                are introduced. Their hyperparameters are tuned by
+                RandomizedSearchCV and all methods return only their hyperparameters 
+                that give the best accoring to cvthat is created by RepeatedKFold
+        
         Parameters: 
 	        path: where outcome of training is saved
-	        cv: repeated K-Fold Cross Validation 
- 
         """
         self.path = path
         self.parameters = None
         self.n_jobs = -1
-        self.cv = cv
+        self.random_state = 0
       
     
     def get_best_model(self, model, X_train, y_train,X_valid, y_valid):
@@ -51,7 +47,7 @@ class regressors(object):
 
         if X_valid is None: 
             
-            cv = RepeatedKFold(n_splits=10,n_repeats = 5,random_state= 2)
+            cv = RepeatedKFold(n_splits=10,n_repeats = 5,random_state= self.random_state)
             
         else:
             
@@ -83,6 +79,7 @@ class regressors(object):
         if self.path is not None:
             with open(self.path, 'wb') as f:
                 pickle.dump(best_model,f)
+
         return best_model
 
 
