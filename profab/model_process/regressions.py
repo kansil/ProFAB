@@ -144,6 +144,8 @@ def regression_methods(ml_type,X_train,y_train = None ,X_valid = None,y_valid = 
         X_train,X_test,y_train,y_test: splitted datasets and corresponding labels
 
     """
+    if set(y_train) == {1,-1} or set(y_train) == {1,0}:
+        raise ValueError(f'Data must be continous not binary')
 
     r = regressors(path)
     

@@ -175,7 +175,9 @@ def classification_methods(ml_type,X_train,y_train = None ,
     Parameters:
         X_train,X_valid,y_train,y_valid: splitted datasets and corresponding labels
     """
-    
+    if not set(y_train) == {1,-1} or set(y_train) == {1,0}:
+    	raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')
+
     c = classifiers(path)
     
     machine_methods = {'logistic_reg':c.logistic_regression,'ridge_class':c.ridge_class,
