@@ -14,7 +14,6 @@ from ..utils import separator, _rgr_data_import, _classif_data_import
 class rgs_data_loader():
     
     
-    
     def __init__(self,ratio,protein_feature ,set_type):
         self.ratio = ratio
         self.protein_feature = protein_feature
@@ -24,7 +23,7 @@ class rgs_data_loader():
         pPath = os.path.split(os.path.realpath(__file__))[0]
         
         
-        data_folder = pPath + '/dataset.zip'# + self.main_set + '/' + data_name
+        data_folder = pPath + '/dataset.zip'
         file_path = 'dti_dataset/' + data_name
         
         
@@ -61,8 +60,7 @@ class rgs_data_loader():
             except:
                 raise AttributeError('Please enter ratio value in true type. Options: "float, List"')
     
-class cls_data_loader():#only get positive and negative data, if needed return them otherwise extend
-                        #make your processes, also rearange the ratio part. 
+class cls_data_loader():
     
     def __init__(self,ratio,protein_feature,main_set,set_type,label,pre_determined):
                 
@@ -107,7 +105,7 @@ class cls_data_loader():#only get positive and negative data, if needed return t
 
             pos_file = file_path + self.set_type + '_positive_' + self.protein_feature + '.txt'
             if pos_file not in ZipFile(data_folder).namelist():
-                raise FileNotFoundError(f'Specified set type "{self.set_type} type" is not available for {data_name}')
+                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
                 
             neg_file = file_path + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
@@ -123,7 +121,6 @@ class cls_data_loader():#only get positive and negative data, if needed return t
                 return nX,ny
             
             else:
-                #print(type(X), type(y))
                 trdn = list(zip(X,y))
                 random.shuffle(trdn)
                 X,y = zip(*(trdn))
@@ -134,13 +131,13 @@ class cls_data_loader():#only get positive and negative data, if needed return t
                     return separator(ratio = self.ratio,X = X,y =y)
                 else:
                     raise AttributeError(
-                        'Please enter ratio value in true type. Options: "None, float and list" if pre_determined = False')
+                        'Please enter ratio value in true type. Options: "None, float and list" for pre_determined = False')
                     
         else:
         
             pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
             if pos_file not in ZipFile(data_folder).namelist():
-                raise FileNotFoundError(f'Specified set type "{self.set_type} type" is not available for {data_name}')
+                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
             
             neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
 
@@ -165,7 +162,6 @@ class cls_data_loader():#only get positive and negative data, if needed return t
             return_pos = [tpX,tepX,tpy,tepy]
             return_neg = [tnX,tenX,tny,teny]
             
-            #print(return_pos)
             if self.set_type == 'temporal':
                 valid_pos_idx = file_path + '/' + self.set_type + '_positive_validation_indices.txt'
                 valid_neg_idx = file_path + '/' + self.set_type + '_negative_validation_indices.txt'
@@ -210,5 +206,5 @@ class cls_data_loader():#only get positive and negative data, if needed return t
                 
                 else:
                     raise AttributeError(
-                        'Please enter ratio value in true type. Options: "None, float" if pre_determined = True')
+                        'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')
                     
