@@ -17,5 +17,5 @@ This project is made to provide platforms to ease use of biological datasets, pr
 
 The way to implement the functions of ProFAB is given in [test_file](test_file.ipynb).
 
-The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_process](probab/model_process) and in [model_evaluate](profab/model_evaluate) and [feature_extractiom](profab/feature_extraction_module).
+The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_process](probab/model_process) and in [model_evaluate](profab/model_evaluate) and [feature_extraction](profab/feature_extraction_module).
 
