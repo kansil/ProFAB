@@ -11,11 +11,11 @@ Package Requirements: numpy, scikit-learn, scipy
 
 ## Folders Description
 
-This project is made to provide some platforms that includes some pre-processed datasets(without scaling) and training algorithms. The platforms are based on Drug-Target Interaction prediction (dtiPred), Enzyme Commission Number prediction(ecNoPred) and Gene Ontology ID prediction (goPred). These files include a lot of datasets from small size (n < 500) to big size (n > 200000) to train with a numerous learning algorithms. Also, to train these datasets, we provide easy to use machine learning algorithm. By defining the name of function, optimized and tuned results can be obtained.
+This project is made to provide platforms to ease use of biological datasets, preprocessing steps and machine learning algorithms. The datasets are based on two concepts Enzyme Commission Number prediction(ecNoPred) and Gene Ontology Term prediction (goPred). These files include a lot of datasets from smaller size (n < 500) to larger size (n > 100000) to train with a numerous learning algorithms which can give optimized and tuned results by defining the name of function. Also, metrics based on recall, precision and accuracy are provided to see performances in many perspectives.
 
 ## How to run the machine learning algorithms 
 
-The way to implement the code is given in [test_file](test_file.ipynb).
+The way to implement the functions of ProFAB is given in [test_file](test_file.ipynb).
 
-The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_process](probab/model_process) and in [model_evaluate](profab/model_evaluate).
+The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_process](probab/model_process) and in [model_evaluate](profab/model_evaluate) and [feature_extractiom](profab/feature_extraction_module).
 
