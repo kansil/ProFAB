@@ -7,4 +7,4 @@ Created on Sat Aug  7 23:15:02 2021
 
 
 from .evaluation_metrics import evaluate_score
-from .form_table import form_table
+from .form_table import *
