@@ -64,6 +64,7 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
     with ZipFile(zip_data) as f:
         pf =  f.open(pos_file)
         nf = f.open(neg_file)
+        
         if pos_indices is not None and neg_indices is not None:
 	        pos_idx = set([int(i.decode('utf-8').strip('\n')) for i in f.open(pos_indices)])
 	        neg_idx = set([int(i.decode('utf-8').strip('\n')) for i in f.open(neg_indices)])
@@ -101,12 +102,12 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
             for rowx in nf:
                 rowx = re.split('\t',rowx.decode('utf-8').strip('\n'))
                 rowx = list(np.array(rowx[1:],dtype = 'float64'))
-            if label == 'negative':
-                nX.append(rowx)
-                ny.append(-1)
-            if label == None:
-                X.append(rowx)
-                y.append(-1)
+                if label == 'negative':
+                    nX.append(rowx)
+                    ny.append(-1)
+                if label == None:
+                    X.append(rowx)
+                    y.append(-1)
     pf.close()
     nf.close()
         
@@ -115,7 +116,7 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
 def _classif_form_table(scores, score_path = 'score_path.csv'):
     
     if type(scores) is not dict:
-        raise TypeError(f'type "scores" should be dictionary')
+        raise TypeError('Type "scores" should be dictionary')
     f = open(score_path,'w')
     
     scores.values()
@@ -131,7 +132,7 @@ def _classif_form_table(scores, score_path = 'score_path.csv'):
 def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
     
     if type(scores) is not dict:
-        raise TypeError(f'type "scores" should be dictionary')
+        raise TypeError('Type "scores" should be dictionary')
     
     f = open(score_path,'w')
     columns = ['Set'] + list(list(scores.values())[0].keys())[:-1] + list(
@@ -147,3 +148,24 @@ def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
         f.write(f'{",".join(score)}\n')
 
     f.close()
+
+def multiform_table(score_dict, score_path):
+    
+    f = open(score_path, 'w')
+    
+    datasets = list(score_dict.keys())
+    columns = ['Dataset Name', 'Set'] + list(list(score_dict[datasets[0]].values())[0].keys())
+    f.write(f'{",".join(columns)}\n')
+    for data_name in datasets:
+        
+        f.write(f'{data_name}')
+        scores = score_dict[data_name]
+        
+        for sc in scores.keys():
+            
+            score = np.array([" "] + [sc] + list(scores[sc].values()),dtype = str)          
+            f.write(f'{",".join(score)}\n')
+        f.write(f'\n')
+    f.close()
+    
+    
