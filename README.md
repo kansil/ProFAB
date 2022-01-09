@@ -17,6 +17,21 @@ This project is made to provide platforms to ease use of biological datasets, pr
 
 The way to implement the functions of ProFAB is given in [test_file](test_file.ipynb).
 
+If the one run the program for multiple datasets, then exPro.py can be used. It parameters are:
+- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. Each name must be defined in new line.
+- **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
+- **set_type**: {'random','similarity','temporal'}, default = 'random', Splitting type of train and test sets.
+- **protein_feature**: {'aac','paac','gaac','ctriad','ctdt','socnumber','kpssm'}, default = 'paac', Numerical feature of protein sequence.
+- **ratio**: type: {list, int, none}, default = 0.2, Ratio of between validation and test sets to train set.
+- **pre_determined**: type: bool, default = False, If True, data will be given splitted train test sets else splliting will be done.
+- **scale_type**: default = 'standard', Scaling of data to prevent biases.
+- **ml_type**: default = 'logistic_reg', Machine learning algorithms will be used in prediction.
+
+It can be run in terminal with this line:
+```
+python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv
+```
+
 The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_process](probab/model_process), [model_evaluate](profab/model_evaluate), and [feature_extraction](profab/feature_extraction_module).
 
 ## License
