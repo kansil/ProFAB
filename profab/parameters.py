@@ -29,11 +29,11 @@ Classification Parameters for algorithms:
 '''
 #Logistic Regression Parameters
 cls_logistic_regression_params = dict(
-            penalty = ['l1','l2'],
-            multi_class = ["auto",'ovr','multinomial'],
-            solver = ['newton-cg', 'lbfgs', 'liblinear'],
+            penalty = ['l2'],
+            multi_class = ["auto",'ovr'],
+            solver = ['newton-cg','saga', 'sag', 'lbfgs', 'liblinear'],
             C = np.linspace(0.001,100, num=100),
-            max_iter = [1000]
+            max_iter = [2000]
             )
 
 #Ridge Class Parameters
