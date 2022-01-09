@@ -22,7 +22,7 @@ If the one run the program for multiple datasets, then exPro.py can be used. Its
 - **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
 - **set_type**: {'random','similarity','temporal'}, default = 'random', Splitting type of train and test sets.
 - **protein_feature**: {'aac','paac','gaac','ctriad','ctdt','socnumber','kpssm'}, default = 'paac', Numerical feature of protein sequence.
-- **ratio**: type: {list, int, none}, default = 0.2, Ratio of between validation and test sets to train set.
+- **ratio**: type: {list, float, None}, default = 0.2, Ratio of between validation and test sets to train set.
 - **pre_determined**: type: bool, default = False, If True, data will be given splitted train test sets else splliting will be done.
 - **scale_type**: default = 'standard', Scaling of data to prevent biases.
 - **ml_type**: default = 'logistic_reg', Machine learning algorithms will be used in prediction.
