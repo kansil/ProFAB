@@ -103,16 +103,18 @@ class cls_data_loader():
         
         if not self.pre_determined:
 
-            pos_file = file_path + self.set_type + '_positive_' + self.protein_feature + '.txt'
-            if pos_file not in ZipFile(data_folder).namelist():
-                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
-                
-            neg_file = file_path + self.set_type + '_negative_' + self.protein_feature + '.txt'
+            pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
             
-
+            if pos_file not in ZipFile(data_folder).namelist():
+                raise Exception(f'Specified set type "{self.set_type}" type is not available for {data_name}')
+                
+            neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
+            
+            if pos_file not in ZipFile(data_folder).namelist() or neg_file not in ZipFile(data_folder).namelist():
+                raise Exception(f'Specified set type "{self.set_type}" type is not available for {data_name}')
 
             pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_folder, pos_file = 
-                                               pos_file,neg_file = neg_file, label = self.label)
+                                               pos_file, neg_file = neg_file, label = self.label)
 
 
             if self.label == 'positive':
@@ -136,6 +138,7 @@ class cls_data_loader():
         else:
         
             pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
+            
             if pos_file not in ZipFile(data_folder).namelist():
                 raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
             
