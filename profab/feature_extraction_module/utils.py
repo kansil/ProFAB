@@ -1,20 +1,23 @@
 import os, platform, shutil
 import pathlib
 path_to_folder = pathlib.Path(__file__).parent.resolve()
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-def find_pssm_missing_proteins(input_dir, fasta_name, pssm_dir, place_protein_id):
 
-    set_proteins_fasta = set()
-    with open("{}/{}.fasta".format(input_dir, fasta_name), "r") as fp:
-        for line in fp:
-            if line[0] == ">":
-                set_proteins_fasta.add(line.strip().split("|")[place_protein_id])
-
+def find_pssm_missing_proteins(set_proteins_fasta, pssm_dir):
     set_proteins_pssm = set()
     for file in os.listdir(pssm_dir):
         protein_id = file.split(".")[0]
         set_proteins_pssm.add(protein_id)
-
     return list(set_proteins_fasta - set_proteins_pssm)
 
 
@@ -28,6 +31,8 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
                 if prot_id != "":
                     fasta_dict[prot_id] = sequence
                 prot_id = line.strip().split("|")[place_protein_id]
+                if place_protein_id == 0:
+                    prot_id = prot_id[1:]
                 if prot_id not in fasta_dict:
                     sequence = ""
                     fasta_dict[prot_id] = ""
@@ -36,7 +41,6 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
         fasta_dict[prot_id] = sequence
     fp.close()
     return fasta_dict
-
 
 def form_single_fasta_files(list_proteins_no_pssm, fasta_dict):
     path_single_fastas = "{}/temp_folder/single_fastas".format(path_to_folder)
@@ -50,7 +54,7 @@ def form_single_fasta_files(list_proteins_no_pssm, fasta_dict):
         fw.close()
 
 
-def form_pssm_files(pssm_dir):
+def form_missing_pssm_files(pssm_dir):
 
     path_single_fastas = "{}/temp_folder/single_fastas".format(path_to_folder)
     path_blast = "{}/ncbi-blast".format(path_to_folder)
@@ -73,16 +77,34 @@ def form_pssm_files(pssm_dir):
     except OSError as e:
         print("Error: %s - %s." % (e.filename, e.strerror))
 
-def check_form_pssm_matrices(input_dir, fasta_name, place_protein_id):
+def copy_pssms(fasta_dict):
+   
+    zip_filepath = "{}/swissprot_pssms.zip".format(path_to_folder)
+    target_dir = '{}/temp_folder/extracted_pssms'.format(path_to_folder)
+    if os.path.exists(zip_filepath):
+        with zipfile.ZipFile(zip_filepath, 'r') as zipObj:
+            listOfFileNames = zipObj.namelist()
+            for prot_id in fasta_dict:
+                if 'swissprot_pssms/{}.pssm'.format(prot_id) in listOfFileNames:
+                    zipObj.extract('swissprot_pssms/{}.pssm'.format(prot_id), '{}'.format(target_dir))
+        if os.path.exists('{}/swissprot_pssms'.format(target_dir)):
+            for file in os.listdir('{}/swissprot_pssms'.format(target_dir)):
+                shutil.copy('{}/swissprot_pssms/{}'.format(target_dir,file), '{}/pssm_files'.format(path_to_folder))
+            shutil.rmtree(target_dir + '/swissprot_pssms')
+
+            
+def copy_form_pssm_matrices(fasta_dict):
     pssm_dir = "{}/pssm_files".format(path_to_folder)
-    fasta_dict = read_fasta_to_dict(input_dir, fasta_name, place_protein_id)
-    list_proteins_no_pssm = find_pssm_missing_proteins(input_dir, fasta_name, pssm_dir, place_protein_id)
-    form_single_fasta_files(list_proteins_no_pssm, fasta_dict)
-    form_pssm_files(pssm_dir)
-    return fasta_dict
+    list_proteins_no_pssm1 = find_pssm_missing_proteins(set(fasta_dict.keys()), pssm_dir)
+    if len(list_proteins_no_pssm1) != 0:
+        copy_pssms(list_proteins_no_pssm1)
+    list_proteins_no_pssm2 = find_pssm_missing_proteins(set(fasta_dict.keys()), pssm_dir)
+    if len(list_proteins_no_pssm2) != 0:
+        form_single_fasta_files(list_proteins_no_pssm2, fasta_dict)
+        form_missing_pssm_files(pssm_dir)
+
 
 def edit_extracted_features_POSSUM(temp_output_file, output_file, fasta_dict):
-
     with open(temp_output_file, 'r') as fp:
         fw = open(output_file, 'w')
         for line, prot_id in zip(fp, fasta_dict):

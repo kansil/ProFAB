@@ -6,25 +6,25 @@ Created on Mon January 3 00:03:05 2022
 
 from .utils import *
 import warnings
-import pathlib
+import pathlib, stat, subprocess
 
 warnings.filterwarnings('ignore')
 path_to_folder = pathlib.Path(__file__).parent.resolve()
-print(path_to_folder)
+
 def usage():
+    print(f"{bcolors.OKGREEN}")
     print("feature_extracter.py usage:\n")
-    print("import feature_extracter:\n\n\t\t it is to import the feature extraction module\n\n")
+    print("from profab.feature_extraction_module import *:\n\n\t\t it is to import the feature extraction module\n\n")
     print("feature_extracter.extract_protein_feature(protein_feature, place_protein_id, input_folder, fasta_file_name):\n\n\
           \t This function extracts the features of the fasta file (fasta_file_name) in the input folder (input_folder)\n\
           \t by using the protein feature extraction method (protein_feature)\n\n")
-    print("protein_feature: {string}, (default = 'aac_pssm'):\n\n\t\t one of the 21 PSMM-based protein descriptors in POSSUM.\n\n\
+    print("Parameters:\n\nprotein_feature: {string}, (default = 'aac_pssm'):\n\n\t\t one of the 21 PSMM-based protein descriptors in POSSUM.\n\n\
           \t ac_pssm, d_fpssm, smoothed_pssm, ab_pssm, pssm_composition, rpm_pssm,\n\
           \t s_fpssm, dpc_pssm, k_separated_bigrams_pssm, eedp, tpc, edp, rpssm,\n\
-          \t pse_pssm, dp_pssm, pssm_ac, pssm_cc, aadp_pssm, aatp, medp , or all_POSSUM\n\
-          \t all_POSSUM: it extracts the features of all (21) POSSUM protein descriptors\n\n\
+          \t pse_pssm, dp_pssm, pssm_ac, pssm_cc, aadp_pssm, aatp, medp , or all_POSSUM\n\n\
           \t all_POSSUM: it extracts the features of all (21) POSSUM protein descriptors\n\n\
           or\n\n\
-          \t one of the 18 protein descriptors in iFeature.\n\n\
+          one of the 18 protein descriptors in iFeature.\n\n\
           \t AAC, PAAC, APAAC, DPC, GAAC, CKSAAP, CKSAAGP, GDPC, Moran, Geary,\n\
           \t NMBroto, CTDC, CTDD, CTDT, CTriad, KSCTriad, SOCNumber, QSOrder, or all_iFeature\n\n\
           \t all_iFeature: it extracts the features of all (18) iFeature protein descriptors\n\n")
@@ -36,6 +36,7 @@ def usage():
           \t it is the path to the folder that contains the fasta file.\n\n")
     print("fasta_file_name: {string}, (default ='sample'):\n\n\
           \t it is the name of the fasta file exclude the '.fasta' extension.\n")
+    print(f"{bcolors.ENDC}")
 
 class feature_extracter(object):
     '''
@@ -96,8 +97,29 @@ class feature_extracter(object):
                                    'KSCTriad', 'SOCNumber', 'QSOrder', 'all_iFeature'}
 
     def extract_POSSUM_feature(self):
+        print(f"{bcolors.WARNING}" 
+               "\n\nSince extracting PSSMs takes time for POSSUM descriptors, this step is to accelerate\n"
+               "the feature extraction process. We strongly recommend you to download PSSMs,\n"
+               "if you have more than 100 proteins in your fasta file(s).\n\n"
+               "We have extracted PSSMs for 558,419 proteins available in UniProtKB / SwissProt database.\n"
+               "You can download the PSSMs by following the steps below. Then, the program will automatically\n"
+               "copy the related PSSMs to feature_extraction_module/pssm_files folder, when you run the module\n" 
+               "to extract the POSSUM features.\n\n"  
+               "Each PSSM file in the folder is named as proteinID.pssm.\n\n"
+               "!!The file size is around 7 GB!!!\n"
+               f"{bcolors.ENDC}")
 
-        fasta_dict = check_form_pssm_matrices(self.input_folder, self.fasta_file_name, self.place_protein_id)
+        print('Do you want to download PSSM files? (Optional).\n'
+              ' Please, enter Y (Yes) or N (No)')
+
+        ans = input()
+
+        if ans == 'Y':
+            os.chmod('{}/download_pssms.sh'.format(path_to_folder), stat.S_IRWXU)
+            subprocess.call('{}/download_pssms.sh'.format(path_to_folder), shell=True)
+
+        fasta_dict = read_fasta_to_dict(self.input_folder, self.fasta_file_name, self.place_protein_id)
+        copy_form_pssm_matrices(fasta_dict)
 
         list_desc = [self.protein_feature]
 
@@ -119,7 +141,7 @@ class feature_extracter(object):
                                                           prot_feat,
                                                           path_to_folder))
 
-            output_file = "{}/output_folder/{}_{}.txt".format(path_to_folder,
+            output_file = "feature_extraction_output/{}_{}.txt".format(
                                                               self.fasta_file_name,
                                                               prot_feat)
 
@@ -145,7 +167,7 @@ class feature_extracter(object):
                                          prot_feat,
                                          temp_output_file))
 
-            output_file = "{}/output_folder/{}_{}.txt".format(path_to_folder,
+            output_file = "feature_extraction_output/{}_{}.txt".format(
                                                               self.fasta_file_name,
                                                               prot_feat)
 
@@ -156,23 +178,7 @@ def extract_protein_feature(protein_feature,
                           input_folder,
                           fasta_file_name):
 
-    '''
-    Commmand-line dan çalıştırılma durumu için hazırlandı.
 
-    parser = argparse.ArgumentParser(description="arguments of feature extracter module")
-    parser.add_argument('--pf', type=str, default="aac_pssm", help='protein feature in POSSUM or iFeature')
-    parser.add_argument('--ppid', type=str, default=1, help='the place of protein id in fasta header')
-    parser.add_argument('--inpd', type=str, default="input_folder", help='path to fasta file directory')
-    parser.add_argument('--fname', type=str, default="sample", help='fasta file name')
-
-    args = parser.parse_args()
-
-    protein_feature = args.pf
-    place_protein_id = int(args.ppid)
-    input_folder = args.inpd
-    fasta_file_name = args.fname'''
-    #input_folder = '{}/input_folder'.format(path_to_folder)
-    
     feat_ext = feature_extracter(protein_feature,
                                  place_protein_id,
                                  input_folder,
@@ -188,5 +194,5 @@ def extract_protein_feature(protein_feature,
 
     else:
 
-        print("Protein Feature extraction method is not in either POSSUM or iFeature")
+        print(f"{bcolors.FAIL}Protein Feature extraction method is not in either POSSUM or iFeature{bcolors.ENDC}")
 
