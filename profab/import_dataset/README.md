@@ -12,3 +12,12 @@ The parameters:
 - **protein_feature**: {'paac','aac','gaac', 'ctdt','socnumber', 'ctriad', 'kpssm'}, (default = 'paac'), indicates numerical feature of proteins obtained from sequence data.
 - **label**: {None,'positive','negative'}, (default = None), to obtain which set of data will be obtained. The user can get positive or negative sets of whole dataset by defining this parameter.
 - **pre_determined**: {False,True}, (default = False), indicate how data will be get. We upload our dataset as train and test set. So user can get them without randomly foming the test and train sets from the whole data. 
+
+## Importing self datasets
+ProFAB allows users to implement their datasets to train in ProFAB learning modules. To achive that data format should include names of proteins and columns must be tab-separated. An example format:
+
+```
+ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
+ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
+ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
+```
