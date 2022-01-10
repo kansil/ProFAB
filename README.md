@@ -17,7 +17,7 @@ This project is made to provide platforms to ease use of biological datasets, pr
 
 The way to implement the functions of ProFAB is given in [test_file](test_file.ipynb).
 
-If the one run the program for multiple datasets, then exPro.py can be used. Its parameters are:
+If one run the program for multiple datasets, then exPro.py can be used. Its parameters are:
 - **file_name**: File includes dataset names such as GO_0000018, GO_1905523. Each name must be defined in new line.
 - **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
 - **set_type**: {'random','similarity','temporal'}, default = 'random', Splitting type of train and test sets.
