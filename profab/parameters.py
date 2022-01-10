@@ -9,8 +9,8 @@ import numpy as np
 
 '''
     This file to modify the parameters of machine learning algorithms w/o 
-    meddling with the main functions. the One can change, delete or add parameters
-    with their true names. All, parameters are provided for two sections "Regression" 
+    meddling with the main functions. One can change, delete or add parameters
+    with their true names. All parameters are provided for two sections "Regression" 
     and "Classification".
 '''
 
