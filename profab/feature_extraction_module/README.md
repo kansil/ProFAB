@@ -10,7 +10,7 @@ thereby addressing a crucial need for bioinformaticians and computational biolog
  both protein and peptide sequences. iFeature is capable of calculating and extracting a comprehensive spectrum
  of 18 major sequence encoding schemes that encompass 53 different types of feature descriptors.
 
-<br/>Table: Protein descriptors obtained from the POSSUM tool.
+<br/>Table-1: Protein descriptors obtained from the POSSUM tool.
 
 | Descriptor group | Protein descriptor                                                                               | Number of dimensions
 ----------------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------
@@ -19,7 +19,7 @@ Column Transformation| DPC-PSSM <br/> k-seperated-bigrams-PSSM <br/> tri-gram-PS
 Mixture of row and column transformation | EDP <br/> RPSSM <br/> Pre-PSSM <br/> DP-PSSM <br/> PSSM-AC <br/> PSSM-CC | 20 <br/> 110 <br/> 40 <br/> 240 <br/> 200 <br/> 3800
 Combination of above descriptors| AADP-PSSSM <br/> AATP <br/> MEDP | 420 <br/> 420 <br/> 420
 
-<br/>Table: Protein descriptors obtained from the İFeature tool.
+<br/>Table-2: Protein descriptors obtained from the İFeature tool.
 
 | Descriptor group | Protein descriptor                                                    | Number of dimensions
 ----------------------------------------|-----------------------------------------------------------------------|-----------------------------
@@ -37,16 +37,16 @@ Pseudo-amino acid composition| Pseudo-amino acid composition (PAAC) <br/> Amphip
 
 ## Usage:
 
-Feature extraction module is a python-based module that can be used to extract protein featured from a fasta file as an input.
+Feature extraction module is a python-based tool that can be used to extract protein featured 
+from a fasta file as an input.
 There are 21 protein descriptors from POSSUM tool and 18 from iFeature tool.
 The available protein descriptors and their abbreviations are indicated in the tables above.
 
-You should follow the steps below to run feature extraction module in the terminal (Linux/MAC).
+Please, follow the steps below to run feature extraction module in the terminal (Linux/MAC).
 The following code assumes that you work in the main directory of ProFAB.
 ```
 python
 from profab.feature_extraction_module import *
-feature_extracter.usage() 
 feature_extracter.extract_protein_feature(protein_feature,
                                           place_protein_id,
                                           input_folder, 
@@ -62,7 +62,9 @@ feature_extracter.extract_protein_feature('edp', 1,
                                           'sample')
 ```
 
+
 ## Explanation of Parameters
+Here, we explain about
 **protein_feature: {string}, (default = 'aac_pssm'):** one of the 21 PSMM-based protein descriptors in POSSUM.
 
 * **POSSUM descriptors:** aac_pssm, d_fpssm, smoothed_pssm, ab_pssm, pssm_composition, rpm_pssm,
@@ -88,28 +90,35 @@ in the zeroth position, protein id in the first(1) position.
 
 **fasta_file_name: {string}, (default ='sample'):** it is the name of the fasta file exclude the '.fasta' extension.
 
+
 ## Input file 
 
 * It must be in fasta format
-* A sample is also given as **input_files/sample.fasta**
+* A sample is also given as **feature_extraction_module/input_files/sample.fasta**
 
 
 ## Downloading Position Specific Scoring Matrices (PSSMs) (optional)
-Since extracting PSSMs takes time for POSSUM descriptors, this step is necessary if you have more than 500 (approximately) proteins in your fasta file(s). 
+Since extracting PSSMs takes time for POSSUM descriptors, this step is to accelerate 
+the feature extraction process. We strongly recommend you to download PSSMs, 
+if you have more than 100 proteins in your fasta file(s). 
 
-We have extracted PSSMs almost for all proteins available in UniProtKB / SwissProt database.
-You can download the PSSMs by following the steps below. Then, you should copy related PSSMs 
-under the **feature_extraction_module/pssm_files** folder.  
-```
-chmod +x download_extract_pssms.sh
-download_extract_pssms.sh
-```
+We have extracted PSSMs for 558,419 proteins available in UniProtKB / SwissProt database.
+When you run the module to extract the POSSUM features, an option will be given whether you 
+prefer to download PSSM file. If you choose **Y** (Yes), then, the program will automatically 
+download and copy the related PSSMs to **feature_extraction_module/pssm_files** folder.
+
+Each PSSM file in the folder is named as **proteinID.pssm**.
+
 
 ## Output file
 
-* The exracted feature files will be located under
+* The extracted feature files will be located under
 **feature_extraction_module/output_folder** 
 folder with the name: **fasta_file_name_protein_feature.txt** (e.g. sample_AAC.txt)
+* The content of the output files: 
+  * Each row corresponds to the extracted features of the protein sequence
+  * The first column of each row is protein id (in UniProtKB), 
+    the rest is extracted features of the protein sequence.
 
 ## License
 
