@@ -32,8 +32,7 @@ This module is to considering performance results with many scoring metrics. Use
 
 #### Usage
 
-```
-python
+```{python}
 from profab.model_evaluate import evaluate_score
 return_value = evaluate_score(model,
                             X,
