@@ -32,7 +32,7 @@ It can be run in terminal with this line:
 python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv
 ```
 
-The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are detaily explained in [model_preprocess](probab/model_reprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) and [feature_extraction](profab/feature_extraction_module).
+The parameters used in dataset importing are explained in [import_datasets](profab/import_dataset). Other steps are explained in [model_preprocess](probab/model_reprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) and [feature_extraction](profab/feature_extraction_module).
 
 ## License
 
