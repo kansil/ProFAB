@@ -32,37 +32,6 @@ Quasi-sequence-order| Sequence-order-coupling number (SOCNumber) <br/> Quasi-seq
 Pseudo-amino acid composition| Pseudo-amino acid composition (PAAC) <br/> Amphiphilic PAAC (APAAC)                                     | 50 <br/> 80 
 
 
-
-
-
-## Usage:
-
-Feature extraction module is a python-based tool that can be used to extract protein featured 
-from a fasta file as an input.
-There are 21 protein descriptors from POSSUM tool and 18 from iFeature tool.
-The available protein descriptors and their abbreviations are indicated in the tables above.
-
-Please, follow the steps below to run feature extraction module in the terminal (Linux/MAC).
-The following code assumes that you work in the main directory of ProFAB.
-```
-python
-from profab.feature_extraction_module import *
-feature_extracter.extract_protein_feature(protein_feature,
-                                          place_protein_id,
-                                          input_folder, 
-                                          fasta_file_name)
-```
-
-A use case:
-```
-python
-from profab.feature_extraction_module import *
-feature_extracter.extract_protein_feature('edp', 1, 
-                                          'profab/feature_extraction_module/input_folder', 
-                                          'sample')
-```
-
-
 ## Explanation of Parameters
 Here, we explain about
 **protein_feature: {string}, (default = 'aac_pssm'):** one of the 21 PSMM-based protein descriptors in POSSUM.

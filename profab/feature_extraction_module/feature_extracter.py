@@ -172,27 +172,3 @@ class feature_extracter(object):
                                                               prot_feat)
 
             edit_extracted_features_iFeature(temp_output_file, output_file, self.place_protein_id)
-
-def extract_protein_feature(protein_feature,
-                          place_protein_id,
-                          input_folder,
-                          fasta_file_name):
-
-
-    feat_ext = feature_extracter(protein_feature,
-                                 place_protein_id,
-                                 input_folder,
-                                 fasta_file_name)
-
-    if protein_feature in feat_ext.POSSUM_desc_list:
-
-        feat_ext.extract_POSSUM_feature()
-
-    elif protein_feature in feat_ext.iFeature_desc_list:
-
-        feat_ext.extract_iFeature_feature()
-
-    else:
-
-        print(f"{bcolors.FAIL}Protein Feature extraction method is not in either POSSUM or iFeature{bcolors.ENDC}")
-

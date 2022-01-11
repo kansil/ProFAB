@@ -1,1 +1,1 @@
-from .feature_extracter import extract_protein_feature
+from .feature_extracter import feature_extracter
