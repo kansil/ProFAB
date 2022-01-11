@@ -29,8 +29,7 @@ Binary classification is main task of ProFAB which is used to classify proteins 
 
 #### Usage
 
-```
-python
+```{python}
 from profab.model_learn import classification_methods
 model = classification_methods(ml_type,
                                 X_train,
@@ -40,8 +39,7 @@ model = classification_methods(ml_type,
 ```
 
 A use case:
-```
-python
+```{python}
 from profab.model_learn import classification_methods
 model = classification_methods(ml_type = 'logistic_reg',
                                 X_train = X_train,
@@ -69,8 +67,7 @@ Regression was prepared to estimate continous outputs. In ProFAB, no such data i
 
 #### Usage
 
-```
-python
+```{python}
 from profab.model_learn import regression_methods
 model = regression_methods(ml_type,
                                 X_train,
@@ -78,13 +75,3 @@ model = regression_methods(ml_type,
                                 X_valid,
                                 y_valid)
 ```
-
-A use case:
-```
-python
-from profab.model_learn import regression_methods
-model = regression_methods(ml_type = 'logistic_reg',
-                                X_train = X_train,
-                                y_train = y_train)
-```
-
