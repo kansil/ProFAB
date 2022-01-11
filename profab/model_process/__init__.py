@@ -8,6 +8,6 @@ Created on Tue Mar  9 14:41:51 2021
 
 from .classifications import classification_methods
 from .regressions import regression_methods
-from .scaler import scale_methods
+
 
 
