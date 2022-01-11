@@ -26,7 +26,7 @@ class classifiers(object):
                 that give the best accoring to cvthat is created by RepeatedStraitKFold.
     
         Parameters:
-            path: where outcome of training is saved    
+            path: A destination point where model is saved.   
         """
         self.path = path
         self.parameters = None
@@ -165,15 +165,16 @@ class classifiers(object):
         return model
 
 
-def classification_methods(ml_type,X_train,y_train = None ,
+def classification_methods(X_train,ml_type = 'SVM', y_train = None,
                            X_valid = None,y_valid = None,
                            path = None):
     
     """
-    Description: Selecting classification method and apply it to the dataset
+    Description: 
+        Selecting classification method and apply it to the data to train
     
     Parameters:
-        X_train,X_valid,y_train,y_valid: splitted datasets and corresponding labels
+        ml_type: Type of machine learning algorithm.
     """
     if not set(y_train) == {1,-1} or set(y_train) == {1,0}:
     	raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')

@@ -20,10 +20,11 @@ class regressors(object):
     def __init__(self,path):
         """
 
-        Description: In class,6 different machine learning methods for regression 
-                are introduced. Their hyperparameters are tuned by
-                RandomizedSearchCV and all methods return only their hyperparameters 
-                that give the best accoring to cvthat is created by RepeatedKFold
+        Description: 
+            In class,6 different machine learning methods for regression 
+            are introduced. Their hyperparameters are tuned by
+            RandomizedSearchCV and all methods return only their hyperparameters 
+            that give the best accoring to cvthat is created by RepeatedKFold
         
         Parameters: 
 	        path: where outcome of training is saved
@@ -37,12 +38,11 @@ class regressors(object):
     def get_best_model(self, model, X_train, y_train,X_valid, y_valid):
         """
         Parameters
-        ----------
-        X_train: Feature matrix, type = {list, numpy array}
-        y_train: (default = None), Label matrix, type = {list, numpy array}
-        X_valid: (default = None), Validation Set, type = {list,numpy array}
-        y_valid: (default = None), Validation Label, type = {list,numpy array}
-        model : model specified in ML algorithms, type = string
+            X_train: Feature matrix, type = {list, numpy array}
+            y_train: (default = None), Label matrix, type = {list, numpy array}
+            X_valid: (default = None), Validation Set, type = {list,numpy array}
+            y_valid: (default = None), Validation Label, type = {list,numpy array}
+            model : model specified in ML algorithms, type = string
         """
 
         if X_valid is None: 
@@ -135,14 +135,14 @@ class regressors(object):
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
-def regression_methods(ml_type,X_train,y_train = None ,X_valid = None,y_valid = None, path = None):
+def regression_methods(X_train,ml_type = "SVM", y_train = None ,X_valid = None,y_valid = None, path = None):
     
     """
-    Description: Selecting classification method and apply it to the dataset
+    Description: 
+        Selecting classification method and apply it to the data to train
     
     Parameters:
-        X_train,X_test,y_train,y_test: splitted datasets and corresponding labels
-
+        ml_type: Type of machine learning algorithm.
     """
     if set(y_train) == {1,-1} or set(y_train) == {1,0}:
         raise ValueError(f'Data must be continous not binary')
