@@ -33,6 +33,7 @@ This module is to considering performance results with many scoring metrics. Use
 #### Usage
 
 ```{python}
+
 from profab.model_evaluate import evaluate_score
 return_value = evaluate_score(model,
                             X,
@@ -41,8 +42,7 @@ return_value = evaluate_score(model,
 ```
 
 A use case:
-```
-python 
+```{python}
 
 score_test,f_test = evaluate_score(model,
                                 X = X_test, 
@@ -64,8 +64,7 @@ To see scores in .csv files in an order, this function is proposed.
 #### Usage
 
 A use case:
-```
-python
+```{python}
 
 from profab.model_evaluate import form_table
 
