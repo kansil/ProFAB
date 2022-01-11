@@ -22,4 +22,4 @@ ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
 ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
 ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
 ```
-After importing datasets, preprocessing and training can be done by following introductions in [model_preprocess](../profab/model_preprocess) nad [model_learn](../profab/model_learn).
+After importing datasets, preprocessing and training can be done by following introductions in [model_preprocess](../model_preprocess) nad [model_learn](../model_learn).
