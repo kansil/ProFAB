@@ -7,13 +7,31 @@ The parameters shows difference for datasets are used in regression algoritm and
 
 The parameters:
 
-- **set_type**: {'random','similarity', 'temporal'}, (default = 'random'), is used to select the dataset spread. 'random' means data spread is random while 'similarity' means data points are splitted according to their similarity. 'temporal' splitting is based on annotation time of inputs.
+- **set_type**: {'random','similarity', 'temporal'}, (default = 'random'), is used to select the dataset spread. 'random' means data spread is random while 'similarity' means data points are separated according to their similarity then data is splitted randomly in importing. 'temporal' splitting is based on annotation time of inputs and no extra splitting is not done.
 - **ratio**: {None,float,list}, (default = 0.2), is used to split the data according given value(s). If left None, only X and y data can be obtained while float value gives train and test set. If ratio = [a,b] where a and b are in (0,1), train, test and validation sets can be obtained. If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 and validation fraction is 0.1 of all dataset size. 
 - **protein_feature**: {'paac','aac','gaac', 'ctdt','socnumber', 'ctriad', 'kpssm'}, (default = 'paac'), indicates numerical feature of proteins obtained from sequence data.
 - **label**: {None,'positive','negative'}, (default = None), to obtain which set of data will be obtained. The user can get positive or negative sets of whole dataset by defining this parameter.
 - **pre_determined**: {False,True}, (default = False), indicate how data will be get. We upload our dataset as train and test set. So user can get them without randomly foming the test and train sets from the whole data. 
 
+## Importing self datasets by using ProFAB import module
+
+In ProFAB, one can load his/her datasets by using ProFAB import module. However, name of files and format of data are important. If task is classification, positive and negative labeled data must located in different files. For regression, there is no such separation. Explanation for importing is given for classification task:
+
+Classification Tasked Dataset:
+lets say GO_num is example dataset. 
+1. It is must be .zip file and includes positive and negative sets of data. The name of files in data folder should be 
+2. The name of files in data folder should be in order of "set_type + '_' + label + '_' + protein_feature + '.txt'". For example:
+```
+random_positive_aac.txt
+random_negative_aac.txt
+```
+3. The format of inputs is 2-D array and columns must be tab-separated.
+4. Each row starts with ProteinID and numerical faetures come after.
+
+For now, ProFAB is not supporting importing data for regression task.
+
 ## Importing self datasets
+
 ProFAB allows users to implement their datasets to train in ProFAB learning modules. To achive that data format should include names of proteins and columns must be tab-separated. An example format:
 
 ```
