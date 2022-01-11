@@ -86,7 +86,7 @@ class regressors(object):
     def linear_regression(self,X_train,y_train,X_valid,y_valid):
 
         from sklearn.linear_model import LinearRegression
-        from ..parameters import rgr_linear_regression_params as lrp
+        from ..hyperparameters import rgr_linear_regression_params as lrp
         
         self.parameters = lrp
         model = LinearRegression()
@@ -94,7 +94,7 @@ class regressors(object):
 
     def SVM(self,X_train,y_train,X_valid,y_valid):
         from sklearn.svm import SVR
-        from ..parameters import rgr_svm_params as svmp
+        from ..hyperparameters import rgr_svm_params as svmp
         
         self.parameters = svmp
         model = SVR()
@@ -103,7 +103,7 @@ class regressors(object):
         
     def random_forest(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import RandomForestRegressor
-        from ..parameters import rgr_random_forest_params as rfp
+        from ..hyperparameters import rgr_random_forest_params as rfp
         
         self.parameters = rfp
         model = RandomForestRegressor()   
@@ -112,7 +112,7 @@ class regressors(object):
     def MLP(self,X_train,y_train,X_valid,y_valid):
         
         from sklearn.neural_network import MLPRegressor
-        from ..parameters import rgr_mlp_params as mlpp
+        from ..hyperparameters import rgr_mlp_params as mlpp
         
         self.parameters = mlpp
         model = MLPRegressor()
@@ -120,7 +120,7 @@ class regressors(object):
     
     def decision_tree(self,X_train,y_train,X_valid,y_valid):
         from sklearn.tree import DecisionTreeRegressor
-        from ..parameters import rgr_decision_tree_params as dtp
+        from ..hyperparameters import rgr_decision_tree_params as dtp
         
         self.parameters = dtp
         model = DecisionTreeRegressor()
@@ -128,7 +128,7 @@ class regressors(object):
 
     def gradient_boosting(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import GradientBoostingRegressor as GBR
-        from ..parameters import rgr_gradient_boosting_params as gbp
+        from ..hyperparameters import rgr_gradient_boosting_params as gbp
 
         self.parameters = gbp
         model = GBR()

@@ -85,7 +85,7 @@ class classifiers(object):
 
     def logistic_regression(self,X_train,y_train,X_valid,y_valid):    
         from sklearn.linear_model import LogisticRegression
-        from ..parameters import cls_logistic_regression_params as lrp
+        from ..hyperparameters import cls_logistic_regression_params as lrp
 
         self.parameters = lrp
         model = LogisticRegression()
@@ -94,7 +94,7 @@ class classifiers(object):
 
     def ridge_class(self,X_train,y_train,X_valid,y_valid):
         from sklearn.linear_model import RidgeClassifier
-        from ..parameters import cls_ridge_class_params as rcp
+        from ..hyperparameters import cls_ridge_class_params as rcp
 
         self.parameters = rcp
         model = RidgeClassifier()
@@ -103,7 +103,7 @@ class classifiers(object):
         
     def KNN(self,X_train,y_train,X_valid,y_valid):
         from sklearn.neighbors import KNeighborsClassifier
-        from ..parameters import cls_knn_params as kp
+        from ..hyperparameters import cls_knn_params as kp
 
         self.parameters  = kp
         model = KNeighborsClassifier()
@@ -112,7 +112,7 @@ class classifiers(object):
     
     def SVM(self,X_train,y_train,X_valid,y_valid):
         from sklearn.svm import SVC
-        from ..parameters import cls_svm_params as sp
+        from ..hyperparameters import cls_svm_params as sp
         
         self.parameters = sp
         model = SVC()
@@ -121,7 +121,7 @@ class classifiers(object):
 
     def random_forest(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import RandomForestClassifier
-        from ..parameters import cls_random_forest_params as rfp
+        from ..hyperparameters import cls_random_forest_params as rfp
         
         self.parameters = rfp
         model = RandomForestClassifier()   
@@ -130,7 +130,7 @@ class classifiers(object):
 
     def MLP(self,X_train,y_train,X_valid,y_valid):
         from sklearn.neural_network import MLPClassifier
-        from ..parameters import cls_mlp_params as mlpp
+        from ..hyperparameters import cls_mlp_params as mlpp
 
         self.parameters = mlpp
         model = MLPClassifier()
@@ -139,7 +139,7 @@ class classifiers(object):
 
     def decision_tree(self,X_train,y_train,X_valid,y_valid):
         from sklearn.tree import DecisionTreeClassifier
-        from ..parameters import cls_decision_tree as dtp
+        from ..hyperparameters import cls_decision_tree as dtp
 
         self.parameters = dtp
         model = DecisionTreeClassifier()
@@ -148,7 +148,7 @@ class classifiers(object):
 
     def gradient_boosting(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import GradientBoostingClassifier as GBC
-        from ..parameters import cls_gradient_boosting as gbp
+        from ..hyperparameters import cls_gradient_boosting as gbp
         
         self.parameters = gbp
         model = GBC()
