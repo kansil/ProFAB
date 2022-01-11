@@ -15,8 +15,7 @@ The detailed explantion is in [feature_extraction](../feature_extraction_module)
 
 #### Usage
 
-```
-python
+```{python}
 from profab.model_preprocess import extract_protein_feature
 feature_extracter.extract_protein_feature(protein_feature,
                                           place_protein_id,
@@ -25,8 +24,7 @@ feature_extracter.extract_protein_feature(protein_feature,
 ```
 
 A use case:
-```
-python
+```{python}
 from profab.model_preprocess import extract_protein_feature
 feature_extracter.extract_protein_feature('edp', 1, 
                                           'profab/feature_extraction_module/input_folder', 
@@ -45,15 +43,13 @@ Splitting module is a python based tool that splits datasets into train, test an
 
 #### Usage
 
-```
-python
+```{python}
 from profab.model_preprocess import ttv_split
 X_train,X_test,X_validation,y_train,y_test,y_validation = ttv_split(X, y, ratio)
 ```
 
 A use case:
-```
-python
+```{python}
 from profab.model_preprocess import ttv_split
 X_train,X_test,X_validation,y_train,y_test,y_validation = ttv_split(X, y, ratio = [0.1,0.2])
 ```
@@ -75,15 +71,13 @@ This module is to scale the data to new ranges to eleminate the biases and weigt
 
 #### Usage
 
-```
-python
+```{python}
 from profab.model_preprocess import scale_methods
 X_train,scaler = scale_methods(X_train,scale_type)
 ```
 
 A use case:
-```
-python
+```{python}
 from profab.model_preprocess import scale_methods
 X_train,scaler = scale_methods(X_train,scale_type = "standard")
 X_test = scaler.transform(X_test)
