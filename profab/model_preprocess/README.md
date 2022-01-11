@@ -11,7 +11,7 @@ The available protein descriptors and their abbreviations are indicated in the t
 
 Please, follow the steps below to run feature extraction module in the terminal (Linux/MAC).
 The following code assumes that you work in the main directory of ProFAB.
-The detailed explantion is in [feature_extraction](profab/feature_extraction_module)
+The detailed explantion is in [feature_extraction](../feature_extraction_module)
 
 #### Usage
 
