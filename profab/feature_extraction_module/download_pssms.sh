@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -f swissprot_pssms.zip ]; then
+if [ -f profab/feature_extraction_module/swissprot_pssms.zip ]; then
 	echo "Aldready downloaded!"
 else
 	echo "Downloading..."
