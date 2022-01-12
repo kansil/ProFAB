@@ -33,7 +33,8 @@ feature_extracter.extract_protein_feature('edp', 1,
 
 ### Splitting Module
 
-Splitting module is a python based tool that splits datasets into train, test and validation randomly. By defining fraction(s) of sets, it can be used.
+Splitting module is a python based tool that splits datasets into train, test and validation randomly. By defining fraction(s) of sets, it can be used. If there are
+positive and negative sets, they can be directly fed into to splitting function.
 
 #### Explanation of Parameters 
 
