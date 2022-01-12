@@ -15,11 +15,16 @@ The parameters:
 
 ## Importing self datasets
 
-ProFAB allows users to implement their datasets to train in ProFAB learning modules. To achive that data format should include names of proteins and columns must be tab-separated. An example format:
+ProFAB allows users to implement their datasets to train in ProFAB learning modules thanks to function SelfGet(). 
 
-```
-ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
-ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
-ProteinID\tfeature_1\tfeature_2\tfeature_3\t...\tfeature_n
-```
+The parameters:
+
+- **delimiter**: default = "\t", a character to separate columns in file.
+- **name**: type = bool, default = False, If True, then first colmun
+    is considered as name of inputs else the first column is a 
+    feature column.
+- **label**: type = bool, default = False, If True, then last colmun
+    is considered as name of inputs else the last column is a 
+    feature column. 
+
 After importing datasets, preprocessing and training can be done by following introductions in [model_preprocess](../model_preprocess) nad [model_learn](../model_learn).
