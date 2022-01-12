@@ -1,6 +1,6 @@
 ## Description
 
-Model learn includes machine learning algprithms based on regression and classification and ProFAB provides tuning hyperparameters with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](../hyperparameters.py). These hyperparameters can be redefined to increase performance of models.
+Model learn includes machine learning algprithms based on regression and classification and ProFAB provides tuning hyperparameters with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](hyperparameters.py). These hyperparameters can be redefined to increase performance of models.
 
 ## Methods
 
