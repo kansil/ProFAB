@@ -37,8 +37,14 @@ Splitting module is a python based tool that splits datasets into train, test an
 
 #### Explanation of Parameters 
 
--**X**: Feature matrix that holds information of data
--**y**: Label matrix 
+- **X**: default = None, feature matrix. If X_pos and X_neg are not None,
+        it has to stay None.
+- **y:** default = None, label Matrix. If X_pos and X_neg are not None,
+        it has to stay None. If X is defined, it cannot stay None.
+- **X_pos**: default = None, positive set feature matrix. If X is defined,
+        it has to stay None
+- **X_neg**: default = None, negative set feature matrix. If X is defined,
+        it has to stay None.
 - **ratio**: type = {float,list}, (default = 0.2), is used to split the data according given value(s). If ratio = a (float), then test will be a% of total data size. If ratio = [a,b] where a and b are in (0,1), train, test and validation sets are formed according to them. If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 and validation fraction is 0.1 of all dataset size. 
 
 #### Usage
