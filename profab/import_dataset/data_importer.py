@@ -5,11 +5,10 @@ Created on Tue Mar  9 01:00:05 2021
 @author: Sameitos
 """
 
-import os,sys
+import os, sys, re
 import random
 from zipfile import ZipFile
-from ..utils import separator, _rgr_data_import, _classif_data_import
-
+from ..utils import separator,  self_data, _rgr_data_import, _classif_data_import
 
 class rgs_data_loader():
     
@@ -211,3 +210,29 @@ class cls_data_loader():
                     raise AttributeError(
                         'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')
                     
+
+class casual_importer():
+    
+    def __init__(self,delimiter, name, label):
+        
+        self.delimiter = delimiter
+        self.name = name
+        self.label = label
+        
+    def get_data(self,file_name):
+        
+        """
+        Parameters:
+            file_name = Name of file holds data. 
+                        Format must be specified.
+        """
+        
+        return self_data(file_name = file_name,
+                         delimiter = self.delimiter,
+                         name = self.name,
+                         label = self.label)
+    
+        
+        
+        
+        
