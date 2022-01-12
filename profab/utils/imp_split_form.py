@@ -113,6 +113,34 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
         
     return pX,py,nX,ny,X,y
 
+def self_data(file_name, delimiter, label, name):
+        
+    data = []
+    with open(file_name, 'r') as f:
+            
+        if label:
+            y = []
+            for row in f:
+                row = re.split(delimiter,row.strip())
+                if name:
+                    data.append(row[1:-1])
+                    y.append(row[-1])
+
+                else:
+                    data.append(row[:-1])
+                    y.append(row[-1])
+            return data,y
+        else:
+            for row in f:
+                row = re.split(delimiter,row.strip())
+                
+                if name:
+                        data.append(row[1:])
+                else:
+                    data.append(row)
+            return data
+
+
 def _classif_form_table(scores, score_path = 'score_path.csv'):
     
     if type(scores) is not dict:
