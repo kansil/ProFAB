@@ -14,7 +14,7 @@ As seen from the figure, in ProFAB, four main modules [import_dataset](profab/im
 - ***model_learn***: To apply machine learning algorithms
 - ***model_evaluate***: By this, results of models can be seen and even tabularize to improve visual quality.
 
-ProFAB availabilty:\
+ProFAB availability:\
 	Operating System: Platform independent (except Protein Feature Extraction which can be run in LINUX and MAC.)\
 	Programming language: Python: >=3.7\
 	Package Requirements: numpy, scikit-learn, scipy
