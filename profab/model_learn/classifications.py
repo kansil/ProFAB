@@ -18,16 +18,21 @@ class classifiers(object):
 
     
     def __init__(self,path):     
+        
         """
-
         Description: In class,6 different machine learning methods for regression 
                 are introduced. Their hyperparameters are tuned by
                 RandomizedSearchCV and all methods return only their hyperparameters 
                 that give the best accoring to cvthat is created by RepeatedStraitKFold.
     
         Parameters:
-            path: A destination point where model is saved.   
+            path: A destination point where model is saved.
+            X_train: Feature matrix
+            y_train: (default = None), Label matrix, type = {list, numpy array}
+            X_valid: (default = None), Validation Set, type = {list,numpy array}
+            y_valid: (default = None), Validation Label, type = {list,numpy array}
         """
+        
         self.path = path
         self.parameters = None
         self.n_jobs = -1
@@ -35,15 +40,8 @@ class classifiers(object):
 
       
     def get_best_model(self, model, X_train, y_train,X_valid, y_valid):
-        """
-        Parameters
-        ----------
-        X_train: Feature matrix, type = {list, numpy array}
-        y_train: (default = None), Label matrix, type = {list, numpy array}
-        X_valid: (default = None), Validation Set, type = {list,numpy array}
-        y_valid: (default = None), Validation Label, type = {list,numpy array}
-        model : model specified in ML algorithms, type = string
-        """
+        
+
 
         if X_valid is None: 
             
@@ -52,7 +50,7 @@ class classifiers(object):
         else:
             
             if y_valid is None:
-                raise ValueError(f'True label data for validation set cannot be None')
+                raise ValueError('True label data for validation set cannot be None')
             
             X_train = list(X_train)
             y_train = list(y_train)
@@ -85,7 +83,7 @@ class classifiers(object):
 
     def logistic_regression(self,X_train,y_train,X_valid,y_valid):    
         from sklearn.linear_model import LogisticRegression
-        from ..hyperparameters import cls_logistic_regression_params as lrp
+        from .hyperparameters import cls_logistic_regression_params as lrp
 
         self.parameters = lrp
         model = LogisticRegression()
@@ -94,7 +92,7 @@ class classifiers(object):
 
     def ridge_class(self,X_train,y_train,X_valid,y_valid):
         from sklearn.linear_model import RidgeClassifier
-        from ..hyperparameters import cls_ridge_class_params as rcp
+        from .hyperparameters import cls_ridge_class_params as rcp
 
         self.parameters = rcp
         model = RidgeClassifier()
@@ -103,7 +101,7 @@ class classifiers(object):
         
     def KNN(self,X_train,y_train,X_valid,y_valid):
         from sklearn.neighbors import KNeighborsClassifier
-        from ..hyperparameters import cls_knn_params as kp
+        from .hyperparameters import cls_knn_params as kp
 
         self.parameters  = kp
         model = KNeighborsClassifier()
@@ -112,7 +110,7 @@ class classifiers(object):
     
     def SVM(self,X_train,y_train,X_valid,y_valid):
         from sklearn.svm import SVC
-        from ..hyperparameters import cls_svm_params as sp
+        from .hyperparameters import cls_svm_params as sp
         
         self.parameters = sp
         model = SVC()
@@ -121,7 +119,7 @@ class classifiers(object):
 
     def random_forest(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import RandomForestClassifier
-        from ..hyperparameters import cls_random_forest_params as rfp
+        from .hyperparameters import cls_random_forest_params as rfp
         
         self.parameters = rfp
         model = RandomForestClassifier()   
@@ -130,7 +128,7 @@ class classifiers(object):
 
     def MLP(self,X_train,y_train,X_valid,y_valid):
         from sklearn.neural_network import MLPClassifier
-        from ..hyperparameters import cls_mlp_params as mlpp
+        from .hyperparameters import cls_mlp_params as mlpp
 
         self.parameters = mlpp
         model = MLPClassifier()
@@ -139,7 +137,7 @@ class classifiers(object):
 
     def decision_tree(self,X_train,y_train,X_valid,y_valid):
         from sklearn.tree import DecisionTreeClassifier
-        from ..hyperparameters import cls_decision_tree as dtp
+        from .hyperparameters import cls_decision_tree as dtp
 
         self.parameters = dtp
         model = DecisionTreeClassifier()
@@ -148,7 +146,7 @@ class classifiers(object):
 
     def gradient_boosting(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import GradientBoostingClassifier as GBC
-        from ..hyperparameters import cls_gradient_boosting as gbp
+        from .hyperparameters import cls_gradient_boosting as gbp
         
         self.parameters = gbp
         model = GBC()
@@ -174,7 +172,9 @@ def classification_methods(X_train,ml_type = 'SVM', y_train = None,
         Selecting classification method and apply it to the data to train
     
     Parameters:
-        ml_type: Type of machine learning algorithm.
+        ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
+                'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
+                Type of machine learning algorithm.
     """
     if not set(y_train) == {1,-1} or set(y_train) == {1,0}:
     	raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')

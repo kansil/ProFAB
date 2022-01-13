@@ -18,17 +18,21 @@ class regressors(object):
 
 
     def __init__(self,path):
-        """
-
-        Description: 
-            In class,6 different machine learning methods for regression 
-            are introduced. Their hyperparameters are tuned by
-            RandomizedSearchCV and all methods return only their hyperparameters 
-            that give the best accoring to cvthat is created by RepeatedKFold
         
-        Parameters: 
-	        path: where outcome of training is saved
         """
+        Description: In class,6 different machine learning methods for regression 
+                are introduced. Their hyperparameters are tuned by
+                RandomizedSearchCV and all methods return only their hyperparameters 
+                that give the best accoring to cvthat is created by RepeatedStraitKFold.
+    
+        Parameters:
+            path: A destination point where model is saved. 
+            X_train: Feature matrix
+            y_train: (default = None), Label matrix, type = {list, numpy array}
+            X_valid: (default = None), Validation Set, type = {list,numpy array}
+            y_valid: (default = None), Validation Label, type = {list,numpy array}
+        """
+        
         self.path = path
         self.parameters = None
         self.n_jobs = -1
@@ -36,14 +40,6 @@ class regressors(object):
       
     
     def get_best_model(self, model, X_train, y_train,X_valid, y_valid):
-        """
-        Parameters
-            X_train: Feature matrix, type = {list, numpy array}
-            y_train: (default = None), Label matrix, type = {list, numpy array}
-            X_valid: (default = None), Validation Set, type = {list,numpy array}
-            y_valid: (default = None), Validation Label, type = {list,numpy array}
-            model : model specified in ML algorithms, type = string
-        """
 
         if X_valid is None: 
             
@@ -86,7 +82,7 @@ class regressors(object):
     def linear_regression(self,X_train,y_train,X_valid,y_valid):
 
         from sklearn.linear_model import LinearRegression
-        from ..hyperparameters import rgr_linear_regression_params as lrp
+        from .hyperparameters import rgr_linear_regression_params as lrp
         
         self.parameters = lrp
         model = LinearRegression()
@@ -94,7 +90,7 @@ class regressors(object):
 
     def SVM(self,X_train,y_train,X_valid,y_valid):
         from sklearn.svm import SVR
-        from ..hyperparameters import rgr_svm_params as svmp
+        from .hyperparameters import rgr_svm_params as svmp
         
         self.parameters = svmp
         model = SVR()
@@ -103,7 +99,7 @@ class regressors(object):
         
     def random_forest(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import RandomForestRegressor
-        from ..hyperparameters import rgr_random_forest_params as rfp
+        from .hyperparameters import rgr_random_forest_params as rfp
         
         self.parameters = rfp
         model = RandomForestRegressor()   
@@ -112,7 +108,7 @@ class regressors(object):
     def MLP(self,X_train,y_train,X_valid,y_valid):
         
         from sklearn.neural_network import MLPRegressor
-        from ..hyperparameters import rgr_mlp_params as mlpp
+        from .hyperparameters import rgr_mlp_params as mlpp
         
         self.parameters = mlpp
         model = MLPRegressor()
@@ -120,7 +116,7 @@ class regressors(object):
     
     def decision_tree(self,X_train,y_train,X_valid,y_valid):
         from sklearn.tree import DecisionTreeRegressor
-        from ..hyperparameters import rgr_decision_tree_params as dtp
+        from .hyperparameters import rgr_decision_tree_params as dtp
         
         self.parameters = dtp
         model = DecisionTreeRegressor()
@@ -128,7 +124,7 @@ class regressors(object):
 
     def gradient_boosting(self,X_train,y_train,X_valid,y_valid):
         from sklearn.ensemble import GradientBoostingRegressor as GBR
-        from ..hyperparameters import rgr_gradient_boosting_params as gbp
+        from .hyperparameters import rgr_gradient_boosting_params as gbp
 
         self.parameters = gbp
         model = GBR()
@@ -142,18 +138,21 @@ def regression_methods(X_train,ml_type = "SVM", y_train = None ,X_valid = None,y
         Selecting classification method and apply it to the data to train
     
     Parameters:
-        ml_type: Type of machine learning algorithm.
+        ml_type: {'linear_reg','SVM','random_forest','MLP',
+                'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
+                Type of machine learning algorithm.
     """
+    
     if set(y_train) == {1,-1} or set(y_train) == {1,0}:
-        raise ValueError(f'Data must be continous not binary')
+        raise ValueError('Data must be continous not binary')
 
     r = regressors(path)
     
     machine_methods = {
-                        'linear_regression':linear_regression,
+                        'linear_reg':r.linear_regression,
                         'SVM':r.SVM,
                         'random_forest':r.random_forest,
-                        'DeepNN':r.MLP,
+                        'MLP':r.MLP,
                         'decision_tree':r.decision_tree,
                         'gradient_boosting':r.gradient_boosting
                     }   
