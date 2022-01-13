@@ -24,7 +24,9 @@ Binary classification is main task of ProFAB which is used to classify proteins 
 -**X_valid**: default = None, feature matrix validation set
 -**y_train**: default = None, label matrix, train set
 -**y_valid**: default = None, label matrix validation set
--**ml_type**: default = "SVM", type of machine learning algorithm
+-**ml_type**: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
+                'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
+                Type of machine learning algorithm.
 -**path**: default = None, A destination point where model is saved
 
 #### Usage
@@ -35,7 +37,8 @@ model = classification_methods(ml_type,
                                 X_train,
                                 y_train,
                                 X_valid,
-                                y_valid)
+                                y_valid,
+                                path)
 ```
 
 A use case:
@@ -62,10 +65,14 @@ Regression was prepared to estimate continous outputs. In ProFAB, no such data i
 -**X_valid**: default = None, feature matrix validation set
 -**y_train**: default = None, label matrix, train set
 -**y_valid**: default = None, label matrix validation set
--**ml_type**: default = "SVM", type of machine learning algorithm
+-**ml_type**: {'linear_reg','SVM','random_forest','MLP',
+                'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
+                Type of machine learning algorithm.
 -**path**: default = None, A destination point where model is saved
 
 #### Usage
+
+Function usage is the same with "classification_methods".
 
 ```{python}
 from profab.model_learn import regression_methods
@@ -73,5 +80,6 @@ model = regression_methods(ml_type,
                                 X_train,
                                 y_train,
                                 X_valid,
-                                y_valid)
+                                y_valid,
+                                path)
 ```
