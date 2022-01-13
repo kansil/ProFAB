@@ -50,7 +50,7 @@ After importing, with a single line data can be imported as a python list:
 from profab.import_dataset import SelfGet
 data = SelfGet(delimiter, name, label).get_data(file_name)
 ```
-
+- **file_name**: It is name of file. The directory must be specified, too.
 A use case:
 ```{python}
 from profab.import_dataset import SelfGet
