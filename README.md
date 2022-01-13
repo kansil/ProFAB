@@ -4,7 +4,7 @@ This platform is generated to provide datasets amd shallow machine learning algo
 
 ![ProFAB Main Functions and Their Tasks](https://user-images.githubusercontent.com/37181660/149328976-fb7c81d0-9ba5-4ec3-a23e-1daa754c5e81.png)
 
-As seen from the figure, in ProFAB, four main modules [import_datasets](profab/import_dataset), [model_preprocess](profab/model_preprocess), 
+As seen from the figure, in ProFAB, four main modules [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), 
 [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) are employed.
 - ***import_dataset***: This module is to load dataset from the files. Users can use ProFAB datasets or can load their data with related functions.
 - ***model_preprocess***: To feed the data to learning algorithms, this module provides there pre-works:
@@ -43,7 +43,7 @@ It can be run in terminal with this line:
 python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv
 ```
 
-ProFAB does many jobs at the same time, therefore, reading the introductions and following the use cases given in sections are highly recommended. Detailed explanations can be found in each module: [import_datasets](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
+ProFAB does many jobs at the same time, therefore, reading the introductions and following the use cases given in sections are highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
 
 
 
