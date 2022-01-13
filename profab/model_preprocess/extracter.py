@@ -5,8 +5,8 @@ Created on Tue Jan 11 18:25:15 2022
 @author: Sameitos
 """
 
-from ..utils.feature_extraction_module import feature_extracter
-from ..utils.feature_extraction_module.utils import bcolors
+from ..utils import feature_extracter
+from ..utils import bcolors
 
 def extract_protein_feature(protein_feature,
                           place_protein_id,
