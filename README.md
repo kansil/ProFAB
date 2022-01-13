@@ -7,7 +7,7 @@ This platform is generated to provide datasets amd shallow machine learning algo
 As seen from the figure, in ProFAB, four main modules [import_datasets](profab/import_dataset), [model_preprocess](profab/model_preprocess), 
 [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) are employed.
 	- ***import_dataset***: This module is to load dataset from the files. Users can use ProFAB datasets or can load their data with related functions.
-	- ***model_preprocess***: To feed the data to learning algorithms, this module provides there pre-works:
+	- ***model_preprocess***: To feed the data to learning algorithms, this module provides there pre-works:\
 		- featurization of protein sequence data\
 		- random splitting\
 		- and scaling
