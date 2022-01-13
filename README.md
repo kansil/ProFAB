@@ -10,9 +10,9 @@ As seen from the figure, in ProFAB, four main modules [import_dataset](profab/im
 - ***model_preprocess***: To feed the data to learning algorithms, this module provides there pre-works:
 	- featurization of protein sequence data
 	- random splitting
-	- and scaling
+	- scaling
 - ***model_learn***: To apply machine learning algorithms
-- ***model_evaluate***: By implement this, results of models can be seen and even tabularize to improve visual quality.
+- ***model_evaluate***: By this, results of models can be seen and even tabularize to improve visual quality.
 
 ProFAB availabilty:\
 	Operating System: Platform independent (except Protein Feature Extraction which can be run in LINUX and MAC.)\
