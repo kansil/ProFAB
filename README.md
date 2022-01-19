@@ -2,7 +2,7 @@
 
 This platform is generated to provide datasets amd shallow machine learning algorithms such as SVM, random forest etc. for protein function prediction. Its learning method is supervised and to present complete set of machine learning study preprocessing and evaluation steps are added, too. ProFAB's main purpose is for protein based studies but its functions can be used separately for different reasons. To illustrate, one can use only to import and splitting data while another one can use only machine learning algorithms thank to its flexible structure.
 
-![ProFAB Main Functions and Their Tasks](https://user-images.githubusercontent.com/37181660/149328976-fb7c81d0-9ba5-4ec3-a23e-1daa754c5e81.png)
+![mainFigNew](https://user-images.githubusercontent.com/37181660/150197153-9ce060d5-f0f5-4e9b-bcb5-2044173138da.png)
 
 As seen from the figure, in ProFAB, four main modules [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), 
 [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) are employed.
