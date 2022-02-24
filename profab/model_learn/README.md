@@ -2,6 +2,7 @@
 
 Model learn includes machine learning algprithms based on regression and classification and ProFAB provides tuning hyperparameters with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](hyperparameters.py). These hyperparameters can be redefined to increase performance of models.
 
+
 ## Methods
 
 ### Binary Classifications
@@ -20,14 +21,14 @@ Binary classification is main task of ProFAB which is used to classify proteins 
 
 #### Explanation of Parameters
 
--**X_train**: type = {list, numpy array} feature matrix, train set
--**X_valid**: default = None, feature matrix validation set
--**y_train**: default = None, label matrix, train set
--**y_valid**: default = None, label matrix validation set
--**ml_type**: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
+- **X_train**: type = {list, numpy array} feature matrix, train set
+- **X_valid**: default = None, feature matrix validation set
+- **y_train**: default = None, label matrix, train set
+- **y_valid**: default = None, label matrix validation set
+- **ml_type**: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
--**path**: default = None, A destination point where model is saved
+- **path**: default = None, A destination point where model is saved
 
 #### Usage
 
@@ -61,14 +62,14 @@ Regression was prepared to estimate continous outputs. In ProFAB, no such data i
 
 #### Explanation of Parameters
 
--**X_train**: type = {list, numpy array} feature matrix, train set
--**X_valid**: default = None, feature matrix validation set
--**y_train**: default = None, label matrix, train set
--**y_valid**: default = None, label matrix validation set
--**ml_type**: {'linear_reg','SVM','random_forest','MLP',
+- **X_train**: type = {list, numpy array} feature matrix, train set
+- **X_valid**: default = None, feature matrix validation set
+- **y_train**: default = None, label matrix, train set
+- **y_valid**: default = None, label matrix validation set
+- **ml_type**: {'linear_reg','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
--**path**: default = None, A destination point where model is saved
+- **path**: default = None, A destination point where model is saved
 
 #### Usage
 
@@ -83,3 +84,4 @@ model = regression_methods(ml_type,
                                 y_valid,
                                 path)
 ```
+
