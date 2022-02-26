@@ -6,7 +6,7 @@ In this project, we tried to present the datasets to user in almost every way. B
 ### Explanation of parameters
 
 - **set_type**: {'random','similarity', 'temporal'}, (default = 'random'), is used to select the dataset spread. 'random' means data spread is random while 'similarity' means data points are separated according to their similarity then data is splitted randomly in importing. 'temporal' splitting is based on annotation time of inputs and no extra splitting is not done.
-- **ratio**: {None,float,list}, (default = 0.2), is used to split the data according given value(s). If left None, only X and y data can be obtained while float value gives train and test set. If ratio = [a,b] where a and b are in (0,1), train, test and validation sets can be obtained. If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 and validation fraction is 0.1 of all dataset size. 
+- **ratio**: {None,float,list}, (default = 0.2), is used to split the data according given value(s). If left None, only X and y data can be obtained while float value gives train and test set. If ratio = [a,b] where a and b are in (0,1), train, test and validation sets can be obtained. If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 and validation fraction is 0.1 of all dataset size. If set_type = 'temporal', then ratio = None automatically.
 - **protein_feature**: {'paac','aac','gaac', 'ctdt','socnumber', 'ctriad', 'kpssm'}, (default = 'paac'), indicates numerical feature of proteins obtained from sequence data.
 - **label**: {None,'positive','negative'}, (default = None), user can get positive or negative sets of whole dataset by defining this parameter. If not None, only feature matrix will be returned.
 - **pre_determined**: {False,True}, (default = False), indicate how data will be get. We upload our dataset as train and test set. So user can get them without randomly foming the test and train sets from the whole data. 
@@ -40,7 +40,7 @@ ProFAB allows users to implement their datasets to train in ProFAB learning modu
     is considered as name of inputs else the first column is a 
     feature column.
 - **label**: type = bool, default = False, If True, then last colmun
-    is considered as name of inputs else the last column is a 
+    is considered as label of inputs else the last column is a 
     feature column. 
 
 ### How to use
@@ -50,7 +50,7 @@ After importing, with a single line data can be imported as a python list:
 from profab.import_dataset import SelfGet
 data = SelfGet(delimiter, name, label).get_data(file_name)
 ```
-- **file_name**: It is name of file. The directory must be specified, too.
+
 A use case:
 ```{python}
 from profab.import_dataset import SelfGet

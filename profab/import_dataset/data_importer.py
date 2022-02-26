@@ -62,31 +62,71 @@ class rgs_data_loader():
 class cls_data_loader():
     
     def __init__(self,ratio,protein_feature,main_set,set_type,label,pre_determined):
-                
+        
+        """
+            Parameters:
+                main_set: {ec_dataset, go_dataset}, folder includes its corresponding data name
+        """
         self.ratio = ratio
         self.protein_feature = protein_feature
         self.set_type = set_type
         self.label = label
         self.pre_determined = pre_determined
         self.main_set = main_set
+        self.raiser()
+        
+        
+    def raiser(self):
+        
+        """
+            It is to raise the exceptions that can be occured because of false attributes enter.
+        """
+        if self.set_type not in ['random','similarity','temporal']:
+         	raise AttributeError('Please enter correct set_type. Options are: "random, similarity, temporal"')
+        if self.set_type == 'similarity': self.set_type = 'target'
+        if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber', 'kpssm']:
+         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
+        if self.label not in [None,'positive','negative']:
+            raise AttributeError('Please enter correct label. Options are: "None, positive, negative"')
+        
+        if self.pre_determined:
+            if type(self.ratio) not in [None,float]:
+                raise AttributeError(
+                    'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')        
+        elif not self.pre_determined:
+            if type(self.ratio) not in [None,float,list]:
+                raise AttributeError(
+                    'Please enter ratio value in true type. Options: "None, float and list" for pre_determined = False')
+        
         
     def get_data(self,data_name):
         
+        """
+            Take attributes and prepare datasets according to them. If no data is available at local, then is dowloaded
+            
+        """
+        
+        #Check whether given data name and its family are matched
         if self.main_set[:2].lower() != data_name[:2].lower():
             
             raise FileNotFoundError(f'Please enter a correct data name: {data_name} not found in {self.main_set[:2].upper()} sets')
         
         pPath = os.path.split(os.path.realpath(__file__))[0]
         
+        #Check wheter there is a folder named main set
         if os.path.exists(pPath + '/' + self.main_set):
             data_folder = pPath + '/' + self.main_set + '/' + data_name + '.zip'
             
             file_path =  data_name
-            
+        
+        #Check if zip file is available of given data name
         elif os.path.isfile(pPath + '/' + data_name + '.zip'):
                 
             data_folder = pPath + '/' + data_name + '.zip'
             file_path = data_name
+            
+        #If no given data name, then data is downloaded from the server to folder of main set.
+        #This condition also looks for if data is available in server.
         else:
             print(f'No dataset for {data_name} is available. Downloading from server ...')
             
@@ -94,23 +134,16 @@ class cls_data_loader():
             file_path = data_name
             pass
             
-        if self.set_type not in ['random','similarity','temporal']:
-         	raise AttributeError('Please enter correct set_type. Options are: "random, similarity, temporal"')
-        if self.set_type == 'similarity': self.set_type = 'target'
-        if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber', 'kpssm']:
-         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
-        
+        #Rest is checking wheter files are optional and preparing datasets
         if not self.pre_determined:
 
             pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
-            
-            if pos_file not in ZipFile(data_folder).namelist():
-                raise Exception(f'Specified set type "{self.set_type}" type is not available for {data_name}')
-                
             neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
             if pos_file not in ZipFile(data_folder).namelist() or neg_file not in ZipFile(data_folder).namelist():
-                raise Exception(f'Specified set type "{self.set_type}" type is not available for {data_name}')
+                raise Exception(
+                    f'!!Under maintenance!! Specified set type "{self.set_type}" or protein feature type '
+                    f'"{self.protein_feature}" type is not available for {data_name}.')
 
             pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_folder, pos_file = 
                                                pos_file, neg_file = neg_file, label = self.label)
@@ -137,11 +170,12 @@ class cls_data_loader():
         else:
         
             pos_file = file_path + '/' + self.set_type + '_positive_' + self.protein_feature + '.txt'
-            
-            if pos_file not in ZipFile(data_folder).namelist():
-                raise Exception(f'Specified set type "{self.set_type} type" is not available for {data_name}')
-            
             neg_file = file_path + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
+            
+            if pos_file not in ZipFile(data_folder).namelist() or neg_file not in ZipFile(data_folder).namelist():
+                raise Exception(
+                    f'!!Under maintenance!! Specified set type "{self.set_type}" or protein feature type '
+                    f'"{self.protein_feature}" type is not available for {data_name}.')
 
             train_pos_idx = file_path + '/' + self.set_type + '_positive_train_indices.txt'
             train_neg_idx = file_path + '/' + self.set_type + '_negative_train_indices.txt'
