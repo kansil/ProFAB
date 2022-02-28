@@ -84,10 +84,16 @@ class cls_data_loader():
         if self.set_type not in ['random','similarity','temporal']:
          	raise AttributeError('Please enter correct set_type. Options are: "random, similarity, temporal"')
         if self.set_type == 'similarity': self.set_type = 'target'
+        
+        print(self.protein_feature)
         if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber', 'kpssm']:
          	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
+        if self.protein_feature == 'kpssm': self.protein_feature = 'k_separated_bigrams_pssm'
+        
+        
         if self.label not in [None,'positive','negative']:
             raise AttributeError('Please enter correct label. Options are: "None, positive, negative"')
+        
         
         if self.pre_determined:
             if type(self.ratio) not in [None,float]:
