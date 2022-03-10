@@ -70,7 +70,7 @@ class cls_data_loader():
             raise FileNotFoundError(f'Please enter a correct data name: {data_name} not found in {self.main_set[:2].upper()} sets')
         
         pPath = os.path.split(os.path.realpath(__file__))[0]
-        print(pPath)
+        
         #Check wheter there is a folder named main set
         if os.path.isfile(pPath + '/' + self.main_set + '/' + data_name + '.zip'):
             data_path = pPath + '/' + self.main_set + '/' + data_name + '.zip'
@@ -79,14 +79,12 @@ class cls_data_loader():
         #If no given data name, then data will be downloaded from the server to folder of main set.
         #This condition also looks for if data is available in server.
         else:
-            print(f'No dataset for {data_name} is available in local. Downloading from server ...')
+            print(f'No local dataset for {data_name} is available. Downloading from server ...')
             
             data_server_path = self.server_path + '/' + self.main_set + '/' + data_name + '.zip'
             
             data_path = pPath + '/' + self.main_set + '/' + data_name + '.zip'
             
-            print(data_server_path)
-            print(data_path)
             download_data(data_server_path,data_path)
             
         #Rest is checking wheter files are optional and preparing datasets
