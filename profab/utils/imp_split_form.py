@@ -5,12 +5,26 @@ Created on Tue Mar  9 00:30:06 2021
 @author: Sameitos
 """
 
+import io
 import os
 import re
 import random
+import requests
 import numpy as np
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from zipfile import ZipFile
+
+def download_data(server_path,save_path):
+    
+    response = requests.get(server_path, stream = True)
+    total_byte= int(response.headers.get('content-length', 0)) 
+    progress_bar = tqdm(total=total_byte, unit='iB', unit_scale=True)
+    with open(save_path, 'wb') as file:
+        for data in response.iter_content(chunk_size= 8*1024):
+            progress_bar.update(len(data))
+            file.write(data)
+    progress_bar.close()
 
 def separator(X,y,ratio):
     
