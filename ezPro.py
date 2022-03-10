@@ -7,17 +7,19 @@ Created on Sun Jan  9 16:30:59 2022
 
 import argparse
 import numpy as np
-from profab.model_process import *
+
+from profab.model_learn import *
 from profab.model_evaluate import *
 from profab.import_dataset import *
-
+from profab.model_preprocess import *
 import warnings
 warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='ProFAB in terminal to train GO and EC terms')
 parser.add_argument('--file_name',
                     type = str,
-                    help='File includes dataset names such as GO_0000018, GO_1905523',
+                    help='File includes dataset names such as GO_0000018,'
+                    ' GO_1905523. Each name must be defined in new line.',
                     required=True)
 parser.add_argument('--set_type',
                     type = str,
@@ -119,17 +121,25 @@ def imp_train_result(data_name, **kwargs):
 
 def loop_trough(file_name, **kwargs):
     
-    data_names = np.genfromtxt(file_name,dtype = str)
+    data_names = []
+    with open(file_name) as f:
+        for row in f:
+            if row.strip('\n') != '':
+                data_names.append(row.strip('\n'))
     score_dict = {}
-    print('Action is starting...')
-    for data_name in data_names:
-        print('---------***---------\n')
-        print(f'Dataset: {data_name}')
-        score_dict.update({data_name:imp_train_result(data_name, **kwargs)})
-    
-    print(f'Scores are written to score path: {kwargs["score_path"]}\n\n---------***---------\n\n')
-    multiple_form_table(score_dict, score_path = kwargs['score_path'])
-    
+    if data_names:
+        for data_name in data_names:
+            print('---------***---------\n')
+            print(f'Dataset: {data_name}')
+            score_dict.update({data_name:imp_train_result(data_name, **kwargs)})
+        
+        if score_dict.keys():
+            print(f'Scores are written to score path: {kwargs["score_path"]}\n\n---------***---------\n\n')
+            multiple_form_table(score_dict, score_path = kwargs['score_path'])
+        else:
+            print("Evaluation for given datasets could not be done.")
+    else:
+        raise FileNotFoundError(f'No file name is provided in sample file.')
         
         
 if __name__ == '__main__':
