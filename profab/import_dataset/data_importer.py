@@ -218,7 +218,6 @@ class cls_data_loader():
                 row = re.split('_|/',names)
                 avai_sets.add(row[2])
                 avai_prots.add(row[-1][:-4])
-        print(avai_prots)
         if 'target' in avai_sets:
             avai_sets.remove('target')
             avai_sets.add('similarity')
