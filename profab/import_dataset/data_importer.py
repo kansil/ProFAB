@@ -50,7 +50,8 @@ class cls_data_loader():
         if self.pre_determined:
             if type(self.ratio) not in [None,float]:
                 raise AttributeError(
-                    'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')        
+                    f'Please enter ratio value in true type. Options: "None, float" for pre_determined = True or '
+                    f'set_type = temporal')        
         elif not self.pre_determined:
             if type(self.ratio) not in [None,float,list]:
                 raise AttributeError(
@@ -94,13 +95,7 @@ class cls_data_loader():
             neg_file = data_name + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
             if pos_file not in ZipFile(data_path).namelist() or neg_file not in ZipFile(data_path).namelist():
-                avai_sets, avai_prots = self.look_options(ZipFile(data_path).namelist())
-                if self.protein_feature == 'kpssm': self.protein_feature = 'k_separated_bigrams_pssm'
-                if self.set_type == 'similarity': self.set_type = 'target'
-                raise Exception(
-                    f'!!Under maintenance!! Specified set type "{self.set_type}" or protein feature type '
-                    f'"{self.protein_feature}" type is not available for {data_name}. Available set_type options: '
-                    f'{avai_sets} and available protein_feature options: {avai_prots}')
+                self.look_options(ZipFile(data_path).namelist(), data_name)
 
             pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_path, pos_file = 
                                                pos_file, neg_file = neg_file, label = self.label)
@@ -130,15 +125,11 @@ class cls_data_loader():
             neg_file = data_name + '/' + self.set_type + '_negative_' + self.protein_feature + '.txt'
             
             if pos_file not in ZipFile(data_path).namelist() or neg_file not in ZipFile(data_path).namelist():
-                avai_sets, avai_prots = self.look_options(ZipFile(data_path).namelist())
-                if self.protein_feature == 'k_separated_bigrams_pssm': self.protein_feature = 'kpssm'
-                if self.set_type == 'target': self.set_type = 'similarity'
-                raise Exception(
-                    
-                    f'!!Under maintenance!! Specified set type "{self.set_type}" or protein feature type '
-                    f'"{self.protein_feature}" type is not available for {data_name}. Available set_type options: '
-                    f'{avai_sets} and available protein_feature options: {avai_prots}')
-
+                
+                self.look_options(ZipFile(data_path).namelist(), data_name)
+                
+            
+            
             train_pos_idx = data_name + '/' + self.set_type + '_positive_train_indices.txt'
             train_neg_idx = data_name + '/' + self.set_type + '_negative_train_indices.txt'
 
@@ -206,7 +197,7 @@ class cls_data_loader():
                     raise AttributeError(
                         'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')
                     
-    def look_options(self,name_list):
+    def look_options(self,name_list,data_name):
         """
             Look for options for set_type and protein features found 
             in zip file and return them. It is to learn what is inside
@@ -224,6 +215,31 @@ class cls_data_loader():
         if 'k_separated_bigrams_pssm' in avai_prots:
             avai_prots.remove('k_separated_bigrams_pssm')
             avai_prots.add('kpssm')
+        
+        if self.protein_feature == 'k_separated_bigrams_pssm': self.protein_feature = 'kpssm'
+        if self.set_type == 'target': self.set_type = 'similarity'
+        if self.set_type not in avai_sets:
+            raise Exception(
+                
+                f'!!Under maintenance!! Specified set type "{self.set_type}" is not available for {data_name}. '
+                f'Available set_type options: {avai_sets}')
+        elif self.protein_feature not in avai_prots:
+            raise Exception(
+                
+                f'!!Under maintenance!! Specified protein feature type '
+                f'"{self.protein_feature}" type is not available for {data_name}. '
+                f'Available protein_feature options: {avai_prots}')
+        
+        else:
+            raise Exception(
+                
+                f'!!Under maintenance!! Specified set type "{self.set_type}" and protein feature type '
+                f'"{self.protein_feature}" are not available for {data_name}. '
+                f'Available set_type options: '
+                f'{avai_sets} and available protein_feature options: {avai_prots}')
+        
+        
+        
         return avai_sets, avai_prots
 
 
