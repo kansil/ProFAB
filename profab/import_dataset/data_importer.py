@@ -100,7 +100,7 @@ class cls_data_loader():
                 raise Exception(
                     f'!!Under maintenance!! Specified set type "{self.set_type}" or protein feature type '
                     f'"{self.protein_feature}" type is not available for {data_name}. Available set_type options: '
-                    f'{avai_sets} and available and protein_feature options: {avai_prots}')
+                    f'{avai_sets} and available protein_feature options: {avai_prots}')
 
             pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_path, pos_file = 
                                                pos_file, neg_file = neg_file, label = self.label)
@@ -137,7 +137,7 @@ class cls_data_loader():
                     
                     f'!!Under maintenance!! Specified set type "{self.set_type}" or protein feature type '
                     f'"{self.protein_feature}" type is not available for {data_name}. Available set_type options: '
-                    f'{avai_sets} and available and protein_feature options: {avai_prots}')
+                    f'{avai_sets} and available protein_feature options: {avai_prots}')
 
             train_pos_idx = data_name + '/' + self.set_type + '_positive_train_indices.txt'
             train_neg_idx = data_name + '/' + self.set_type + '_negative_train_indices.txt'
