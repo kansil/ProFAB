@@ -3,7 +3,6 @@ import copy
 from math import sqrt
 from scipy import stats
 from sklearn import preprocessing, metrics
-import rdkit 
 from sklearn.metrics import confusion_matrix
 
 def get_cindex(Y, P):
