@@ -82,7 +82,7 @@ def _rgr_data_import(zip_data,xf,yf,indices_file = None):
 def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,neg_indices = None):
     
     
-    pX,py,nX,ny,X,y = [],[],[],[],[],[]
+    pX,nX,X,y = [],[],[],[]
     
     with ZipFile(zip_data) as f:
         pf =  f.open(pos_file)
@@ -97,7 +97,6 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
 	                rowx = list(np.array(rowx[1:],dtype = 'float64'))
 	                if label == 'positive':
 	                    pX.append(rowx)
-	                    py.append(1)
 	                if label == None:
 	                    X.append(rowx)
 	                    y.append(1)
@@ -107,7 +106,6 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
 	                rowx = list(np.array(rowx[1:],dtype = 'float64'))
 	                if label == 'negative':
 	                    nX.append(rowx)
-	                    ny.append(-1)
 	                if label == None:
 	                    X.append(rowx)
 	                    y.append(-1)
@@ -118,7 +116,7 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
                 rowx = list(np.array(rowx[1:],dtype = 'float64'))
                 if label == 'positive':
                     pX.append(rowx)
-                    py.append(1)
+                    
                 if label == None:
                     X.append(rowx)
                     y.append(1)
@@ -127,14 +125,14 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
                 rowx = list(np.array(rowx[1:],dtype = 'float64'))
                 if label == 'negative':
                     nX.append(rowx)
-                    ny.append(-1)
+                    
                 if label == None:
                     X.append(rowx)
                     y.append(-1)
     pf.close()
     nf.close()
         
-    return pX,py,nX,ny,X,y
+    return pX,nX,X,y
 
 def self_data(file_name, delimiter, label, name):
         
