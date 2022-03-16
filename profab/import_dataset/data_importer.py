@@ -97,14 +97,14 @@ class cls_data_loader():
             if pos_file not in ZipFile(data_path).namelist() or neg_file not in ZipFile(data_path).namelist():
                 self.look_options(ZipFile(data_path).namelist(), data_name)
 
-            pX,py,nX,ny,X,y = _classif_data_import(zip_data = data_path, pos_file = 
+            pX,nX,X,y = _classif_data_import(zip_data = data_path, pos_file = 
                                                pos_file, neg_file = neg_file, label = self.label)
 
 
             if self.label == 'positive':
-                return pX,py
+                return pX
             elif self.label == 'negative':
-                return nX,ny
+                return nX
             
             else:
                 trdn = list(zip(X,y))
@@ -137,30 +137,30 @@ class cls_data_loader():
             test_neg_idx = data_name + '/' + self.set_type + '_negative_test_indices.txt'
                         
 
-            tpX,tpy,tnX,tny,tX,ty = _classif_data_import(zip_data = data_path, pos_file = pos_file,
+            tpX,tnX,tX,ty = _classif_data_import(zip_data = data_path, pos_file = pos_file,
                                                          neg_file = neg_file, pos_indices = train_pos_idx,
                                                          neg_indices = train_neg_idx,
                                                          label = self.label)
-            tepX,tepy,tenX,teny,teX,tey = _classif_data_import(zip_data = data_path, pos_file = pos_file,
+            tepX,tenX,teX,tey = _classif_data_import(zip_data = data_path, pos_file = pos_file,
                                                                neg_file = neg_file,
                                                                pos_indices = test_pos_idx,
                                                                neg_indices = test_neg_idx,
                                                                label = self.label)
                 
 
-            return_pos = [tpX,tepX,tpy,tepy]
-            return_neg = [tnX,tenX,tny,teny]
+            return_pos = [tpX,tepX]
+            return_neg = [tnX,tenX]
             
             if self.set_type == 'temporal':
                 valid_pos_idx = data_name + '/' + self.set_type + '_positive_validation_indices.txt'
                 valid_neg_idx = data_name + '/' + self.set_type + '_negative_validation_indices.txt'
                 
-                vpX,vpy,vnX,vny,vX,vy = _classif_data_import(zip_data = data_path,pos_file = pos_file, neg_file = neg_file, 
+                vpX,vnX,vX,vy = _classif_data_import(zip_data = data_path,pos_file = pos_file, neg_file = neg_file, 
                     pos_indices = valid_pos_idx,neg_indices = valid_neg_idx,
                     label = self.label)            
                 
-                return_pos.extend([vpX,vpy])
-                return_neg.extend([vnX,vny])
+                return_pos.extend([vpX])
+                return_neg.extend([vnX])
 
             
             if self.label == 'positive':
