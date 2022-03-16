@@ -1,7 +1,7 @@
 # Import Dataset
 
 ## Importing from our database
-In this project, we tried to present the datasets to user in almost every way. By defining different combinations of parameters, different outputs can be obtained.
+In ProFAB, we tried to provide the datasets to user in almost every way. By defining different combinations of parameters, different outputs can be obtained.
 
 ### Explanation of parameters
 
