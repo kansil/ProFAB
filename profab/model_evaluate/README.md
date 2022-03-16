@@ -1,6 +1,6 @@
 ## Description
 
-Model_evaluate module is to predict test labels, calculating scores of models performance and tabularizing them. For regression and classification different scoring metrics are presented to observe performance in many aspects.
+Model_evaluate module is to predict test labels, calculating scores of model performance and tabularizing them. For regression and classification different scoring metrics are presented to observe performance in many aspects.
 
 ### Evaluation
 
