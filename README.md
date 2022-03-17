@@ -26,7 +26,7 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 
 ## How to implement modules:
 
-The way to implement the functions in pythonic way is given in [test_file](test_file.ipynb).
+The way to implement the functions in pythonic way is given in [test_file_1](use_case/test_file_1.ipynb) and [test_file_2](use_case/test_file_2.ipynb).
 
 If one run the program in terminal, then exPro.py can be used. This method accepts multiple inputs however doesn't accept users datasets. Its parameters are:
 - **file_name**: File includes dataset names such as GO_0000018, GO_1905523. Each name must be defined in new line.
