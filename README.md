@@ -35,8 +35,9 @@ If one run the program in terminal, then exPro.py can be used. This method accep
 - **protein_feature**: {'aac','paac','gaac','ctriad','ctdt','socnumber','kpssm'}, default = 'paac', Numerical feature of protein sequence.
 - **ratio**: type: {list, int, none}, default = 0.2, Ratio of between validation and test sets to train set.
 - **pre_determined**: type: bool, default = False, If True, data will be given splitted train test sets else splliting will be done.
-- **scale_type**: default = 'standard', Scaling of data to prevent biases.
-- **ml_type**: default = 'logistic_reg', Machine learning algorithms will be used in prediction.
+- **scale_type**: {'normalizer','standard','max_abs','min_max','robust'}, default = 'standard, determines the method to scale the data
+- **ml_type**: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP','naive_bayes', decision_tree',gradient_boosting'}, default = "logistic_reg",
+                Type of machine learning algorithm.
 
 It can be run in terminal with this line:
 ```
