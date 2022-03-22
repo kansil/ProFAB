@@ -77,7 +77,7 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                     directory_to_file/postive_data.txt
                     directory_to_file/negative_data.txt
 
-                If **label** = True:
+     If **label** = True:
 
                     directory_to_file/data.txt
 
