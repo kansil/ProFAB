@@ -4,6 +4,7 @@ Created on Mon January 3 00:03:05 2022
 @author: Gokhan Ozsari
 """
 
+import re
 from .utils import *
 import warnings
 import pathlib, stat, subprocess
@@ -140,15 +141,19 @@ class feature_extracter(object):
                                                           temp_output_file,
                                                           prot_feat,
                                                           path_to_folder))
-            if not os.path.isdir("feature_extraction_output"):
-            	os.mkdir("feature_extraction_output")
-
-            output_file = "feature_extraction_output/{}_{}.txt".format(
+            
+            
+            ip = re.split('/',self.input_folder)[-1]
+            if not os.path.isdir("feature_extraction_output/" + ip):
+            	os.mkdir("feature_extraction_output/" + ip)
+            
+            output_file = "feature_extraction_output/" + ip + "/{}_{}.txt".format(
                                                               self.fasta_file_name,
                                                               prot_feat)
 
             edit_extracted_features_POSSUM(temp_output_file, output_file, fasta_dict)
 
+            return output_file
     def extract_iFeature_feature(self):
 
         list_desc = [self.protein_feature]
@@ -169,11 +174,15 @@ class feature_extracter(object):
                                          prot_feat,
                                          temp_output_file))
 
-            if not os.path.isdir("feature_extraction_output"):
-            	os.mkdir("feature_extraction_output")
-            output_file = "feature_extraction_output/{}_{}.txt".format(
+            ip = re.split('/',self.input_folder)[-1]
+            if not os.path.isdir("feature_extraction_output/" + ip):
+            	os.mkdir("feature_extraction_output/" + ip)
+            
+            output_file = "feature_extraction_output/" + ip + "/{}_{}.txt".format(
                                                               self.fasta_file_name,
                                                               prot_feat)
 
 
             edit_extracted_features_iFeature(temp_output_file, output_file, self.place_protein_id)
+
+            return output_file
