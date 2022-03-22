@@ -97,11 +97,11 @@ of model to *my_score_path.csv*:
 ```{python}
 python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM --protein_feature ctriad
 ```
-where *isFasta* = True, use k-nearest neighbor as training algorithm and ratio of test set over train set is 0.3:
+where *isFasta* = False, use k-nearest neighbor as training algorithm and ratio of test set over train set is 0.3:
 ```{python}
 python ezPro.py --file_name sample_inputs_userTrue.txt --ml_type KNN --ratio 0.3
 ```
-where *isFasta* = False, use random forest as training algorithm:
+where *isFasta* = True, use random forest as training algorithm:
 ```{python}
 python ezPro.py --file_name sample_inputs_fastaTrue.txt --ml_type random_forest
 ```
