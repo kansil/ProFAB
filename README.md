@@ -62,7 +62,7 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                 names of files should describe label. As an example, content of input file "sample_inputs.txt"
                 should be like that:
 
-                    directory_to_file/postive_data.fasta
+                    directory_to_file/positive_data.fasta
                     directory_to_file/negative_data.fasta
 
 - **place_protein_id**:type = int, default = 1, It indicates the place of protein id in fasta header.
@@ -74,7 +74,7 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                 will be used if data names are introduced correctly. If **label** = False, names of files should
                 describe label. As an example, content of input file "sample_inputs.txt" should be like that:
 		
-                    directory_to_file/postive_data.txt
+                    directory_to_file/positive_data.txt
                     directory_to_file/negative_data.txt
      If **label** = True:
      
