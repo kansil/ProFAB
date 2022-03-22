@@ -29,15 +29,65 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 The way to implement the functions in pythonic way is given in [test_file_1](use_case/test_file_1.ipynb) and [test_file_2](use_case/test_file_2.ipynb).
 
 If one run the program in terminal, then exPro.py can be used. This method accepts multiple inputs however doesn't accept users datasets. Its parameters are:
-- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. Each name must be defined in new line.
+
+- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If **isUser** = True or **isFasta** = True, then directory to dataset files must be defined in input file. Each must be defined in new line. 
+
 - **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
-- **set_type**: {'random','similarity','temporal'}, default = 'random', Splitting type of train and test sets.
-- **protein_feature**: {'aac','paac','gaac','ctriad','ctdt','socnumber','kpssm'}, default = 'paac', Numerical feature of protein sequence.
-- **ratio**: type: {list, int, none}, default = 0.2, Ratio of between validation and test sets to train set.
-- **pre_determined**: type: bool, default = False, If True, data will be given splitted train test sets else splliting will be done.
-- **scale_type**: {'normalizer','standard','max_abs','min_max','robust'}, default = 'standard, determines the method to scale the data
-- **ml_type**: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP','naive_bayes', decision_tree',gradient_boosting'}, default = "logistic_reg",
+- **set_type**: {'random','similarity','temporal'}, default = 'random':
+                split type of data, random:random splitting, target:
+                similarity based splitting, temporal: splitting according to
+                annotation time
+- **protein_feature**: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
+                default = 'paac': numerical features of protein sequences
+- **ratio**: ratio: {None, float, list}, default = 0.2: used to split data 
+                into train, test, validation sets as given values. If left None, 
+                only X and y data can be obtained while float value gives train 
+                and test set. If ratio = a (float), then test will be a% of total 
+                data size. If ratio = [a,b] where a and b are in (0,1), 
+                train, test and validation sets are formed according to them. For example, 
+                If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 
+                and validation fraction is 0.1 of all dataset size. If set_type = 'temporal', 
+                then ratio = None automatically.
+- **pre_determined**: bool, default = False, if False, data is given
+                according to ratio type, If True, already splitted data will
+                provided.
+- **scale_type**: {'normalizer','standard','max_abs','min_max','robust'}, default = 'standard, 
+				determines the method to scale the data
+- **ml_type**: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP','naive_bayes', 
+				decision_tree',gradient_boosting'}, default = "logistic_reg",
                 Type of machine learning algorithm.
+
+- **isFasta**:type = bool, default = False If True, a data provided by user is Fasta 
+				file else numerical data should be introduced. Format of fasta files must be **.fasta** and
+                names of files should describe label. As an example, content of input file "sample_inputs.txt"
+                should be like that:
+
+                    directory_to_file/postive_data.fasta
+                    directory_to_file/negative_data.fasta
+
+- **place_protein_id**:type = int, default = 1, It indicates the place of protein id in fasta header.
+               e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt.
+               '|' then >sp is in the zeroth position, protein id in the first(1)
+               position.
+
+- **isUser**: type = bool, default = False, If True, user data path must be defined in file else ProFAB data
+                will be used if data names are introduced correctly. If **label** = False, names of files should
+                describe label. As an example, content of input file "sample_inputs.txt" should be like that:
+
+                    directory_to_file/postive_data.txt
+                    directory_to_file/negative_data.txt
+
+                If **label** = True:
+
+                    directory_to_file/data.txt
+
+- **delimiter**: type = str, default = "\t", a character to separate columns in file.
+- **name**: type = bool, default = False, If True, then first colmun
+            is considered as name of inputs else the first column is a 
+            feature column.
+- **label**: type = bool, default = False, If True, then last colmun
+            is considered as label of inputs else the last column is a 
+            feature column. 
 
 It can be run in terminal with this line:
 ```
