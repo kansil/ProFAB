@@ -30,7 +30,7 @@ The way to implement the functions in pythonic way is given in [test_file_1](use
 
 If one run the program in terminal, then exPro.py can be used. This method accepts multiple inputs however doesn't accept users datasets. Its parameters are:
 
-- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset files must be defined in input file. Each must be defined in new line. 
+- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line. 
 
 - **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
 - **set_type**: {'random','similarity','temporal'}, default = 'random':
@@ -61,10 +61,10 @@ If one run the program in terminal, then exPro.py can be used. This method accep
 - **isFasta**:type = bool, default = False If True, a data provided by user is Fasta 
 				file else numerical data should be introduced. While *isUser* = True, this parameter cannot be True
                 at the same time. Format of fasta files must be **.fasta** and names of files should describe label.
-                As an example, content of input file "sample_inputs.txt" should be like that:
+                The path described in input file must include these files:
 
-                    directory_to_file/positive_data.fasta
-                    directory_to_file/negative_data.fasta
+                    positive_data.fasta
+                    negative_data.fasta
 
 - **place_protein_id**:type = int, default = 1, It indicates the place of protein id in fasta header.
                e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt.
@@ -73,14 +73,14 @@ If one run the program in terminal, then exPro.py can be used. This method accep
 
 - **isUser**: type = bool, default = False, If True, user data path must be defined in file else ProFAB data
                 will be used if data names are introduced correctly. While *isFasta* = True, this parameter cannot be True
-                at the same time. If *label* = False, names of files should describe label. As an example, content of input
-                file "sample_inputs.txt" should be like that:
+                at the same time. If *label* = False, names of files should describe label. As an example, The path described
+                in input file must include these files:
 
-                    directory_to_file/positive_data.txt
-                    directory_to_file/negative_data.txt
+                    positive_data.txt
+                    negative_data.txt
     If **label** = True
 
-                    directory_to_file/data.txt
+                    data.txt
 
 - **delimiter**: type = str, default = "\t", a character to separate columns in file.
 - **name**: type = bool, default = False, If True, then first colmun
@@ -92,18 +92,18 @@ If one run the program in terminal, then exPro.py can be used. This method accep
 
 It can be run in terminal with these lines:
 
-where *isFasta* = False and *isUser* = False, use support vector as training algorithms and protein descriptor is CTRIAD and save perfomance
+where *isFasta* = False and *isUser* = False, use support vector as training algorithms and save perfomance
 of model to *my_score_path.csv*:
 ```{python}
-python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM --protein_feature ctriad
+python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM
 ```
 where *isFasta* = False, use k-nearest neighbor as training algorithm and ratio of test set over train set is 0.3:
 ```{python}
 python ezPro.py --file_name sample_inputs_userTrue.txt --ml_type KNN --ratio 0.3
 ```
-where *isFasta* = True, use random forest as training algorithm:
+where *isFasta* = True, use random forest as training algorithm and protein descriptor is CTRIAD:
 ```{python}
-python ezPro.py --file_name sample_inputs_fastaTrue.txt --ml_type random_forest
+python ezPro.py --file_name sample_inputs_fastaTrue.txt --ml_type random_forest --protein_feature ctriad
 ```
 
 
