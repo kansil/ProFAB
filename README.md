@@ -73,12 +73,11 @@ If one run the program in terminal, then exPro.py can be used. This method accep
 - **isUser**: type = bool, default = False, If True, user data path must be defined in file else ProFAB data
                 will be used if data names are introduced correctly. If **label** = False, names of files should
                 describe label. As an example, content of input file "sample_inputs.txt" should be like that:
-
+		
                     directory_to_file/postive_data.txt
                     directory_to_file/negative_data.txt
-
      If **label** = True:
-
+     
                     directory_to_file/data.txt
 
 - **delimiter**: type = str, default = "\t", a character to separate columns in file.
