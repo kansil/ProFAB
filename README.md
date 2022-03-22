@@ -39,11 +39,10 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                 annotation time. If *isUser* or *isFasta* is True, random splitting
                 will be applied to data.
 - **protein_feature**: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
-                default = 'paac': numerical features of protein sequences
-- **ratio**: ratio: {None, float, list}, default = 0.2: used to split data 
-                into train, test, validation sets as given values. If left None, 
-                only X and y data can be obtained while float value gives train 
-                and test set. If ratio = a (float), then test will be a% of total 
+                default = 'paac': numerical features of protein sequences. If *isFasta* = True, options 
+                can be found in [there](profab/utils/feature_extraction_module/README.md)
+- **ratio**: ratio: {float, list}, default = 0.2: used to split data 
+                into train, test, validation sets as given values. If ratio = a (float), then test will be a% of total 
                 data size. If ratio = [a,b] where a and b are in (0,1), 
                 train, test and validation sets are formed according to them. For example, 
                 If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 
@@ -97,13 +96,13 @@ of model to *my_score_path.csv*:
 ```{python}
 python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM
 ```
-where *isFasta* = False, use k-nearest neighbor as training algorithm and ratio of test set over train set is 0.3:
+where *isUser* = True, use k-nearest neighbor as training algorithm and test fraction is 0.3 and feature matrices include names of instances:
 ```{python}
-python ezPro.py --file_name sample_inputs_userTrue.txt --ml_type KNN --ratio 0.3
+python ezPro.py --file_name sample_inputs_userTrue.txt --isUser True --ml_type KNN --ratio 0.3 --name True
 ```
-where *isFasta* = True, use random forest as training algorithm and protein descriptor is CTRIAD:
+where *isFasta* = True, use random forest as training algorithm , protein descriptor is CTRIAD, test fraction is 0.1 & validation fraction is 0.2:
 ```{python}
-python ezPro.py --file_name sample_inputs_fastaTrue.txt --ml_type random_forest --protein_feature ctriad
+python ezPro.py --file_name sample_inputs_fastaTrue.txt --isFasta True --ml_type random_forest --protein_feature CTriad --ratio 0.1,0.2
 ```
 
 
