@@ -62,7 +62,7 @@ parser.add_argument('--isFasta',
                     '  should be introduced')
 parser.add_argument('--place_protein_id',
                     type = int,
-                    default = 1,
+                    default = 0,
                     help = "It indicates the place of protein id in fasta header."
                            " e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt."
                            " '|' then >sp is in the zeroth position, protein id in the first(1) "
