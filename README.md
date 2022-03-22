@@ -30,7 +30,7 @@ The way to implement the functions in pythonic way is given in [test_file_1](use
 
 If one run the program in terminal, then exPro.py can be used. This method accepts multiple inputs however doesn't accept users datasets. Its parameters are:
 
-- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If **isUser** = True or **isFasta** = True, then directory to dataset files must be defined in input file. Each must be defined in new line. 
+- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If ***isUser*** = True or ***isFasta*** = True, then directory to dataset files must be defined in input file. Each must be defined in new line. 
 
 - **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
 - **set_type**: {'random','similarity','temporal'}, default = 'random':
@@ -71,13 +71,13 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                position.
 
 - **isUser**: type = bool, default = False, If True, user data path must be defined in file else ProFAB data
-                will be used if data names are introduced correctly. If **label** = False, names of files should
+                will be used if data names are introduced correctly. If ***label*** = False, names of files should
                 describe label. As an example, content of input file "sample_inputs.txt" should be like that:
-		
+
                     directory_to_file/positive_data.txt
                     directory_to_file/negative_data.txt
-     If **label** = True:
-     
+    If **label** = True
+
                     directory_to_file/data.txt
 
 - **delimiter**: type = str, default = "\t", a character to separate columns in file.
@@ -88,9 +88,9 @@ If one run the program in terminal, then exPro.py can be used. This method accep
             is considered as label of inputs else the last column is a 
             feature column. 
 
-It can be run in terminal with this line:
+It can be run in terminal with this line where ***isFasta*** = False:
 ```
-python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv
+python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --
 ```
 
 ProFAB does many jobs at the same time, therefore, reading the introductions and following the use cases given in sections are highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
