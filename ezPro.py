@@ -35,7 +35,7 @@ parser.add_argument('--protein_feature',
                     help='Numerical feature of protein sequence')
 parser.add_argument('--ratio',
                     type = lambda s: [float(item) for item in s.split(',')],
-                    default = 0.2,
+                    default = [0.2],
                     help = 'Ratio of between validation and test sets.')
 parser.add_argument('--ml_type',
                     type = str,
@@ -60,13 +60,6 @@ parser.add_argument('--isFasta',
                     default = False,
                     help='If True, a data provided by user is Fasta file else numerical data'
                     '  should be introduced')
-
-parser.add_argument('--isUser',
-                    type = bool,
-                    default = False,
-                    help='If True, user data path must be defined in file else ProFAB data'
-                    '  will be used if data names are introduced correctly.')
-
 parser.add_argument('--place_protein_id',
                     type = int,
                     default = 1,
@@ -75,6 +68,11 @@ parser.add_argument('--place_protein_id',
                            " '|' then >sp is in the zeroth position, protein id in the first(1) "
                            "position.")
 
+parser.add_argument('--isUser',
+                    type = bool,
+                    default = False,
+                    help='If True, user data path must be defined in file else ProFAB data'
+                    '  will be used if data names are introduced correctly.')
 parser.add_argument('--label',
                     type = bool,
                     default = False,
@@ -101,15 +99,13 @@ def imp_train_result(data_name, kwargs, user_kwargs, fasta_kwargs):
     if kwargs['isFasta']:
         
         for fasta in os.listdir(data_name):
-            #print(fasta)
-            #print(data_name)
+
             output_file = extract_protein_feature(
-                protein_feature = kwargs['protein_feature'].upper(),
+                protein_feature = kwargs['protein_feature'],
                 place_protein_id = fasta_kwargs['place_protein_id'],
                 input_folder = data_name,
                 fasta_file_name = fasta[:-6]
                 )
-            #print(output_file)
             if re.search('positive',output_file):    
                 X_pos_file_name = output_file
             else:
@@ -196,7 +192,8 @@ def imp_train_result(data_name, kwargs, user_kwargs, fasta_kwargs):
         score_test = evaluate_score(model,X_test,y_test,preds = False)
         score_validation = evaluate_score(model,X_validation,y_validation,preds = False)
     
-        print(f'Training and scoring is done {data_name}\n---------***---------\n')
+        idn = re.split('/',data_name)[-1]
+        print(f'Training and scoring is done {idn}\n---------***---------\n')
         return {'train':score_train,'test':score_test,'validation': score_validation}
     
     if len(datasets) == 4:
@@ -215,7 +212,8 @@ def imp_train_result(data_name, kwargs, user_kwargs, fasta_kwargs):
         score_train = evaluate_score(model,X_train,y_train,preds = False)
         score_test = evaluate_score(model,X_test,y_test,preds = False)
         
-        print(f'Training and scoring is done for {data_name}\n')
+        idn = re.split('/',data_name)[-1]
+        print(f'Training and scoring is done for {idn}\n---------***---------\n')
         return {'train':score_train,'test':score_test}
         
     
@@ -231,8 +229,9 @@ def loop_trough(file_name, kwargs, user_kwargs, fasta_kwargs):
     if data_names:
         for data_name in data_names:
             print('---------***---------\n')
-            print(f'Dataset: {data_name}')
-            score_dict.update({data_name:imp_train_result(data_name,
+            idn = re.split('/',data_name)[-1]
+            print(f'Dataset: {idn}')
+            score_dict.update({re.split('/',data_name)[-1]:imp_train_result(data_name,
                                                           kwargs,
                                                           user_kwargs,
                                                           fasta_kwargs)})
@@ -255,9 +254,11 @@ if __name__ == '__main__':
     
     
     fasta_kwargs = dict(place_protein_id = args.place_protein_id)
+    
     user_kwargs = dict(delimiter = args.delimiter,
                        name = args.name,
                        label = args.label)
+    
     kwargs = dict(
         isUser = args.isUser,
         isFasta = args.isFasta,
