@@ -40,7 +40,7 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                 will be applied to data.
 - **protein_feature**: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
                 default = 'paac': numerical features of protein sequences. If *isFasta* = True, options 
-                can be found in [there](profab/utils/feature_extraction_module/README.md)
+                can be found in [here](profab/utils/feature_extraction_module/README.md)
 - **ratio**: ratio: {float, list}, default = 0.2: used to split data 
                 into train, test, validation sets as given values. If ratio = a (float), then test will be a% of total 
                 data size. If ratio = [a,b] where a and b are in (0,1), 
