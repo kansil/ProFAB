@@ -30,13 +30,14 @@ The way to implement the functions in pythonic way is given in [test_file_1](use
 
 If one run the program in terminal, then exPro.py can be used. This method accepts multiple inputs however doesn't accept users datasets. Its parameters are:
 
-- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If ***isUser*** = True or ***isFasta*** = True, then directory to dataset files must be defined in input file. Each must be defined in new line. 
+- **file_name**: File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset files must be defined in input file. Each must be defined in new line. 
 
 - **score_path**: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
 - **set_type**: {'random','similarity','temporal'}, default = 'random':
                 split type of data, random:random splitting, target:
                 similarity based splitting, temporal: splitting according to
-                annotation time
+                annotation time. If *isUser* or *isFasta* is True, random splitting
+                will be applied to data.
 - **protein_feature**: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
                 default = 'paac': numerical features of protein sequences
 - **ratio**: ratio: {None, float, list}, default = 0.2: used to split data 
@@ -58,9 +59,9 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                 Type of machine learning algorithm.
 
 - **isFasta**:type = bool, default = False If True, a data provided by user is Fasta 
-				file else numerical data should be introduced. Format of fasta files must be **.fasta** and
-                names of files should describe label. As an example, content of input file "sample_inputs.txt"
-                should be like that:
+				file else numerical data should be introduced. While *isUser* = True, this parameter cannot be True
+                at the same time. Format of fasta files must be **.fasta** and names of files should describe label.
+                As an example, content of input file "sample_inputs.txt" should be like that:
 
                     directory_to_file/positive_data.fasta
                     directory_to_file/negative_data.fasta
@@ -71,8 +72,9 @@ If one run the program in terminal, then exPro.py can be used. This method accep
                position.
 
 - **isUser**: type = bool, default = False, If True, user data path must be defined in file else ProFAB data
-                will be used if data names are introduced correctly. If ***label*** = False, names of files should
-                describe label. As an example, content of input file "sample_inputs.txt" should be like that:
+                will be used if data names are introduced correctly. While *isFasta* = True, this parameter cannot be True
+                at the same time. If *label* = False, names of files should describe label. As an example, content of input
+                file "sample_inputs.txt" should be like that:
 
                     directory_to_file/positive_data.txt
                     directory_to_file/negative_data.txt
@@ -88,10 +90,22 @@ If one run the program in terminal, then exPro.py can be used. This method accep
             is considered as label of inputs else the last column is a 
             feature column. 
 
-It can be run in terminal with this line where ***isFasta*** = False:
+It can be run in terminal with these lines:
+
+where *isFasta* = False and *isUser* = False, use support vector as training algorithms and protein descriptor is CTRIAD and save perfomance
+of model to *my_score_path.csv*:
 ```
-python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --
+python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM --protein_feature ctriad
 ```
+where *isFasta* = True, use k-nearest neighbor as training algorithm and ratio of test set over train set is 0.3:
+```
+python ezPro.py --file_name sample_inputs_userTrue.txt --ml_type KNN --ratio 0.3
+```
+where *isFasta* = False, use random forest as training algorithm:
+```
+python ezPro.py --file_name sample_inputs_fastaTrue.txt --ml_type random_forest
+```
+
 
 ProFAB does many jobs at the same time, therefore, reading the introductions and following the use cases given in sections are highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
 
