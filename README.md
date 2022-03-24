@@ -62,8 +62,7 @@ where *isFasta* = True, use random forest as training algorithm , protein descri
 ```{python}
 python ezPro.py --file_name sample_inputs_fastaTrue.txt --isFasta True --ml_type random_forest --protein_feature CTriad --ratio 0.1,0.2
 ```
-<br/>
-ProFAB has many workloads, therefore, reading the introductions is highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
+<br/>ProFAB has many workloads, therefore, reading the introductions is highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
 
 
 ## License
