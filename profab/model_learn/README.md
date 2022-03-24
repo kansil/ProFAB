@@ -61,7 +61,7 @@ ProFAB also provides machine learning algorithms for regression to estimate cont
 
 #### Explanation of Parameters
 
-- ***X_train**: type = {list, numpy array} feature matrix, train set
+- ***X_train***: type = {list, numpy array} feature matrix, train set
 - ***X_valid***: default = None, feature matrix validation set
 - ***y_train***: default = None, label matrix, train set
 - ***y_valid***: default = None, label matrix validation set
