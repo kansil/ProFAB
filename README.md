@@ -27,8 +27,7 @@ The way to implement the functions in pythonic way is given in [test_file_1](use
 
 To run on terminal, then exPro.py can be used. Its parameters are given in Table.1:
 
-<br/>Table.1: Parameters to run ProFAB on terminal:
-
+Table.1: Parameters to run ProFAB on terminal:
 	
 | Parameters (type) | options | default | Definition                                      |
 |:-------------:|:-----------------:|:---------:|:---------|
