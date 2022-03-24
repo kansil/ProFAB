@@ -29,10 +29,13 @@ To run on terminal, then exPro.py can be used. Its parameters are given in Table
 
 <br/>Table.1: Parameters to run ProFAB on terminal:
 <center>
+	
 | Parameters | Definition                                      | Options | Default |
 |-------------|-------------------------------------------------|---------|---------|
 file_name| File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line|-|-
+
 </center>
+
 - ***file_name***: File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line. 
 
 - ***score_path***: default = 'score_path.csv', A destination where scores are saved. It must be .csv file.
