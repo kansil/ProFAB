@@ -57,4 +57,4 @@ from profab.import_dataset import SelfGet
 data = SelfGet(delimiter = '\t', name = False, label = False).get_data(file_name = "sample.txt")
 ```
 
-After importing datasets, preprocessing and training can be done by following introductions in [model_preprocess](../model_preprocess) nad [model_learn](../model_learn).
+After importing datasets, preprocessing and training can be done by following introductions in [model_preprocess](../model_preprocess) and [model_learn](../model_learn).
