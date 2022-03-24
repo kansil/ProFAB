@@ -19,7 +19,7 @@ Column Transformation| DPC-PSSM <br/> k-seperated-bigrams-PSSM <br/> tri-gram-PS
 Mixture of row and column transformation | EDP <br/> RPSSM <br/> Pre-PSSM <br/> DP-PSSM <br/> PSSM-AC <br/> PSSM-CC | 20 <br/> 110 <br/> 40 <br/> 240 <br/> 200 <br/> 3800
 Combination of above descriptors| AADP-PSSSM <br/> AATP <br/> MEDP | 420 <br/> 420 <br/> 420
 
-<br/>Table-2: Protein descriptors obtained from the İFeature tool.
+<br/>Table.3: Protein descriptors obtained from the İFeature tool.
 
 | Descriptor group | Protein descriptor                                                    | Number of dimensions
 ----------------------------------------|-----------------------------------------------------------------------|-----------------------------
