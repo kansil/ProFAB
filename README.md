@@ -31,7 +31,7 @@ To run on terminal, then exPro.py can be used. Its parameters are given in Table
 <center>
 	
 | Parameters | Definition                                      | Options | Default |
-|-------------|-------------------------------------------------|---------|---------|
+|:-------------:|:-------------------------------------------------:|:---------:|:---------:|
 file_name| File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line|-|-
 
 </center>
