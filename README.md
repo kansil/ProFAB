@@ -47,7 +47,7 @@ delimiter (str)| tab_separated ('\t')<br/>comma_separated (',')<br/>space_separa
 name (bool)| - |False| If True, then first colmun is considered as name of inputs else the first column is a feature column
 label (bool)| - | False| If True, then last colmun is considered as label of inputs else the last column is a feature column 
 
-It can be run on terminal with these lines:
+<br/>It can be run on terminal with these lines:
 
 where *isFasta* = False and *isUser* = False, use support vector as training algorithms and save perfomance
 of model to *my_score_path.csv*:
