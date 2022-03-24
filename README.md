@@ -1,18 +1,15 @@
 # ProFAB: Protein Functional Annotation Benchmark
 
-This platform is generated to provide datasets amd shallow machine learning algorithms such as SVM, random forest etc. for protein function prediction. Its learning method is supervised and to present complete set of machine learning study preprocessing and evaluation steps are added, too. ProFAB's main purpose is for protein based studies but its functions can be used separately for different reasons. To illustrate, one can use only to import and splitting data while another one can use only machine learning algorithms thank to its flexible structure.
+ProFAB is a benchmarking platform for GO term and EC number prediction. It provides several datasets, featurization and scaling methods, machine learning algorithms and evaluation metrics. 
 
 ![mainFigNew](https://user-images.githubusercontent.com/37181660/150197153-9ce060d5-f0f5-4e9b-bcb5-2044173138da.png)
 
 As seen from the figure, in ProFAB, four main modules [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), 
 [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) are employed.
-- ***import_dataset***: To load dataset from the files. Users can use ProFAB datasets or can load their data with related functions.
-- ***model_preprocess***: To feed the data to learning algorithms, this module provides there pre-works:
-	- featurization of protein sequence data
-	- random splitting
-	- and scaling
-- ***model_learn***: To apply machine learning algorithms
-- ***model_evaluate***: By implement this, results of models can be seen and even tabularize to improve visual quality.
+- ***import_dataset***: lets to construct individual datasets for each GO term and EC number.
+- ***model_preprocess***: provides three submodules for data preprocessing i.e., splitting, featurization and scaling.
+- ***model_learn***: consists of several machine learning algorithms for binary classification. In this module, hyperparameter optimization is automatically done to determine the best performing models.
+- ***model_evaluate***: provides several evaluation metrics to assess the performance of the trained models.
 
 ProFAB availabilty:
 	Operating System: Platform independent (except Protein Feature Extraction which can be run in LINUX and MAC.)\
@@ -28,7 +25,13 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 
 The way to implement the functions in pythonic way is given in [test_file_1](use_case/test_file_1.ipynb) and [test_file_2](use_case/test_file_2.ipynb).
 
-If one run the program in terminal, then exPro.py can be used. This method accepts multiple inputs however doesn't accept users datasets. Its parameters are:
+To run on terminal, then exPro.py can be used. Its parameters are given in Table.1:
+
+<br/>Table.1: Parameters to run ProFAB on terminal:
+
+| Parameters | Definition                                      | Options | Default |
+|-------------|-------------------------------------------------|---------|---------|
+file_name| File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line|-|-
 
 - ***file_name***: File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line. 
 
