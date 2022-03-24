@@ -1,7 +1,7 @@
 # Import Dataset
 
 ## Importing from our database
-In ProFAB, we tried to provide the datasets to user in almost every way. By defining different combinations of parameters, different outputs can be obtained.
+lets to construct individual datasets for each GO term and EC number
 
 ### Explanation of parameters
 
@@ -31,7 +31,7 @@ X_train,X_test,X_validation,y_train,y_test,y_validation = data_model.get_data(da
 
 ## Importing self datasets
 
-ProFAB allows users to implement their datasets to train in ProFAB learning modules thanks to function SelfGet(). 
+Allows users to load their datasets.
 
 ### Explanation of parameters:
 
