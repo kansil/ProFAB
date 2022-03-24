@@ -20,14 +20,14 @@ After the preprocessing steps (i.e., obtaining the dataset, featurization and sc
 
 #### Explanation of Parameters
 
--***X_train***: type = {list, numpy array} feature matrix, train set
--***X_valid***: default = None, feature matrix validation set
--***y_train***: default = None, label matrix, train set
--***y_valid***: default = None, label matrix validation set
--***ml_type***: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
+- ***X_train***: type = {list, numpy array} feature matrix, train set
+- ***X_valid***: default = None, feature matrix validation set
+- ***y_train***: default = None, label matrix, train set
+- ***y_valid***: default = None, label matrix validation set
+- ***ml_type***: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
--***path***: default = None, A destination point where model is saved
+- ***path***: default = None, A destination point where model is saved
 
 #### Usage
 
@@ -61,14 +61,14 @@ ProFAB also provides machine learning algorithms for regression to estimate cont
 
 #### Explanation of Parameters
 
--***X_train**: type = {list, numpy array} feature matrix, train set
--***X_valid***: default = None, feature matrix validation set
--***y_train***: default = None, label matrix, train set
--***y_valid***: default = None, label matrix validation set
--***ml_type***: {'linear_reg','SVM','random_forest','MLP',
+- ***X_train**: type = {list, numpy array} feature matrix, train set
+- ***X_valid***: default = None, feature matrix validation set
+- ***y_train***: default = None, label matrix, train set
+- ***y_valid***: default = None, label matrix validation set
+- ***ml_type***: {'linear_reg','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
--***path***: default = None, A destination point where model is saved
+- ***path***: default = None, A destination point where model is saved
 
 #### Usage
 
