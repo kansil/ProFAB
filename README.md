@@ -43,7 +43,7 @@ ml_type (str) | 'logistic_reg'<br/>'ridge_class'<br/>'KNN'<br/>'SVM'<br/>'random
 isFasta (bool) | - |False| If True, a data provided by user is Fasta file else numerical data should be introduced. While *isUser* = True, this parameter cannot be True at the same time. Format of fasta files must be **.fasta** and names of files should describe label. The path described in input file must include these files: "positive_data.fasta" and "negative_data.fasta"
 place_protein_id (int)| - | 1 | It indicates the place of protein id in fasta header. e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt. '|' then >sp is in the zeroth position, protein id in the first(1) position
 isUser|bool| - |False| If True, user data path must be defined in input file. While *isFasta* = True, this parameter cannot be True at the same time. If *label* = False, names of files should describe label. As an example, The path described in input file must include these files: "positive_data.txt" and "negative_data.txt". If ***label*** = True, it doesn't matter
-delimiter (str)| '\t'<br/>','<br/>' '|'\t'| a character to separate columns in file
+delimiter (str)| tab_separated<br/>comma_separated<br/>space_separater|'\t'| a character to separate columns in file
 name (bool)| - |False| If True, then first colmun is considered as name of inputs else the first column is a feature column
 label (bool)| - | False| If True, then last colmun is considered as label of inputs else the last column is a feature column 
 
