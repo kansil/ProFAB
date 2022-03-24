@@ -10,7 +10,7 @@ thereby addressing a crucial need for bioinformaticians and computational biolog
  both protein and peptide sequences. iFeature is capable of calculating and extracting a comprehensive spectrum
  of 18 major sequence encoding schemes that encompass 53 different types of feature descriptors.
 
-<br/>Table-1: Protein descriptors obtained from the POSSUM tool.
+<br/>Table.2: Protein descriptors obtained from the POSSUM tool.
 
 | Descriptor group | Protein descriptor                                                                               | Number of dimensions
 ----------------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------
