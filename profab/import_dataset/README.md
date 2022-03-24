@@ -1,7 +1,7 @@
 # Import Dataset
 
 ## Importing from our database
-lets to construct individual datasets for each GO term and EC number
+To construct individual datasets for each GO term and EC number
 
 ### Explanation of parameters
 
