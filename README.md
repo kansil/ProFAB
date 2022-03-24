@@ -28,13 +28,17 @@ The way to implement the functions in pythonic way is given in [test_file_1](use
 To run on terminal, then exPro.py can be used. Its parameters are given in Table.1:
 
 <br/>Table.1: Parameters to run ProFAB on terminal:
-<center>
-	
-| Parameters | Definition                                      | Options | Default |
-|:-------------:|:-------------------------------------------------:|:---------:|:---------:|
-file_name| File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line|-|-
 
-</center>
+	
+| Parameters (type) | options | default | Definition                                      |
+|:-------------:|:-------------------------------------------------:|:---------:|:---------:|
+file_name (str)|-|-| File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line
+score_path (str)|-|'score_path.csv'| A destination where scores are saved. It must be .csv file
+set_type (str)| 'random'<br/>'similarity'<br/>'temporal'| 'random'| split type of data, random:random splitting, target:
+                similarity based splitting, temporal: splitting according to
+                annotation time. If *isUser* or *isFasta* is True, random splitting
+                will be applied to data
+protein_feature (str)| 'paac'<br/>'aac'<br/>'gaac'<br/>'ctriad'<br/>'ctdt'<br/>'soc_number'<br/>'kpssm' | 'paac'| numerical features of protein sequences. If *isFasta* = True, options can be found in [here](profab/utils/feature_extraction_module/README.md) 
 
 - ***file_name***: File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line. 
 
