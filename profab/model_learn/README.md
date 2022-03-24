@@ -1,12 +1,12 @@
 ## Description
 
-Model learn includes machine learning algprithms based on regression and classification and ProFAB provides tuning hyperparameters with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](hyperparameters.py). These hyperparameters can be redefined to increase performance of models.
+Several machine learning algprithms based on regression and classification are available. Tuning hyperparameters is achieved with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](hyperparameters.py). These hyperparameters can be redefined to improve performance of models.
 
 ## Methods
 
 ### Binary Classifications
 
-ProFAB provides machine learning algorithms for constructing binary classifiers. After the preprocessing steps (i.e., obtaining the dataset, featurization and scaling), classification methods given in Table 4 can be used to train predictive models. All algorithms are based on scikit-learn Python package.
+After the preprocessing steps (i.e., obtaining the dataset, featurization and scaling), below classification methods can be used for binary classification. All algorithms are based on scikit-learn Python package.
 
     - logistic_regression
     - ridge_classifier
@@ -20,14 +20,14 @@ ProFAB provides machine learning algorithms for constructing binary classifiers.
 
 #### Explanation of Parameters
 
--**X_train**: type = {list, numpy array} feature matrix, train set
--**X_valid**: default = None, feature matrix validation set
--**y_train**: default = None, label matrix, train set
--**y_valid**: default = None, label matrix validation set
--**ml_type**: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
+-***X_train***: type = {list, numpy array} feature matrix, train set
+-***X_valid***: default = None, feature matrix validation set
+-***y_train***: default = None, label matrix, train set
+-***y_valid***: default = None, label matrix validation set
+-***ml_type***: ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
--**path**: default = None, A destination point where model is saved
+-***path***: default = None, A destination point where model is saved
 
 #### Usage
 
@@ -61,14 +61,14 @@ ProFAB also provides machine learning algorithms for regression to estimate cont
 
 #### Explanation of Parameters
 
--**X_train**: type = {list, numpy array} feature matrix, train set
--**X_valid**: default = None, feature matrix validation set
--**y_train**: default = None, label matrix, train set
--**y_valid**: default = None, label matrix validation set
--**ml_type**: {'linear_reg','SVM','random_forest','MLP',
+-***X_train**: type = {list, numpy array} feature matrix, train set
+-***X_valid***: default = None, feature matrix validation set
+-***y_train***: default = None, label matrix, train set
+-***y_valid***: default = None, label matrix validation set
+-***ml_type***: {'linear_reg','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
--**path**: default = None, A destination point where model is saved
+-***path***: default = None, A destination point where model is saved
 
 #### Usage
 
