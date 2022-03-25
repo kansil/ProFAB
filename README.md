@@ -2,7 +2,7 @@
 
 ProFAB is a benchmarking platform for GO term and EC number prediction. It provides several datasets, featurization and scaling methods, machine learning algorithms and evaluation metrics. 
 
-![mainFigNew](https://user-images.githubusercontent.com/37181660/150197153-9ce060d5-f0f5-4e9b-bcb5-2044173138da.png)
+![mainFigNew](https://user-images.githubusercontent.com/37181660/160111691-2f83e286-2a15-4655-a9ff-e4238c13435a.svg)
 
 As seen from the figure, in ProFAB, four main modules [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), 
 [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate) are employed.
