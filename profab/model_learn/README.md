@@ -1,6 +1,6 @@
 ## Description
 
-Several machine learning algprithms based on regression and classification are available. Tuning hyperparameters is achieved with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](hyperparameters.py). These hyperparameters can be redefined to improve performance of models.
+Several machine learning algorithms based on regression and classification are available. Tuning hyperparameters is achieved with randomized search. The hyperparameters of each algorithm are portrayed in [hyperparameters.py](hyperparameters.py). These hyperparameters can be redefined to improve performance of models.
 
 ## Methods
 
