@@ -12,23 +12,23 @@ As seen from the figure, in ProFAB, four main modules [import_dataset](profab/im
 - ***model_evaluate***: provides several evaluation metrics to assess the performance of the trained models.
 
 ProFAB availabilty:
-	Operating System: Platform independent (except Protein Feature Extraction which can be run in LINUX and MAC.)\
-	Programming language: Python: >=3.7\
-	Package Requirements: tqdm (4.63.0), requests 2.27.1), numpy (1.21.2), scikit-learn (1.0.1)
+    Operating System: Platform independent (except Protein Feature Extraction which can be run in LINUX and MAC.)\
+    Programming language: Python: >=3.7\
+    Package Requirements: tqdm (4.63.0), requests 2.27.1), numpy (1.21.2), scikit-learn (1.0.1)
 
 To get repository, execute following line:
 ```
 git clone https://github.com/Sametle06/benchmark_platform.git
 ```
 
-## How to implement modules:
+## How to use ProFAB:
 
-The way to implement the functions in pythonic way is given in [test_file_1](use_case/test_file_1.ipynb) and [test_file_2](use_case/test_file_2.ipynb).
+<br/>ProFAB has many workloads, therefore, reading the introductions is highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
 
-To run on terminal, then exPro.py can be used. Its parameters are given in Table.1:
+To run ProFAB on terminal, easy_profab.py can be used. Its parameters are given in Table.1:
 
 Table.1: Parameters to run ProFAB on terminal:
-	
+    
 | Parameters (type) | options | default | Definition                                      |
 |:-------------:|:-----------------:|:---------:|:---------|
 file_name (str)|-|-| File includes dataset names such as GO_0000018, GO_1905523. If *isUser* = True or *isFasta* = True, then directory to dataset folder must be defined in input file. Each must be defined in new line
@@ -46,7 +46,7 @@ delimiter (str)| '\t' (tab)<br/>',' (comma)<br/>' ' (space)|'\t'| a character to
 name (bool)| - |False| If True, then first colmun is considered as name of inputs else the first column is a feature column
 label (bool)| - | False| If True, then last colmun is considered as label of inputs else the last column is a feature column 
 
-<br/>It can be run on terminal with these lines:
+<br/>It can be run on terminal with a single line:
 
 where *isFasta* = False and *isUser* = False, use support vector as training algorithms and save perfomance
 of model to *my_score_path.csv*:
@@ -61,7 +61,8 @@ where *isFasta* = True, use random forest as training algorithm , protein descri
 ```{python}
 python ezPro.py --file_name sample_inputs_fastaTrue.txt --isFasta True --ml_type random_forest --protein_feature CTriad --ratio 0.1,0.2
 ```
-<br/>ProFAB has many workloads, therefore, reading the introductions is highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
+
+<br/>ProFAB can be run in pythonic way. How to apply its functions are shown in two different use cases. [use_case_1](use_case/use_case_1.ipynb) is based on utilizing ProFAB datasets whereas [use_case_2](use_case/use_case_2.ipynb) is based on integrating user itself datasets. Detailed explanations can be found in links.
 
 
 ## License
