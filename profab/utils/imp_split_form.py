@@ -136,30 +136,39 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
 
 def self_data(file_name, delimiter, label, name):
         
-    data = []
+    
     with open(file_name, 'r') as f:
             
         if label:
-            y = []
+            
+            X_pos,X_neg = [],[]
             for row in f:
                 row = re.split(delimiter,row.strip())
                 if name:
-                    data.append(row[1:-1])
-                    y.append(row[-1])
+                    if int(row[-1]) == 1:
+
+                        X_pos.append(row[1:-1])
+                    else:
+                        X_neg.append(row[1:-1])
 
                 else:
-                    data.append(row[:-1])
-                    y.append(row[-1])
-            return data,y
+                    if int(row[-1]) == 1:
+
+                        X_pos.append(row[1:-1])
+                    else:
+                        X_neg.append(row[1:-1])
+            
+            return X_pos,X_neg
         else:
+            X = []
             for row in f:
                 row = re.split(delimiter,row.strip())
                 
                 if name:
-                        data.append(row[1:])
+                        X.append(row[1:])
                 else:
-                    data.append(row)
-            return data
+                    X.append(row)
+            return X
 
 
 def _classif_form_table(scores, score_path = 'score_path.csv'):
