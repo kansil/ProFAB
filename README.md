@@ -25,7 +25,7 @@ git clone https://github.com/Sametle06/benchmark_platform.git
 
 <br/>ProFAB has many workloads, therefore, reading the introductions is highly recommended. Detailed explanations can be found in each module: [import_dataset](profab/import_dataset), [model_preprocess](profab/model_preprocess), [model_learn](profab/model_learn), [model_evaluate](profab/model_evaluate).
 
-To run ProFAB on terminal, easy_profab.py can be used. Its parameters are given in Table.1:
+To run ProFAB on terminal, [easy_profab](easy_profab.py) can be used. Its parameters are given in Table.1:
 
 Table.1: Parameters to run ProFAB on terminal:
     
