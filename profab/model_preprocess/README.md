@@ -1,6 +1,6 @@
 ## Description
 
-provides three submodules for data preprocessing i.e., splitting, featurization and scaling. All three can be used by users separately. 
+ProFAB-model_preprocess provides three submodules for data preprocessing i.e., splitting, featurization and scaling. All three can be used by users separately. 
 
 ### Featurization Module
 
