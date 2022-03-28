@@ -48,7 +48,7 @@ label (bool)| - | False| If True, then last colmun is considered as label of inp
 
 <br/>It can be run on terminal with a single line:
 
-where *isFasta* = False and *isUser* = False, use support vector as training algorithms and save perfomance
+where *isFasta* = False and *isUser* = False, use support vector machine as training algorithms and save perfomance
 of model to *my_score_path.csv*:
 ```{python}
 python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM
