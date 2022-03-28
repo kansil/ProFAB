@@ -1,0 +1,2 @@
+use_case/GO_0019933
+use_case/GO_0000045
