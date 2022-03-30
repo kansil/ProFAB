@@ -9,9 +9,9 @@ from ..utils import feature_extracter
 from ..utils import bcolors
 
 def extract_protein_feature(protein_feature,
-                          place_protein_id,
                           input_folder,
-                          fasta_file_name):
+                          fasta_file_name,
+                          place_protein_id = 0):
 
 
     feat_ext = feature_extracter(protein_feature,
@@ -21,11 +21,11 @@ def extract_protein_feature(protein_feature,
 
     if protein_feature in feat_ext.POSSUM_desc_list:
 
-        feat_ext.extract_POSSUM_feature()
+        return feat_ext.extract_POSSUM_feature()
 
     elif protein_feature in feat_ext.iFeature_desc_list:
 
-        feat_ext.extract_iFeature_feature()
+        return feat_ext.extract_iFeature_feature()
 
     else:
 
