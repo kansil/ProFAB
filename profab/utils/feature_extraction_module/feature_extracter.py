@@ -144,8 +144,8 @@ class feature_extracter(object):
             
             
             ip = re.split('/',self.input_folder)[-1]
-            if not os.path.isdir("feature_extraction_output/" + ip):
-            	os.mkdir("feature_extraction_output/" + ip)
+            if not os.path.exists("feature_extraction_output/" + ip):
+            	os.makedirs("feature_extraction_output/" + ip)
             
             output_file = "feature_extraction_output/" + ip + "/{}_{}.txt".format(
                                                               self.fasta_file_name,
@@ -154,6 +154,7 @@ class feature_extracter(object):
             edit_extracted_features_POSSUM(temp_output_file, output_file, fasta_dict)
 
             return output_file
+            
     def extract_iFeature_feature(self):
 
         list_desc = [self.protein_feature]
@@ -176,7 +177,7 @@ class feature_extracter(object):
 
             ip = re.split('/',self.input_folder)[-1]
             if not os.path.isdir("feature_extraction_output/" + ip):
-            	os.mkdir("feature_extraction_output/" + ip)
+            	os.makedirs("feature_extraction_output/" + ip)
             
             output_file = "feature_extraction_output/" + ip + "/{}_{}.txt".format(
                                                               self.fasta_file_name,
