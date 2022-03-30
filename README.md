@@ -51,15 +51,15 @@ label (bool)| - | False| If True, then last colmun is considered as label of inp
 where *isFasta* = False and *isUser* = False, use support vector machine as training algorithms and save perfomance
 of model to *my_score_path.csv*:
 ```{python}
-python ezPro.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM
+python easy_profab.py --file_name sample_inputs.txt --score_path my_score_path.csv --ml_type SVM
 ```
 where *isUser* = True, use k-nearest neighbor as training algorithm and test fraction is 0.3 and feature matrices include names of instances:
 ```{python}
-python ezPro.py --file_name sample_inputs_userTrue.txt --isUser True --ml_type KNN --ratio 0.3 --name True
+python easy_profab.py --file_name sample_inputs_userTrue.txt --isUser True --ml_type KNN --ratio 0.3 --name True
 ```
 where *isFasta* = True, use random forest as training algorithm , protein descriptor is CTRIAD, test fraction is 0.1 & validation fraction is 0.2:
 ```{python}
-python ezPro.py --file_name sample_inputs_fastaTrue.txt --isFasta True --ml_type random_forest --protein_feature CTriad --ratio 0.1,0.2
+python easy_profab.py --file_name sample_inputs_fastaTrue.txt --isFasta True --ml_type random_forest --protein_feature CTriad --ratio 0.1,0.2
 ```
 
 <br/>ProFAB can be run in pythonic way. How to apply its functions are shown in two different use cases. [use_case_1](use_case/use_case_1.ipynb) is based on utilizing ProFAB datasets whereas [use_case_2](use_case/use_case_2.ipynb) is based on integrating user itself datasets. Detailed explanations can be found in links.
