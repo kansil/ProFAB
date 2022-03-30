@@ -36,7 +36,10 @@ class cls_data_loader():
         if self.set_type not in ['random','similarity','temporal']:
          	raise AttributeError('Please enter correct set_type. Options are: "random, similarity, temporal"')
         if self.set_type == 'similarity': self.set_type = 'target'
-        if self.set_type == 'temporal': self.pre_determined = True
+        if self.set_type == 'temporal': 
+            self.pre_determined = True
+            if self.ratio is not None:
+                print(f'While set_type is "temporal", ratio must be None')
         
         if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber', 'kpssm']:
          	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
