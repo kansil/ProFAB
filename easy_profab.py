@@ -249,10 +249,13 @@ def loop_trough(file_name, kwargs, user_kwargs, fasta_kwargs):
 if __name__ == '__main__':
     args = parser.parse_args()
     
+    if args.isUser == True and args.isFasta == True:
+        raise AttributeError('Both "isUser" and "isFasta" cannot be True at the same time.')
+    
     r = args.ratio
     if len(r) == 1: r = r[0]
     
-    
+
     fasta_kwargs = dict(place_protein_id = args.place_protein_id)
     
     user_kwargs = dict(delimiter = args.delimiter,
