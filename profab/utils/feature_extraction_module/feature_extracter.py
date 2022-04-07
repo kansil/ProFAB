@@ -5,7 +5,7 @@ Created on Mon January 3 00:03:05 2022
 """
 
 import re
-from utils import *
+from .utils import *
 import warnings
 import pathlib, stat, subprocess
 
