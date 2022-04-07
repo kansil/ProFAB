@@ -74,8 +74,8 @@ class cls_data_loader():
         pPath = os.path.split(os.path.realpath(__file__))[0]
         
         #Check wheter there is a folder named main set
-        if os.path.isfile(pPath + '/' + self.main_set + '/' + data_name + '.zip'):
-            data_path = pPath + '/' + self.main_set + '/' + data_name + '.zip'
+        if os.path.isfile(self.main_set + '/' + data_name + '.zip'):
+            data_path = self.main_set + '/' + data_name + '.zip'
 
             
         #If no given data name, then data will be downloaded from the server to folder of main set.
@@ -85,7 +85,7 @@ class cls_data_loader():
             
             data_server_path = self.server_path + '/' + self.main_set + '/' + data_name + '.zip'
             
-            data_path = pPath + '/' + self.main_set + '/' + data_name + '.zip'
+            data_path = self.main_set + '/' + data_name + '.zip'
             
             download_data(data_server_path,data_path)
             
