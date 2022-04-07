@@ -79,19 +79,20 @@ def form_missing_pssm_files(pssm_dir):
         print("Error: %s - %s." % (e.filename, e.strerror))
 
 def copy_pssms(fasta_dict):
-   
-    zip_filepath = "{}/swissprot_pssms.zip".format(path_to_folder)
-    target_dir = '{}/temp_folder/extracted_pssms'.format(path_to_folder)
-    if os.path.exists(zip_filepath):
-        with zipfile.ZipFile(zip_filepath, 'r') as zipObj:
-            listOfFileNames = zipObj.namelist()
-            for prot_id in fasta_dict:
-                if 'swissprot_pssms/{}.pssm'.format(prot_id) in listOfFileNames:
-                    zipObj.extract('swissprot_pssms/{}.pssm'.format(prot_id), '{}'.format(target_dir))
-        if os.path.exists('{}/swissprot_pssms'.format(target_dir)):
-            for file in os.listdir('{}/swissprot_pssms'.format(target_dir)):
-                shutil.copy('{}/swissprot_pssms/{}'.format(target_dir,file), '{}/pssm_files'.format(path_to_folder))
-            shutil.rmtree(target_dir + '/swissprot_pssms')
+    import requests
+    for prot_id in fasta_dict:
+        # Define the remote file to retrieve
+        remote_url = 'https://slpred.kansil.org/swissprot_pssms/{}.pssm'.format(prot_id)
+        # Define the local filename to save data
+        local_file = '{}/pssm_files/{}.pssm'.format(path_to_folder, prot_id)
+        # Make http request for remote file data
+        data = requests.get(remote_url)
+        try:
+            data.raise_for_status()
+            with open(local_file, 'wb') as file:
+                file.write(data.content)
+        except requests.exceptions.HTTPError:
+            continue
 
             
 def copy_form_pssm_matrices(fasta_dict):

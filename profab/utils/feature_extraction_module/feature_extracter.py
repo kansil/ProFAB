@@ -5,7 +5,7 @@ Created on Mon January 3 00:03:05 2022
 """
 
 import re
-from .utils import *
+from utils import *
 import warnings
 import pathlib, stat, subprocess
 
@@ -98,27 +98,6 @@ class feature_extracter(object):
                                    'KSCTriad', 'SOCNumber', 'QSOrder', 'all_iFeature'}
 
     def extract_POSSUM_feature(self):
-        print(f"{bcolors.WARNING}" 
-               "\n\nSince extracting PSSMs takes time for POSSUM descriptors, this step is to accelerate\n"
-               "the feature extraction process. We strongly recommend you to download PSSMs,\n"
-               "if you have more than 100 proteins in your fasta file(s).\n\n"
-               "We have extracted PSSMs for 558,419 proteins available in UniProtKB / SwissProt database.\n"
-               "You can download the PSSMs by following the steps below. Then, the program will automatically\n"
-               "copy the related PSSMs to feature_extraction_module/pssm_files folder, when you run the module\n" 
-               "to extract the POSSUM features.\n\n"  
-               "Each PSSM file in the folder is named as proteinID.pssm.\n\n"
-               "!!The file size is around 7 GB!!!\n"
-               f"{bcolors.ENDC}")
-
-        print('Do you want to download PSSM files? (Optional).\n'
-              ' Please, enter Y (Yes) or N (No)')
-
-        ans = input()
-
-        if ans == 'Y':
-            os.chmod('{}/download_pssms.sh'.format(path_to_folder), stat.S_IRWXU)
-            subprocess.call('{}/download_pssms.sh'.format(path_to_folder), shell=True)
-
         fasta_dict = read_fasta_to_dict(self.input_folder, self.fasta_file_name, self.place_protein_id)
         copy_form_pssm_matrices(fasta_dict)
 
