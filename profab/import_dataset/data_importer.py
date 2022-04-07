@@ -73,7 +73,10 @@ class cls_data_loader():
         
         pPath = os.path.split(os.path.realpath(__file__))[0]
         
-        #Check wheter there is a folder named main set
+        #Check whether there is save folder
+        if not os.path.exists(self.main_set):
+            os.makedirs(self.main_set)
+        #Check whether there is a folder named main set
         if os.path.isfile(self.main_set + '/' + data_name + '.zip'):
             data_path = self.main_set + '/' + data_name + '.zip'
 
