@@ -12,7 +12,6 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
 def find_pssm_missing_proteins(fasta_dict, pssm_dir):
     set_missing_prots = set()
     set_prots_pssm_exists = set()
@@ -40,7 +39,6 @@ def find_pssm_missing_proteins(fasta_dict, pssm_dir):
     set_missing_prots = set_missing_prots.union(set(fasta_dict.keys()) - set_prots_pssm_exists)
     return list(set_missing_prots)
 
-
 def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
     fasta_dict = dict()
     sequence = ""
@@ -48,7 +46,7 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
     with open("{}/{}.fasta".format(input_dir, fasta_file), "r") as fp:
         for line in fp:
             if line[0] == '>':
-                if prot_id != "":
+                if prot_id != "" and prot_id not in fasta_dict:
                     fasta_dict[prot_id] = sequence
                 prot_id = line.strip().split("|")[place_protein_id]
                 if place_protein_id == 0:
@@ -58,7 +56,6 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
             else:
                 sequence += line.strip()
         fasta_dict[prot_id] = sequence
-
     fp.close()
     return fasta_dict
 
@@ -73,11 +70,12 @@ def form_single_fasta_files(list_proteins_no_pssm, fasta_dict):
         fw.write(">sp|{}\n{}\n".format(prot_id, fasta_dict[prot_id]))
         fw.close()
 
-
 def form_missing_pssm_files(pssm_dir):
     path_single_fastas = "{}/temp_folder/single_fastas".format(path_to_folder)
     path_blast = "{}/ncbi-blast".format(path_to_folder)
-
+    for ncbi_file in os.listdir('{}/ncbi-blast'.format(path_to_folder)):
+        path_file_ncbi = '{}/ncbi-blast/{}'.format(path_to_folder, ncbi_file)
+        os.chmod(path_file_ncbi, 0o777)
     for filename in os.listdir(path_single_fastas):
         prot_id = filename.split(".")[0].strip()
         single_fasta_prot = "{}/{}".format(path_single_fastas, filename)
@@ -111,7 +109,7 @@ def copy_pssms(fasta_dict):
 
 def copy_form_pssm_matrices(fasta_dict):
     pssm_dir = "{}/pssm_files".format(path_to_folder)
-    list_proteins_no_pssm1 = fasta_dict.keys()
+    list_proteins_no_pssm1 = find_pssm_missing_proteins(fasta_dict, pssm_dir)
     if len(list_proteins_no_pssm1) != 0:
         copy_pssms(list_proteins_no_pssm1)
     list_proteins_no_pssm2 = find_pssm_missing_proteins(fasta_dict, pssm_dir)
