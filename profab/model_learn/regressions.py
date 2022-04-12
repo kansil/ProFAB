@@ -73,11 +73,12 @@ class regressors(object):
         else:
             clf.fit(X_train)
         best_model = clf.best_estimator_
-        if os.path.isfile(self.path):
-            print(f'Model path {self.path} is already exist.'
-                  f'To not lose model please provide model path name.')
-            sys.exit(1)
+
         if self.path is not None:
+            if os.path.isfile(self.path):
+                print(f'Model path {self.path} is already exist.'
+                      f'To not lose model please provide model path name.')
+                sys.exit(1)
             with open(self.path, 'wb') as f:
                 pickle.dump(best_model,f)
 

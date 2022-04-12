@@ -74,13 +74,15 @@ class classifiers(object):
 
         best_model = clf.best_estimator_
         print(best_model)
-        if os.path.isfile(self.path):
-            print(f'Model path {self.path} is already exist.'
-                  f'To not lose model please provide model path name.')
-            sys.exit(1)
+
             
         if self.path is not None:
-	        with open(self.path, 'wb') as f:
+            if os.path.isfile(self.path):
+                print(f'Model path {self.path} is already exist.'
+                      f'To not lose model please provide model path name.')
+                sys.exit(1)
+	       
+            with open(self.path, 'wb') as f:
 	            pickle.dump(best_model,f)
 
         return best_model
