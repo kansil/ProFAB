@@ -172,7 +172,9 @@ def self_data(file_name, delimiter, label, name):
 
 
 def _classif_form_table(scores, score_path = 'score_path.csv'):
-    
+    if os.path.isfile(score_path):
+        print(f'File {score_path} already exists, Please try another name for output file.')
+        sys.exit(1)
     if type(scores) is not dict:
         raise TypeError('Type "scores" should be dictionary')
     f = open(score_path,'w')
@@ -188,7 +190,9 @@ def _classif_form_table(scores, score_path = 'score_path.csv'):
     f.close()
     
 def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
-    
+    if os.path.isfile(score_path):
+        print(f'File {score_path} already exists, Please try another name for output file.')
+        sys.exit(1)
     if type(scores) is not dict:
         raise TypeError('Type "scores" should be dictionary')
     
@@ -209,6 +213,9 @@ def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
 
 def multiform_table(score_dict, score_path):
     
+    if os.path.isfile(score_path):
+        print(f'File {score_path} already exists, Please try another name for output file.')
+        sys.exit(1)
     f = open(score_path, 'w')
     
     datasets = list(score_dict.keys())
