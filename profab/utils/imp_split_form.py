@@ -172,12 +172,16 @@ def self_data(file_name, delimiter, label, name):
 
 
 def _classif_form_table(scores, score_path = 'score_path.csv'):
+
+    func = 'w'
     if os.path.isfile(score_path):
-        print(f'File {score_path} already exists, Please try another name for output file.')
-        sys.exit(1)
+        print(f'File {score_path} already exists, Scores are append to old score path')
+        func = 'a'
+    
     if type(scores) is not dict:
         raise TypeError('Type "scores" should be dictionary')
-    f = open(score_path,'w')
+    
+    f = open(score_path,func)
     
     scores.values()
     columns = ['Set'] + list(list(scores.values())[0].keys())
@@ -187,16 +191,21 @@ def _classif_form_table(scores, score_path = 'score_path.csv'):
         score = np.array([sc] + list(scores[sc].values()),dtype = str)          
         f.write(f'{",".join(score)}\n')
     
+    f.write(f'\n')
     f.close()
     
 def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
+    
+    func = 'w'
     if os.path.isfile(score_path):
-        print(f'File {score_path} already exists, Please try another name for output file.')
-        sys.exit(1)
+        print(f'File {score_path} already exists, Scores are append to old score path')
+        func = 'a'
+        
+
     if type(scores) is not dict:
         raise TypeError('Type "scores" should be dictionary')
     
-    f = open(score_path,'w')
+    f = open(score_path,func)
     columns = ['Set'] + list(list(scores.values())[0].keys())[:-1] + list(
         
         list(scores.values())[0]['threshold based Metrics'].keys())
@@ -209,14 +218,17 @@ def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
             scores[sc]['threshold based Metrics'].values()) ,dtype = str)
         f.write(f'{",".join(score)}\n')
 
+    f.write(f'\n')
     f.close()
 
 def multiform_table(score_dict, score_path):
     
+    func = 'w'
     if os.path.isfile(score_path):
-        print(f'File {score_path} already exists, Please try another name for output file.')
-        sys.exit(1)
-    f = open(score_path, 'w')
+        print(f'File {score_path} already exists, Scores are append to old score path')
+        func = 'a'
+        
+    f = open(score_path, func)
     
     datasets = list(score_dict.keys())
     columns = ['Dataset Name', 'Set'] + list(list(score_dict[datasets[0]].values())[0].keys())
@@ -231,6 +243,8 @@ def multiform_table(score_dict, score_path):
             score = np.array([" "] + [sc] + list(scores[sc].values()),dtype = str)          
             f.write(f'{",".join(score)}\n')
         f.write(f'\n')
+    
+    f.write(f'\n')
     f.close()
     
     
