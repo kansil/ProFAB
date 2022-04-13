@@ -45,6 +45,10 @@ parser.add_argument('--score_path',
                     type = str,
                     default='score_path.csv',
                     help = 'A destination where scores are saved. It must be .csv file.')
+parser.add_argument('--model_path',
+                    type = str,
+                    default=None,
+                    help = 'A destination where model parameters are saved.')
 parser.add_argument('--scale_type',
                     type = str,
                     default = 'standard',
@@ -90,7 +94,7 @@ parser.add_argument('--delimiter',
                     default = "\t",
                     help = "A character to separate columns in file.")
 
-def imp_train_result(data_name, kwargs, user_kwargs, fasta_kwargs):
+def imp_train_result(data_name, model_path, kwargs, user_kwargs, fasta_kwargs):
     
     dataset = ()
     data_model = None
@@ -185,6 +189,7 @@ def imp_train_result(data_name, kwargs, user_kwargs, fasta_kwargs):
                                 y_train = y_train,
                                 X_valid = X_validation,
                                 y_valid = y_validation,
+                                path = model_path
                                 )
         
         print(f'Predicting test-validation sets labels and Scoring...')
@@ -207,6 +212,7 @@ def imp_train_result(data_name, kwargs, user_kwargs, fasta_kwargs):
         model = classification_methods(ml_type = kwargs['ml_type'],
                                 X_train = X_train,
                                 y_train = y_train,
+                                path = model_path
                                 )
         print(f'Predicting test set labels and Scoring...')
         score_train = evaluate_score(model,X_train,y_train,preds = False)
@@ -228,10 +234,13 @@ def loop_trough(file_name, kwargs, user_kwargs, fasta_kwargs):
     score_dict = {}
     if data_names:
         for data_name in data_names:
+            if kwargs['model_path'] is not None:
+                model_path = data_name + '_' + kwargs['model_path'] 
             print('---------***---------\n')
             idn = re.split('/',data_name)[-1]
             print(f'Dataset: {idn}')
             score_dict.update({re.split('/',data_name)[-1]:imp_train_result(data_name,
+                                                          model_path,
                                                           kwargs,
                                                           user_kwargs,
                                                           fasta_kwargs)})
@@ -269,6 +278,7 @@ if __name__ == '__main__':
         ml_type = args.ml_type,
         scale_type = args.scale_type,
         score_path = args.score_path,
+        model_path = args.model_path,
         ratio = r,
         protein_feature = args.protein_feature,
         pre_determined = args.pre_determined,
