@@ -75,10 +75,7 @@ class regressors(object):
         best_model = clf.best_estimator_
 
         if self.path is not None:
-            if os.path.isfile(self.path):
-                print(f'Model path {self.path} is already exist.'
-                      f'To not lose model please provide model path name.')
-                sys.exit(1)
+
             with open(self.path, 'wb') as f:
                 pickle.dump(best_model,f)
 
@@ -149,6 +146,13 @@ def regression_methods(X_train,ml_type = "SVM", y_train = None ,X_valid = None,y
                 Type of machine learning algorithm.
     """
     
+    if path is not None:
+        if os.path.isfile(path):
+            print(f'Model path {path} is already exist.'
+                  f'To not lose model please provide new model path name or leave path as None')
+            sys.exit(1)
+            
+            
     if set(y_train) == {1,-1} or set(y_train) == {1,0}:
         raise ValueError('Data must be continous not binary')
 
