@@ -13,7 +13,7 @@ def extract_protein_feature(protein_feature,
                           input_folder,
                           fasta_file_name
                           ):
-     '''
+    '''
      The feature_extracter class is designed to extract features by employing POSSUM and iFeature python-based tools.
      POSSUM (Position-Specific Scoring matrix-based feature generator for machine learning),
      a versatile toolkit with an online web server that can generate 21 types of PSSM-based feature descriptors,
