@@ -31,6 +31,8 @@ class classifiers(object):
             y_train: (default = None), Label matrix, type = {list, numpy array}
             X_valid: (default = None), Validation Set, type = {list,numpy array}
             y_valid: (default = None), Validation Label, type = {list,numpy array}
+        Returns:
+            model: Parameters of fitted model
         """
         
         self.path = path
