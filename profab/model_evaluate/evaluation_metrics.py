@@ -373,16 +373,22 @@ def get_scores(labels, predictions, validation_test, total_training_loss, total_
 def evaluate_score(model,X,y, preds = False, learning_method = 'classif'):
     
     """
+    Description:
+        Predict new labels and evaluate scoring metrics.
+        
     Parameters
     ----------
-    model: model type used to predict new label
-    X: feature matrix
-    y: label matrix
+        model: model type used to predict new label
+        X: feature matrix
+        y: label matrix
+        preds: {bool}, default = False, if True, function returns predicted labels, too
+        learning_method: {string}, default = 'classif', return scoring metric according
+                        to learning method
 
     Returns
     -------
-    Scores: recall, precision, f1, acc, f 0.5, mcc scores
-    f: predicted label
+        Scores: recall, precision, f1, acc, f 0.5, mcc scores
+        f: predicted label
 
     """
     f = model.predict(X)
