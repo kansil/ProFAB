@@ -9,8 +9,9 @@ from . import data_importer
     
 class ECNO(data_importer.cls_data_loader):
     '''
-    ECNO is a function to import enzyme commssion number data. It gives X data 
-    and y data separately 
+    Description:
+        ECNO is a function to import enzyme commssion number data. It gives X data 
+        and y data separately 
     Parameters:
         ratio: {None, float, list}, (default = 0.2): used to split data 
                 into train, test, validation sets as given values. If left None, 
@@ -33,6 +34,10 @@ class ECNO(data_importer.cls_data_loader):
         label: {None, 'positive','negative'}, (default = None): If None, data
                 is given directly, if 'negative', only negative set is given,
                 If 'positive', only positive set is given.
+    
+    Returns:
+        Multiple arrays that contains training, test and validation dataset and 
+        their labels.
     '''
     def __init__(self,protein_feature = 'paac',
                  set_type = 'random',
@@ -46,8 +51,9 @@ class ECNO(data_importer.cls_data_loader):
 
 class GOID(data_importer.cls_data_loader):
     '''
-    GOID is a function to import gene ontology term data. It gives X data and
-    y data separately.
+    Description:
+        GOID is a function to import gene ontology term data. It gives X data and
+        y data separately.
     Parameters:
         ratio: {None, float, list}, (default = 0.2): used to split data 
                 into train, test, validation sets as given values. If left None, 
@@ -70,6 +76,10 @@ class GOID(data_importer.cls_data_loader):
         label: {None, 'positive','negative'}, (default = None): If None, data
                 is given directly, if 'negative', only negative set is given,
                 If 'positive', only positive set is given.
+                
+    Returns:
+        Multiple arrays that contains training, test and validation dataset and 
+        their labels.
     '''
     def __init__(self,protein_feature = 'paac',
                  set_type = 'random',
@@ -101,7 +111,8 @@ class SelfGet(data_importer.casual_importer):
         label: type = bool, default = False, If True, then last colmun
             is considered as label of inputs else the last column is a 
             feature column. 
-        
+    Return:
+        Feature matrix data and possible label data according to attributes.
     '''
     
     def __init__(self, delimiter = '\t', name = False, label = False):
