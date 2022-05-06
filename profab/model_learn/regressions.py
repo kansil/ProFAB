@@ -20,19 +20,23 @@ class regressors(object):
 
     def __init__(self,path):
         
-        """
-        Description: In class,6 different machine learning methods for regression 
-                are introduced. Their hyperparameters are tuned by
-                RandomizedSearchCV and all methods return only their hyperparameters 
-                that give the best accoring to cvthat is created by RepeatedStraitKFold.
+            """
+    Description: 
+        Six different machine learning methods for regression
+        are introduced. Their hyperparameters are tuned by
+        RandomizedSearchCV and all methods return only their hyperparameters 
+        that give the best respect to cross-validation that is created by RepeatedKFold.
     
-        Parameters:
-            path: A destination point where model is saved. 
-            X_train: Feature matrix
-            y_train: (default = None), Label matrix, type = {list, numpy array}
-            X_valid: (default = None), Validation Set, type = {list,numpy array}
-            y_valid: (default = None), Validation Label, type = {list,numpy array}
-        """
+    Parameters:
+        path: A destination point where model is saved.
+        X_train: Feature matrix
+        y_train: (default = None), Label matrix, type = {list, numpy array}
+        X_valid: (default = None), Validation Set, type = {list,numpy array}
+        y_valid: (default = None), Validation Label, type = {list,numpy array}
+        
+    Returns:
+        model: Parameters of fitted model
+    """
         
         self.path = path
         self.parameters = None
@@ -135,15 +139,26 @@ class regressors(object):
 
 
 def regression_methods(X_train,ml_type = "SVM", y_train = None ,X_valid = None,y_valid = None, path = None):
-    
+
     """
     Description: 
-        Selecting classification method and apply it to the data to train
+        Six different machine learning methods for regression
+        are introduced. Their hyperparameters are tuned by
+        RandomizedSearchCV and all methods return only their hyperparameters 
+        that give the best respect to cross-validation that is created by RepeatedKFold.
     
     Parameters:
         ml_type: {'linear_reg','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
+        path: A destination point where model is saved.
+        X_train: Feature matrix
+        y_train: (default = None), Label matrix, type = {list, numpy array}
+        X_valid: (default = None), Validation Set, type = {list,numpy array}
+        y_valid: (default = None), Validation Label, type = {list,numpy array}
+        
+    Returns:
+        model: Parameters of fitted model
     """
     
     if path is not None:
