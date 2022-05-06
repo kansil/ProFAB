@@ -32,6 +32,13 @@ def ttv_split(X = None,y = None, ratio = 0.2, X_pos = None, X_neg = None):
         them. If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction 
         is 0.2 and validation fraction is 0.1 of all dataset size. 
     
+    Returns:
+        X_train: {numpy array}: training dataset
+        X_test: {numpy array}: test dataset
+        X_validation: {numpy array}: validation dataset, returns if ratio is list
+        y_train: {numpy array}: training dataset's labels
+        y_test: {numpy array}: test dataset's labels
+        y_validation: {numpy array}: validation dataset's labels, returns if ratio is list
     '''
     if X is not None and y is not None:
         return separator(X,y, ratio)
