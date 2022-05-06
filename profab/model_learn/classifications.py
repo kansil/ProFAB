@@ -170,12 +170,24 @@ def classification_methods(X_train,ml_type = 'SVM', y_train = None,
     
     """
     Description: 
-        Selecting classification method and apply it to the data to train
+        Nine different machine learning methods for classification
+        are introduced. Their hyperparameters are tuned by
+        RandomizedSearchCV and all methods return only their hyperparameters 
+        that give the best respect to cross-validation that is created by RepeatedStratifiedKFold.
+
     
     Parameters:
         ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
-                Type of machine learning algorithm.
+                Type of machine learning algorithm.    
+        path: A destination point where model is saved.
+        X_train: Feature matrix
+        y_train: (default = None), Label matrix, type = {list, numpy array}
+        X_valid: (default = None), Validation Set, type = {list,numpy array}
+        y_valid: (default = None), Validation Label, type = {list,numpy array}
+        
+    Returns:
+        model: Parameters of fitted model
     """
     if path is not None:
         if os.path.isfile(path):
