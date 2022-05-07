@@ -387,8 +387,8 @@ def evaluate_score(model,X,y, preds = False, learning_method = 'classif'):
 
     Returns
     -------
-        Scores: recall, precision, f1, acc, f 0.5, mcc scores
-        f: predicted label
+        Scores: {dict}, recall, precision, f1, acc, f 0.5, mcc scores
+        f: {numpy array}, predicted label
 
     """
     f = model.predict(X)
