@@ -225,7 +225,7 @@ def imp_train_result(data_name, model_path, kwargs, user_kwargs, fasta_kwargs):
     
 
 def loop_trough(file_name, kwargs, user_kwargs, fasta_kwargs):
-    
+    model_path = kwargs['model_path']
     data_names = []
     with open(file_name) as f:
         for row in f:
@@ -235,7 +235,8 @@ def loop_trough(file_name, kwargs, user_kwargs, fasta_kwargs):
     if data_names:
         for data_name in data_names:
             if kwargs['model_path'] is not None:
-                model_path = data_name + '_' + kwargs['model_path'] 
+                model_path = data_name + '_' + kwargs['model_path']
+           
             print('---------***---------\n')
             idn = re.split('/',data_name)[-1]
             print(f'Dataset: {idn}')
