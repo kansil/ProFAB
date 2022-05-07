@@ -17,7 +17,7 @@ class ScalerNormalizer():
         train: train feature matrix
         
     Return
-        scaled_train: feature matrix which function was applied
+        scaled_train: {numpy array} feature matrix which function was applied
         scaler: a model to scale other dataset like test datatest
         
     """
