@@ -79,7 +79,7 @@ class GOID(data_importer.cls_data_loader):
                 
     Returns:
         Multiple arrays that contains training, test and validation dataset and 
-        their labels.
+        their labels. {numpy array, list}
     '''
     def __init__(self,protein_feature = 'paac',
                  set_type = 'random',
@@ -112,7 +112,7 @@ class SelfGet(data_importer.casual_importer):
             is considered as label of inputs else the last column is a 
             feature column. 
     Return:
-        Feature matrix data and possible label data according to attributes.
+        Feature matrix data and possible label data according to attributes. {list}
     '''
     
     def __init__(self, delimiter = '\t', name = False, label = False):
