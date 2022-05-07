@@ -29,7 +29,7 @@ class regressors(object):
 
         Parameters:
             path: {string}, A destination point where model is saved.
-            X_train: {list, numpy array}, Feature matrix
+            X_train: Feature matrix, {list, numpy array}
             y_train: (default = None), Label matrix, type = {list, numpy array}
             X_valid: (default = None), Validation Set, type = {list,numpy array}
             y_valid: (default = None), Validation Label, type = {list,numpy array}
@@ -152,7 +152,7 @@ def regression_methods(X_train,ml_type = "SVM", y_train = None ,X_valid = None,y
                 'naive_bayes', decision_tree',gradient_boosting'}, default = "SVM",
                 Type of machine learning algorithm.
         path: {string}, A destination point where model is saved.
-        X_train: {list, numpy array}, Feature matrix
+        X_train: Feature matrix, {list, numpy array}
         y_train: (default = None), Label matrix, type = {list, numpy array}
         X_valid: (default = None), Validation Set, type = {list,numpy array}
         y_valid: (default = None), Validation Label, type = {list,numpy array}
