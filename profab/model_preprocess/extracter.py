@@ -14,13 +14,14 @@ def extract_protein_feature(protein_feature,
                           fasta_file_name
                           ):
     '''
-     The feature_extracter class is designed to extract features by employing POSSUM and iFeature python-based tools.
-     POSSUM (Position-Specific Scoring matrix-based feature generator for machine learning),
-     a versatile toolkit with an online web server that can generate 21 types of PSSM-based feature descriptors,
-     thereby addressing a crucial need for bioinformaticians and computational biologists.
-     iFeature, a versatile Python-based toolkit for generating various numerical feature representation schemes for
-     both protein and peptide sequences. iFeature is capable of calculating and extracting a comprehensive spectrum
-     of 18 major sequence encoding schemes that encompass 53 different types of feature descriptors.
+    Description:
+       The feature_extracter class is designed to extract features by employing POSSUM and iFeature python-based tools.
+       POSSUM (Position-Specific Scoring matrix-based feature generator for machine learning),
+       a versatile toolkit with an online web server that can generate 21 types of PSSM-based feature descriptors,
+       thereby addressing a crucial need for bioinformaticians and computational biologists.
+       iFeature, a versatile Python-based toolkit for generating various numerical feature representation schemes for
+       both protein and peptide sequences. iFeature is capable of calculating and extracting a comprehensive spectrum
+       of 18 major sequence encoding schemes that encompass 53 different types of feature descriptors.
      Parameters:
          protein_feature: {string}, (default = 'aac_pssm'): one of the 21 PSMM-based protein descriptors in POSSUM.
                           aac_pssm, d_fpssm, smoothed_pssm, ab_pssm, pssm_composition, rpm_pssm,
