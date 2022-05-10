@@ -18,6 +18,14 @@ from zipfile import ZipFile
 
 def download_data(server_path,save_path):
     
+    '''
+    Description:
+        Download dataset from Kansil server
+    Parameters:
+        server_path: {string}, path of server where data is hold
+        save_path: {string}, path to save dataset in local
+    '''
+    
     headers=requests.head(server_path).headers
     #print(headers)
     downloadable = 'Content-Length' in headers.keys()
@@ -36,7 +44,27 @@ def download_data(server_path,save_path):
         sys.exit(1)
 
 def separator(X,y,ratio):
-    
+    '''
+    Description:
+        To split data into train, test and validation sets with respect to ratio
+        value
+    Paramters:
+        ratio: {float, list}, used to split data into train, test, validation
+            sets as given values. If ratio = a (float), then test will be a%
+            of total data size. If ratio = [a,b] where a and b are in (0,1), 
+            train, test and validation sets are formed according to them. For
+            example, If a = 0.2 and b = 0.1, train fraction is 0.7, test
+            fraction is 0.2 and validation fraction is 0.1 of all dataset size.
+    Returns:
+        X_train: {numpy array}: training dataset
+        X_test: {numpy array}: test dataset
+        X_validation: {numpy array}: validation dataset, returns if ratio is
+            list
+        y_train: {numpy array}: training dataset's labels
+        y_test: {numpy array}: test dataset's labels
+        y_validation: {numpy array}: validation dataset's labels, returns if
+            ratio is list
+    '''
     if type(ratio) == float:
 
         return train_test_split(X,y, test_size = ratio)
@@ -51,36 +79,24 @@ def separator(X,y,ratio):
             
         return X_train,X_test,X_validation,y_train,y_test,y_validation
     
-    
-def _rgr_data_import(zip_data,xf,yf,indices_file = None):
-    X,y = [],[]
-    with ZipFile(zip_data) as f:
-        ready_indices = set([int(i.decode('utf-8').strip('\n')) for i in f.open(indices_file)])
-        xff =  f.open(xf)
-        yff = f.open(yf)
-        if indices_file is not None:
-            for k,(rowx,rowy) in enumerate(zip(xff,yff)):
-                if k in ready_indices:
-                    rowx = re.split(' ',rowx.strip('\n'))
-                    rowx = list(np.array(rowx,dtype = 'float64'))
-                    X.append(rowx)
-                    y.append(rowy.strip('\n'))
-    
-        else:
-            for rowx,rowy in zip(xff,yff):
-            
-                rowx = re.split(' ',rowx.strip('\n'))
-                rowx = list(np.array(rowx,dtype = 'float64'))
-                X.append(rowx)
-                y.append(rowy.strip('\n'))
-    xf.close()
-    yf.close()
-    
-    return X,y
-    
 
 def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,neg_indices = None):
     
+    '''
+    Description:
+        Load data from zip file
+    Paramters:
+        zip_data: {string}, name of zip file
+        pos_file: {string}, name of positive data in zip file
+        neg_file: {string}, name of negative data in zip file
+        label: {'positive','negative'}, if 'negative', only negative set is loaded,
+                If 'positive', only positive set is loaded.
+        pos_indices: {set}, (default = None), If None, all data is loaded,
+            otherwise data at pos_indices are loaded
+        neg_indices: {set}, (default = None), If None, all negative data is loaded,
+            otherwise negative data at neg_indices are loaded
+            
+    '''    
     
     pX,nX,X,y = [],[],[],[]
     
@@ -136,6 +152,25 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
 
 def self_data(file_name, delimiter, label, name):
         
+    '''
+    Description:
+        This function is to provide users to import their datasets with
+        specified delimiter. The format of data should be like that if 
+        delimiter is comma separated and name == True:
+
+            Name(or ID),feature_1,feature_2,...,feature_n
+            Name(or ID),feature_1,feature_2,...,feature_n
+            Name(or ID),feature_1,feature_2,...,feature_n
+
+    Parameters:
+        delimiter: default = "\t", a character to separate columns in file.
+        name: type = bool, default = False, If True, then first colmun
+            is considered as name of inputs else the first column is a 
+            feature column.
+        label: type = bool, default = False, If True, then last colmun
+            is considered as label of inputs else the last column is a 
+            feature column. 
+    '''
     
     with open(file_name, 'r') as f:
             
@@ -172,7 +207,14 @@ def self_data(file_name, delimiter, label, name):
 
 
 def _classif_form_table(scores, score_path = 'score_path.csv'):
-
+    '''
+    Description:
+        Storing classification scoring metrics in .csv format
+    Paramters:
+        scores: {dict}, includes all classification scoring metrics
+        score_path: {string}, (default = "score_path.csv"), a path where
+            metrics are saved    
+    '''
     func = 'w'
     if os.path.isfile(score_path):
         print(f'File {score_path} already exists, Scores are append to old score path')
@@ -195,7 +237,14 @@ def _classif_form_table(scores, score_path = 'score_path.csv'):
     f.close()
     
 def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
-    
+    '''
+    Description:
+        Storing regression scoring metrics in .csv format
+    Paramters:
+        scores: {dict}, includes all regression scoring metrics
+        score_path: {string}, (default = "score_path.csv"), a path where
+            metrics are saved    
+    '''
     func = 'w'
     if os.path.isfile(score_path):
         print(f'File {score_path} already exists, Scores are append to old score path')
@@ -222,7 +271,16 @@ def _rgr_form_table(scores, size = None, score_path = 'score_path.csv'):
     f.close()
 
 def multiform_table(score_dict, score_path):
-    
+    '''
+    Description:
+        Storing classification scoring metrics in .csv format for different
+        dataset
+    Paramters:
+        score_dict: {dict}, includes all classification scoring metrics of
+            different datasets
+        score_path: {string}, (default = "score_path.csv"), a path where
+            metrics are saved    
+    '''
     func = 'w'
     if os.path.isfile(score_path):
         print(f'File {score_path} already exists, Scores are append to old score path')
@@ -247,4 +305,51 @@ def multiform_table(score_dict, score_path):
     f.write(f'\n')
     f.close()
     
+
+
+
+#!!!This function is out of use until dti datasets will be active!!!
+'''
+def _rgr_data_import(zip_data,xf,yf,indices_file = None):
+    X,y = [],[]
+    with ZipFile(zip_data) as f:
+        ready_indices = set([int(i.decode('utf-8').strip('\n')) for i in f.open(indices_file)])
+        xff =  f.open(xf)
+        yff = f.open(yf)
+        if indices_file is not None:
+            for k,(rowx,rowy) in enumerate(zip(xff,yff)):
+                if k in ready_indices:
+                    rowx = re.split(' ',rowx.strip('\n'))
+                    rowx = list(np.array(rowx,dtype = 'float64'))
+                    X.append(rowx)
+                    y.append(rowy.strip('\n'))
     
+        else:
+            for rowx,rowy in zip(xff,yff):
+            
+                rowx = re.split(' ',rowx.strip('\n'))
+                rowx = list(np.array(rowx,dtype = 'float64'))
+                X.append(rowx)
+                y.append(rowy.strip('\n'))
+    xf.close()
+    yf.close()
+    
+    return X,y
+
+
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
