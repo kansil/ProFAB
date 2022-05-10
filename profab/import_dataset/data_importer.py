@@ -15,8 +15,31 @@ class cls_data_loader():
     def __init__(self,ratio,protein_feature,main_set,set_type,label,pre_determined):
         
         """
-            Parameters:
-                main_set: {ec_dataset, go_dataset}, folder includes its corresponding data name
+        Description:
+            class to apply paramters to selected data and to give user training and test datasets
+        Parameters:
+            main_set: {ec_dataset, go_dataset}, folder includes its corresponding data name
+            ratio: {None, float, list}, (default = 0.2): used to split data 
+                into train, test, validation sets as given values. If left None, 
+                only X and y data can be obtained while float value gives train 
+                and test set. If ratio = a (float), then test will be a% of total 
+                data size. If ratio = [a,b] where a and b are in (0,1), 
+                train, test and validation sets are formed according to them. For example, 
+                If a = 0.2 and b = 0.1, train fraction is 0.7, test fraction is 0.2 
+                and validation fraction is 0.1 of all dataset size. If set_type = 'temporal', 
+                then ratio = None automatically.
+            protein_faeture: {'paac','aac','gaac','ctriad','ctdt','soc_number','kpssm'},
+                    (default = 'paac'): numerical features of protein sequences
+            set_type: {'random','similarity','temporal'}, (default = 'random'):
+                    split type of data, random:random splitting, target:
+                    similarity based splitting, temporal: splitting according to
+                    annotation time
+            pre_determined: bool, (default = False), if False, data is given
+                    according to ratio type, If True, already splitted data will
+                    be provided.
+            label: {None, 'positive','negative'}, (default = None): If None, data
+                    is given directly, if 'negative', only negative set is given,
+                    If 'positive', only positive set is given.
         """
         self.ratio = ratio
         self.protein_feature = protein_feature
@@ -62,7 +85,13 @@ class cls_data_loader():
     def get_data(self,data_name):
         
         """
-            Take attributes and prepare datasets according to them. If no data is available at local, then is dowloaded
+        Description:
+            Take attributes  and return applicable datasets. If no data is available at local, then is dowloaded
+        Parameters:
+            data_name: {string}, name of dataset to get
+        Return:
+            Multiple arrays that contains training, test and validation dataset and 
+            their labels. {numpy array, list}
             
         """
         
@@ -203,9 +232,16 @@ class cls_data_loader():
                     
     def look_options(self,name_list,data_name):
         """
+        Description:
             Look for options for set_type and protein features found 
             in zip file and return them. It is to learn what is inside
             of zip file.
+        Paramters:
+            name_list: {list}, list of names found in data folder
+            data_name: {string}, name of dataset to get
+        Return:
+            avai_sets: {set}, names of available set_type in data folder
+            avai_prot: {set}, names of avaialbe protein_faeture in data folder
         """
         avai_sets, avai_prots = set(),set()
         for names in name_list:
@@ -250,7 +286,25 @@ class cls_data_loader():
 class casual_importer():
     
     def __init__(self,delimiter, name, label):
-        
+        '''
+        Description:
+            This function is to provide users to import their datasets with
+            specified delimiter. The format of data should be like that if 
+            delimiter is comma separated and name == True:
+
+                Name(or ID),feature_1,feature_2,...,feature_n
+                Name(or ID),feature_1,feature_2,...,feature_n
+                Name(or ID),feature_1,feature_2,...,feature_n
+
+        Parameters:
+            delimiter: default = "\t", a character to separate columns in file.
+            name: type = bool, default = False, If True, then first colmun
+                is considered as name of inputs else the first column is a 
+                feature column.
+            label: type = bool, default = False, If True, then last colmun
+                is considered as label of inputs else the last column is a 
+                feature column. 
+        '''
         self.delimiter = delimiter
         self.name = name
         self.label = label
@@ -258,9 +312,13 @@ class casual_importer():
     def get_data(self,file_name):
         
         """
+        Description: 
+            Take attributes and users data name and return applicable datasets.
         Parameters:
             file_name = Name of file holds data. 
                         Format must be specified.
+        Return:
+            Feature matrix data and possible label data according to attributes. {list}
         """
         
         return self_data(file_name = file_name,
