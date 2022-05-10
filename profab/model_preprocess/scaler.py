@@ -11,11 +11,8 @@ class ScalerNormalizer():
     """
     Description:This class has 5 methods in which normalizer stands to 
                            normalize the data. Others are for scaling
-    
-    
     Parameters
         train: train feature matrix
-        
     Return
         scaled_train: {numpy array} feature matrix which function was applied
         scaler: a model to scale other dataset like test datatest
