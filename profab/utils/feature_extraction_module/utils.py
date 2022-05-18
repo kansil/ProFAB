@@ -2,6 +2,9 @@ import os, platform, shutil, zipfile
 import pathlib
 path_to_folder = pathlib.Path(__file__).parent.resolve()
 class bcolors:
+    """bcolors class can be used to change font and color of warnings and explanations displayed in terminal.
+
+    """
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
@@ -13,6 +16,17 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def find_pssm_missing_proteins(fasta_dict, pssm_dir):
+    """find_pssm_missing_proteins function finds the missing pssm files of the proteins in fasta file.
+
+    Args:
+        fasta_dict (dict): This is a dict of fasta file. The keys of fasta_dict are protein ids and
+        values are protein sequences.
+        pssm_dir (str): It is full path to the directory that contains pssm files.
+
+    Returns:
+        list: The list of proteins that does not have pssm file in pssm_dir
+
+    """
     set_missing_prots = set()
     set_prots_pssm_exists = set()
     for file in os.listdir(pssm_dir):
@@ -40,6 +54,22 @@ def find_pssm_missing_proteins(fasta_dict, pssm_dir):
     return list(set_missing_prots)
 
 def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
+    """read_fasta_to_dict function is to read protein ids and sequences from the given fasta file.
+
+    This funtions forms a dictionary of the fasta file. The keys of the dictionary are protein ids
+    and values are the corresponding protein sequences
+
+    Args:
+        input_dir (str): it is full path to the directory that contains fasta file
+        fasta_file (str): it is the name of the fasta file without fasta extension
+        place_protein_id (int): it is to define where the protein id places in the fasta header
+        when it is splitted according to | sign.
+
+    Returns:
+        dict: This is a dict of fasta file. The keys of fasta_dict are protein ids and
+        values are protein sequences.
+
+    """
     fasta_dict = dict()
     sequence = ""
     prot_id = ""
@@ -60,6 +90,17 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
     return fasta_dict
 
 def form_single_fasta_files(list_proteins_no_pssm, fasta_dict):
+    """form_single_fasta_files function forms a fasta file each protein sequence
+
+    This function is to prepare fasta files for scbi-blast so that the missing pssms can be
+    extracted using psi-blast in ncbi-blast
+
+    Args:
+        list_proteins_no_pssm (list): list of protein ids whose pssm file does not exist
+        fasta_dict (dict): dictionary of all proteins in the fasta file. The keys are protein ids
+        and the values are corresponding protein sequences.
+
+    """
     path_single_fastas = "{}/temp_folder/single_fastas".format(path_to_folder)
 
     if os.path.isdir(path_single_fastas) == False:
@@ -71,6 +112,16 @@ def form_single_fasta_files(list_proteins_no_pssm, fasta_dict):
         fw.close()
 
 def form_missing_pssm_files(pssm_dir):
+    """form_missing_pssm_files function runs psi-blast to extract pssm files.
+
+    This function extracts the pssm files of the proteins whose pssm file could not
+    be found in our database. The function saves the extracted pssm to the files and
+    puts under the pssm directory.
+
+    Args:
+        pssm_dir (str): It is the full path to the directory of pssm files
+
+    """
     path_single_fastas = "{}/temp_folder/single_fastas".format(path_to_folder)
     path_blast = "{}/ncbi-blast".format(path_to_folder)
     for ncbi_file in os.listdir('{}/ncbi-blast'.format(path_to_folder)):
@@ -95,6 +146,16 @@ def form_missing_pssm_files(pssm_dir):
         print("Error: %s - %s." % (e.filename, e.strerror))
 
 def copy_pssms(fasta_dict):
+    """copy_pssms funtion is to download and save the pssm files of the proteins in the fasta file.
+
+    This function downloads pssm files of the proteins in the fasta file from the web-server.
+    The pssm file are saved to the pssm directory.
+
+    Args:
+        fasta_dict (dict): This is a dict of fasta file. The keys of fasta_dict are protein ids and
+        values are protein sequences.
+
+    """
     import requests
     for prot_id in fasta_dict:
         remote_url = 'https://slpred.kansil.org/swissprot_pssms/{}.pssm'.format(prot_id)
@@ -108,6 +169,16 @@ def copy_pssms(fasta_dict):
                 file.write(data.content)
 
 def copy_form_pssm_matrices(fasta_dict):
+    """copy_form_pssm_matrices function calls the mentioned functions to form all pssm files
+
+    This function calls find_pssm_missing_proteins, form_single_fasta_files, copy_pssms and
+    form_missing_pssm_files functions. Finally, it forms all the pssm files for the proteins.
+
+    Args:
+        fasta_dict (dict): This is a dict of fasta file. The keys of fasta_dict are protein ids and
+        values are protein sequences.
+
+    """
     pssm_dir = "{}/pssm_files".format(path_to_folder)
     list_proteins_no_pssm1 = find_pssm_missing_proteins(fasta_dict, pssm_dir)
     if len(list_proteins_no_pssm1) != 0:
@@ -119,6 +190,18 @@ def copy_form_pssm_matrices(fasta_dict):
 
 
 def edit_extracted_features_POSSUM(temp_output_file, output_file, fasta_dict):
+    """edit_extracted_features_POSSUM function is to edit the output file of POSSUM.
+
+    The function forms a tab separated output file whose first column is protein ids and
+    the rest of the columns are the extracted protein features.
+
+    Args:
+         temp_output_file (str): It is the full path to the output file of POSSUM
+         output_file (str): It is the full path to the final output file (edited)
+         fasta_dict (dict): This is a dict of fasta file. The keys of fasta_dict are protein ids and
+         values are protein sequences.
+
+    """
     with open(temp_output_file, 'r') as fp:
         fw = open(output_file, 'w')
         for line, prot_id in zip(fp, fasta_dict):
@@ -135,6 +218,19 @@ def edit_extracted_features_POSSUM(temp_output_file, output_file, fasta_dict):
     os.remove(temp_output_file)
 
 def edit_extracted_features_iFeature(temp_output_file, output_file, place_protein_id):
+    """edit_extracted_features_iFeature function is to edit the output file of iFeature.
+
+    The function forms a tab separated output file whose first column is protein ids and
+    the rest of the columns are the extracted protein features.
+
+    Args:
+         temp_output_file (str): It is the full path to the output file of POSSUM
+         output_file (str): It is the full path to the final output file (edited)
+         place_protein_id (int): It indicates the place of protein id in fasta header.
+         e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt. '|' then >sp is
+         in the zeroth position, protein id in the first(1) position.
+
+    """
     with open(temp_output_file, 'r') as fp:
         fw = open(output_file, 'w')
         for line in fp:
