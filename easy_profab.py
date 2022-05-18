@@ -9,12 +9,16 @@ import os, re
 import argparse
 import numpy as np
 
-from profab.model_learn import *
-from profab.model_evaluate import *
-from profab.import_dataset import *
-from profab.model_preprocess import *
-from profab.model_preprocess import extract_protein_feature
+from profab.model_learn.classifications import classification_methods
+from profab.model_learn.regressions import regression_methods
+from profab.model_evaluate.evaluation_metrics import evaluate_score
+from profab.model_evaluate.form_table import *
+from profab.import_dataset.data_loader import *
+from profab.model_preprocess.scaler import scale_methods
+from profab.model_preprocess.extracter import extract_protein_feature
+from profab.model_preprocess.splitter import ttv_split
 import warnings
+
 warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='ProFAB in terminal to train GO and EC terms')
