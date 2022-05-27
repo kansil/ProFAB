@@ -20,6 +20,10 @@ To get repository, execute following line:
 ```
 git clone https://github.com/Sametle06/benchmark_platform.git
 ```
+or download from pypi.org:
+```
+pip install profab-pypi==1.0
+```
 
 ## How to use ProFAB:
 
