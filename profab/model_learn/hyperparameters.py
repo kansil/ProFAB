@@ -60,6 +60,7 @@ cls_svm_params = dict(
             max_iter = [2500]
             )
 
+
 #Random Forest Parameters
 cls_random_forest_params = dict(
             n_estimators = [int(i) for i in np.linspace(10,50,num=40)],
@@ -108,7 +109,7 @@ Regression parameters for algorithms:
             multilayer perceptron
             decision tree
             gradient boosting
-'''
+
 #Linear Regression Parameters
 rgr_linear_regression_params = dict(
             fit_intercept = True,
@@ -162,7 +163,7 @@ rgr_gradient_boosting_params = dict(
             subsample = np.linspace(0.5,1.5,10,endpoint=True)
             )
 
-
+'''
 
 
 
