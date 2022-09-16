@@ -17,6 +17,10 @@ After the preprocessing steps (i.e., obtaining the dataset, featurization and sc
     - naive_bayes
     - decision_tree
     - gradient_boosting
+    - lightgbm
+    - xgboost
+    - cnn
+    - rnn
 
 #### Explanation of Parameters
 
