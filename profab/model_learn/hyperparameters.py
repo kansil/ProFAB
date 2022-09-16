@@ -126,10 +126,10 @@ cls_lightcbm = dict(
 
 #Convolutional NN Parameters
 cls_cnn = dict(
-            epochs = 300,
-            learning_rate = 10**-3,
+            epochs = 100,
+            learning_rate = 9*10**-4,
             eps = 10**-5,
-            batch_size = 10,
+            batch_size = 30,
             embedding_size = 128,
             out_size = 128,
             kernel_size_1 = 2,
@@ -143,9 +143,9 @@ cls_cnn = dict(
             )
 
 cls_rnn = dict(
-            epochs = 50,
-            learning_rate = 7*10**-4,
-            batch_size = 20,
+            epochs = 110,
+            learning_rate = 9*10**-4,
+            batch_size = 100,
             eps = 10**-5,
             embedding_size = 64,
             out_size = 64,
