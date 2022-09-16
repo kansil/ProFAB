@@ -5,11 +5,11 @@ Created on Tue May 26 18:45:38 2020
 @author: Sameitos
 """
 
-import os,sys
+import os, sys
 import numpy as np
 from sklearn.model_selection import RandomizedSearchCV,RepeatedStratifiedKFold, PredefinedSplit
 import pickle
-
+from .deep_classification import cnn_classifier, rnn_classifier
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -36,7 +36,8 @@ class classifiers(object):
         """
         
         self.path = path
-        self.parameters = None
+        
+        self.n_folds = 10
         self.n_jobs = -1
         self.random_state = 0
 
@@ -47,22 +48,29 @@ class classifiers(object):
 
         if X_valid is None: 
             
-            cv = RepeatedStratifiedKFold(n_splits=10,n_repeats = 5,random_state= self.random_state)
+            cv = RepeatedStratifiedKFold(n_splits= self.n_folds,n_repeats = 5, random_state= self.random_state)
             
         else:
             
             if y_valid is None:
                 raise ValueError('True label data for validation set cannot be None')
             
-            X_train = list(X_train)
-            y_train = list(y_train)
+            test_fold = [0 for x in range(len(X_train))] + [-1 for x in range(len(X_valid))]
             
-            len_tra, len_val = len(X_train),len(X_valid)
+            X_train = np.array(list(X_train) + list(X_valid))
+            y_train = np.array(list(y_train) + list(y_valid)).reshape(len(y_train)+len(y_valid),1)
+            y_valid = np.array(y_valid).reshape(len(y_valid),1)
+            #X_train = list(X_train)
+            #y_train = list(y_train)
             
-            X_train.extend(list(X_valid))
-            y_train.extend(list(y_valid))
+            #len_tra, len_val = len(X_train),len(X_valid)
             
-            test_fold = [0 if x in np.arange(len_tra) else -1 for x in np.arange(len_tra+len_val)]
+            #X_train.extend(list(X_valid))
+            #y_train.extend(list(y_valid))
+            
+            
+            #[0 if x in np.arange(len_tra) else -1 for x in np.arange(len_tra+len_val)]
+            
             cv = PredefinedSplit(test_fold)
 
         clf = RandomizedSearchCV(model,self.parameters,n_iter = 10,
@@ -157,6 +165,7 @@ class classifiers(object):
 
 
     def naive_bayes(self,X_train,y_train,X_valid,y_valid):
+        
         from sklearn.naive_bayes import GaussianNB
         
         model = GaussianNB()
@@ -165,10 +174,44 @@ class classifiers(object):
             pickle.dump(model, f)
         return model
 
+    def xg_boost(self,X_train,y_train,X_valid,y_valid):
+        
+        import xgboost as xgb 
+        from .hyperparameters import cls_xgboost
+        
+        self.parameters = cls_xgboost
+        model = xgb.XGBClassifier()
+        
+        return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
+    
+    def light_gbm(self,X_train,y_train,X_valid,y_valid):
+        
+        from lightgbm import  LGBMClassifier
+        from .hyperparameters import cls_lightcbm
+        
+        self.parameters = cls_lightcbm
+        model = LGBMClassifier()
+        return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
+        
+        
+    def CNN(self,X_train,y_train,X_valid,y_valid):
+        
+        from .hyperparameters import cls_cnn
+        
+        return cnn_classifier(X_train,y_train,X_valid,y_valid,cls_cnn,self.path)
+    
+    def RNN(self,X_train,y_train,X_valid,y_valid):
+        
+        from .hyperparameters import cls_rnn
+        
+        return rnn_classifier(X_train,y_train,X_valid,y_valid,cls_rnn,self.path)
 
-def classification_methods(X_train,ml_type = 'SVM', y_train = None,
+
+def classification_methods(X_train,y_train = None,
                            X_valid = None,y_valid = None,
-                           path = None):
+                           ml_type = 'SVM', 
+                           path = None
+                           ):
     
     """
     Description: 
@@ -176,7 +219,6 @@ def classification_methods(X_train,ml_type = 'SVM', y_train = None,
         are introduced. Their hyperparameters are tuned by
         RandomizedSearchCV and all methods return only their hyperparameters 
         that give the best respect to cross-validation that is created by RepeatedStratifiedKFold.
-
     
     Parameters:
         ml_type: {'logistic_reg','ridge_class','KNN','SVM','random_forest','MLP',
@@ -191,22 +233,28 @@ def classification_methods(X_train,ml_type = 'SVM', y_train = None,
     Returns:
         model: Parameters of fitted model
     """
-    if path is not None:
-        if os.path.isfile(path):
-            print(f'Model path {path} is already exist.'
-                  f'To not lose model please provide new model path name or leave path as None')
-            sys.exit(1)
-                
     
-    if not set(y_train) == {1,-1} or set(y_train) == {1,0}:
-    	raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')
+    if path is not None:
+        if ml_type != 'CNN' and ml_type != 'RNN':
+            if os.path.isfile(path):
+                print(f'Model path {path} is already exist.'
+                      f'To not lose model please provide new model path name or leave path as None')
+                sys.exit(1)
+        
+        
+    
+    if set(y_train) == set([1,-1]) or set(y_train) == set([1,0]):
+        pass
+    else:
+        raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')
 
     c = classifiers(path)
     
     machine_methods = {'logistic_reg':c.logistic_regression,'ridge_class':c.ridge_class,
                      'KNN':c.KNN,'SVM':c.SVM,'random_forest':c.random_forest,
                     'MLP':c.MLP,'naive_bayes':c.naive_bayes,'decision_tree':c.decision_tree,
-                    'gradient_boosting':c.gradient_boosting}    
+                    'gradient_boosting':c.gradient_boosting,'xgboost':c.xg_boost,
+                    'lightgbm':c.light_gbm,'CNN':c.CNN,'RNN':c.RNN}    
 
     return machine_methods[ml_type](X_train = X_train,
                                     y_train = y_train,
