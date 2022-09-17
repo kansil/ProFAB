@@ -4,6 +4,7 @@ from math import sqrt
 from scipy import stats
 from sklearn import preprocessing, metrics
 from sklearn.metrics import confusion_matrix
+import torch 
 
 def get_cindex(Y, P):
     summ = 0
@@ -370,28 +371,51 @@ def get_scores(labels, predictions, validation_test, total_training_loss, total_
             print("{} {}:\t{}".format(validation_test, scr, score_dict[scr]))
     return score_dict
 
-def evaluate_score(model,X,y, preds = False, learning_method = 'classif'):
+def evaluate_score(model,X,y, preds = False, learning_method = 'classif', isDeep = False):
     
     """
     Description:
         Predict new labels and evaluate scoring metrics.
         
     Parameters
-    ----------
         model: model type used to predict new label
         X: feature matrix
         y: label matrix
         preds: {bool}, default = False, if True, function returns predicted labels, too
         learning_method: {string}, default = 'classif', return scoring metric according
                         to learning method
-
+        isDeep: {bool}, default = False, If True, model is evaluated with torch.no_grad()
     Returns
-    -------
         Scores: {dict}, recall, precision, f1, acc, f 0.5, mcc scores
         f: {numpy array}, predicted label
-
     """
-    f = model.predict(X)
+    if isDeep:
+        sgm = torch.nn.Sigmoid()
+        
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        #print(type(X))
+        
+        if isinstance(X,np.ndarray) or isinstance(X,list):
+            
+            X = torch.tensor(X).to(device)
+            #y = torch.tensor(y).to(device)
+        
+        if len(X.size()) == 1:
+            X = X.unsqueeze(0).unsqueeze(0).float()
+        elif len(X.size()) == 2:
+            X = X.unsqueeze(1).float()
+        #print(X)
+        #print(X.size()) 
+        model.eval()
+        with torch.no_grad():
+            pred = model(X)
+            pred = sgm(pred)
+        f = np.where(pred.cpu().detach().numpy()<0.5,0,1)
+        #print(type(f))
+        #print(f)
+    else:
+        f = model.predict(X)
+    
     if learning_method == 'rgr':
         a = mse(y,f)
         b = rmse(y,f)
@@ -403,6 +427,7 @@ def evaluate_score(model,X,y, preds = False, learning_method = 'classif'):
         Scores = {'MSE':a,'RMSE':b,'Spearman':c,'Pearson':d,'Average_AUC':e,'threshold based Metrics':g}
         
     else:
+
         Scores = cl_prec_rec_f1_acc_mcc(y,f)
     
     if preds:
