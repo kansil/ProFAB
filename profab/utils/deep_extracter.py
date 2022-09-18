@@ -61,7 +61,7 @@ def change_seq(seq_data,max_len):
         data.append(j)
     return data
 
-def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
+def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_folder):
     
     '''
     Description:
@@ -80,6 +80,8 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
         features: {np.array}, transformed continous data.
         
     '''
+    
+    output_file = output_folder + '/' + fasta_file[:-5] + '_t5xl.txt'
     
     seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data, max_len)    
@@ -116,9 +118,14 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
             seq_emd = embedding[seq_num][1:seq_len-1]
         features.append(seq_emd)
     
-    return features
+    
+    np.savetxt(output_file,features)
+    
+    return output_file
 
-def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
+    
+
+def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_folder):
     
     '''
     Description:
@@ -137,9 +144,11 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
         features: {np.array}, transformed continous data. 
     '''
     
-    
+    output_file = output_folder + '/' + fasta_file[:-5] + '_bert.txt'
     seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data,max_len)
+    
+    
     
     
     from transformers import BertModel, BertTokenizer
@@ -177,7 +186,9 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
             seq_emd = embedding[seq_num][1:seq_len-1]
         features.append(seq_emd)
     
-    return features
+    np.savetxt(output_file,features)
+    
+    return output_file
 
 
 
