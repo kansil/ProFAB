@@ -66,7 +66,11 @@ in the zeroth position, protein id in the first(1) position.
 
 **fasta_file_name: {string}, (default ='sample'):** it is the name of the fasta file exclude the '.fasta' extension.
 
+**output_folder: {string}, (default = './'):** name of folder where output will be saved.
 
+**take_avg: {bool}, (default = False):** If False, output will be saved as torch.tensor. If True, average of vectors will be saved as array. 
+
+**max_len: {int}, default = -1):** Max sequence lenght to embed
 ## Input file 
 
 * It must be in fasta format
@@ -89,7 +93,6 @@ Each PSSM file in the folder is named as **proteinID.pssm**.
 ## Output file
 
 * The extracted feature files will be located under
-**feature_extraction_module/output_folder** 
 folder with the name: **fasta_file_name_protein_feature.txt** (e.g. sample_AAC.txt)
 * The content of the output files: 
   * Each row corresponds to the extracted features of the protein sequence
