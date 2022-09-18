@@ -52,8 +52,9 @@ def extract_protein_feature(protein_feature,
          
          output_folder: {string}, (default = './'): output_folder where data will be saved
          
-         take_avg: {bool}, (default = False): if True, average of vectors will be returned
-        
+         take_avg: {bool}, (default = False): If False, output will be saved as torch.tensor
+                           if True, average of vectors will be saved as array. 
+                           
          max_len: {int}, (default = -1): Max sequence lenght to embed
     '''
 
