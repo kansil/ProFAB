@@ -8,6 +8,46 @@ import re
 import numpy as np
 import torch
 
+def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
+    """read_fasta_to_dict function is to read protein ids and sequences from the given fasta file.
+
+    This funtions forms a dictionary of the fasta file. The keys of the dictionary are protein ids
+    and values are the corresponding protein sequences
+
+    Parameters:
+        input_dir (str): it is full path to the directory that contains fasta file
+        fasta_file (str): it is the name of the fasta file without fasta extension
+        place_protein_id (int): it is to define where the protein id places in the fasta header
+        when it is splitted according to | sign.
+
+    Returns:
+        dict: This is a dict of fasta file. The keys of fasta_dict are protein ids and
+        values are protein sequences.
+
+    """
+    fasta_dict = set()#dict()
+    seq_list = []
+    sequence = ""
+    prot_id = ""
+    with open("{}/{}.fasta".format(input_dir, fasta_file), "r") as fp:
+        for line in fp:
+            if line[0] == '>':
+                if prot_id != "" and prot_id not in fasta_dict:
+                    fasta_dict.add(prot_id)#[prot_id] = sequence
+                    seq_list.append(sequence)
+                prot_id = line.strip().split("|")[place_protein_id]
+                if place_protein_id == 0:
+                    prot_id = prot_id[1:]
+                if prot_id not in fasta_dict:
+                    
+                    sequence = ""
+            else:
+                sequence += line.strip()
+        seq_list.append(sequence)
+        fasta_dict.add(prot_id)#[prot_id] = sequence
+    fp.close()
+    return seq_list
+
 def change_seq(seq_data,max_len):
     
     data = []
@@ -21,7 +61,7 @@ def change_seq(seq_data,max_len):
         data.append(j)
     return data
 
-def t5_features(seq_data,take_avg,max_len):
+def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
     
     '''
     Description:
@@ -29,17 +69,24 @@ def t5_features(seq_data,take_avg,max_len):
         by using RostLab pretrained model 'prot_t5_xl_uniref50' with "transformers"
         Python package
     Parameters:
-        seq_data: {np.array, list}, protein sequence data. 
+        fasta_file: {str}, fasta file that includes protein sequence data. 
         take_avg: {bool}, default = False, if True, average of vectors will be returned
         max_len: {int}, default = -1, Max sequence lenght to embed
+        input_dir (str): it is full path to the directory that contains fasta file
+        fasta_file (str): it is the name of the fasta file without fasta extension
+        place_protein_id (int): it is to define where the protein id places in the fasta header
+        when it is splitted according to | sign.
     Return:
         features: {np.array}, transformed continous data.
         
     '''
     
+    seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
+    seq_data = change_seq(seq_data, max_len)    
+    
     from transformers import T5Tokenizer, T5Model
     
-    seq_data = change_seq(seq_data, max_len)
+    
     tokenizer = T5Tokenizer.from_pretrained('Rostlab/prot_t5_xl_uniref50', do_lower_case=False)
     
     model = T5Model.from_pretrained('Rostlab/prot_t5_xl_uniref50')
@@ -71,24 +118,29 @@ def t5_features(seq_data,take_avg,max_len):
     
     return features
 
-def bert_features(seq_data,take_avg,max_len):
-    
+def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len):
     
     '''
     Description:
         This function is to transform protein sequences into continuous data
-        by using RostLab pretrained model "prot_bert" with "transformers" Python package
+        by using RostLab pretrained model 'prot_t5_xl_uniref50' with "transformers"
+        Python package
     Parameters:
-        seq_data: {np.array, list}, protein sequence data. 
+        fasta_file: {str}, fasta file that includes protein sequence data. 
         take_avg: {bool}, default = False, if True, average of vectors will be returned
         max_len: {int}, default = -1, Max sequence lenght to embed
+        input_dir (str): it is full path to the directory that contains fasta file
+        fasta_file (str): it is the name of the fasta file without fasta extension
+        place_protein_id (int): it is to define where the protein id places in the fasta header
+        when it is splitted according to | sign.
     Return:
-        features: {list}, transformed continous data.
-        
+        features: {np.array}, transformed continous data. 
     '''
     
-
+    
+    seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data,max_len)
+    
     
     from transformers import BertModel, BertTokenizer
     
@@ -116,7 +168,7 @@ def bert_features(seq_data,take_avg,max_len):
     
     #print(embedding.size())
 
-    features = [] 
+    features = []
     for seq_num in range(len(embedding)):
         seq_len = (attention_mask[seq_num] == 1).sum()
         if take_avg:
