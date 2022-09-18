@@ -66,7 +66,7 @@ in the zeroth position, protein id in the first(1) position.
 
 **fasta_file_name: {string}, (default ='sample'):** it is the name of the fasta file exclude the '.fasta' extension.
 
-**output_folder: {string}, (default = './'):** name of folder where output will be saved.
+**output_folder: {string}, (default = '.'):** name of folder where output will be saved.
 
 **take_avg: {bool}, (default = False):** If False, output will be saved as torch.tensor. If True, average of vectors will be saved as array. (***arg for transformer models***)
 
