@@ -31,6 +31,13 @@ Conjoint triad| Conjoint triad (CTriad) <br/> Conjoint k-spaced triad (KSCTriad)
 Quasi-sequence-order| Sequence-order-coupling number (SOCNumber) <br/> Quasi-sequence-order descriptors (QSOrder)     | 60 <br/> 100 
 Pseudo-amino acid composition| Pseudo-amino acid composition (PAAC) <br/> Amphiphilic PAAC (APAAC)                                     | 50 <br/> 80 
 
+<br/>Table.4: Protein descriptors from transformer models.
+
+| Protein Descriptor | Definition                                                    
+----------------------------------------|-----------------------------------------------------------------------
+ProtT5-XL-UniRef50 (T5XL)| Auto Regressive NLP model that uses UniRef50 dataset
+ProtBert (BERT)| Auto-encoder NLP model uses BERT algorithms
+
 
 ## Explanation of Parameters
 Here, we explain about
