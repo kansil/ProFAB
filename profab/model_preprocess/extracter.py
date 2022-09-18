@@ -15,7 +15,7 @@ def extract_protein_feature(protein_feature,
                           place_protein_id,
                           input_folder,
                           fasta_file_name,
-                          output_folder= './',
+                          output_folder= '.',
                           take_avg = False,
                           max_len = -1
                           
@@ -50,7 +50,7 @@ def extract_protein_feature(protein_feature,
 
          fasta_file_name: {string}, (default ='sample'): it is the name of the fasta file exclude the '.fasta' extension.
          
-         output_folder: {string}, (default = './'): output_folder where data will be saved
+         output_folder: {string}, (default = '.'): output_folder where data will be saved
          
          take_avg: {bool}, (default = False): If False, output will be saved as torch.tensor
                            if True, average of vectors will be saved as array. 
@@ -106,7 +106,7 @@ def extract_deep_feature(fasta_file, input_folder, place_protein_id, protein_fea
 
         fasta_file_name: {string}, (default ='sample'): it is the name of the fasta file exclude the '.fasta' extension.
         
-        output_folder: {string}, (default = './'): output_folder where data will be saved
+        output_folder: {string}, (default = '.'): output_folder where data will be saved
         
         take_avg: {bool}, (default = False), if True, average of vectors will be returned
         
