@@ -70,7 +70,8 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         Python package
     Parameters:
         fasta_file: {str}, fasta file that includes protein sequence data. 
-        take_avg: {bool}, default = False, if True, average of vectors will be returned
+        take_avg: {bool}, default = False, If False, output will be saved as torch.tensor
+                          if True, average of vectors will be saved as array. 
         max_len: {int}, default = -1, Max sequence lenght to embed
         input_dir (str): it is full path to the directory that contains fasta file
         fasta_file (str): it is the name of the fasta file without fasta extension
@@ -117,10 +118,11 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         else:
             seq_emd = embedding[seq_num][1:seq_len-1]
         features.append(seq_emd)
-    
-    
-    np.savetxt(output_file,features)
-    
+    if len(features[0].shape) == 2:
+        torch.save(torch.tensor(features),output_file)
+    else:
+        np.savetxt(output_file,features)
+
     return output_file
 
     
@@ -134,7 +136,8 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
         Python package
     Parameters:
         fasta_file: {str}, fasta file that includes protein sequence data. 
-        take_avg: {bool}, default = False, if True, average of vectors will be returned
+        take_avg: {bool}, default = False, If False, output will be saved as torch.tensor
+                          if True, average of vectors will be saved as array. 
         max_len: {int}, default = -1, Max sequence lenght to embed
         input_dir (str): it is full path to the directory that contains fasta file
         fasta_file (str): it is the name of the fasta file without fasta extension
@@ -186,7 +189,11 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
             seq_emd = embedding[seq_num][1:seq_len-1]
         features.append(seq_emd)
     
-    np.savetxt(output_file,features)
+    
+    if len(features[0].shape) == 2:
+        torch.save(torch.tensor(features),output_file)
+    else:
+        np.savetxt(output_file,features)
     
     return output_file
 
