@@ -24,11 +24,12 @@ This module is to considering performance results with many scoring metrics. Use
 
 #### Explanation of Parameters
 
--***model***: Fitting to predict labels
--***X***: type = {list, numpy array}, feature matrix to introduce to model
--***y***: type = {list, numpy array}, corresponding label matrix
--***preds***: type = bool, If True return predictions and scores else only return scores
--***learning_method***: {"classif","reg"}, default = "classif", Learning task to get corresponding metrics
+- ***model***: Fitting to predict labels
+- ***X***: type = {list, numpy array}, feature matrix to introduce to model
+- ***y***: type = {list, numpy array}, corresponding label matrix
+- ***preds***: type = bool, If True return predictions and scores else only return scores
+- ***isDeep**: type = bool, If True, torch model evaluation will be done, otherwise scikit-learn library will be used.
+- ***learning_method***: {"classif","reg"}, default = "classif", Learning task to get corresponding metrics
 
 #### Usage
 
