@@ -68,9 +68,9 @@ in the zeroth position, protein id in the first(1) position.
 
 **output_folder: {string}, (default = './'):** name of folder where output will be saved.
 
-**take_avg: {bool}, (default = False):** If False, output will be saved as torch.tensor. If True, average of vectors will be saved as array. 
+**take_avg: {bool}, (default = False):** If False, output will be saved as torch.tensor. If True, average of vectors will be saved as array. (***arg for transformer model***)
 
-**max_len: {int}, default = -1):** Max sequence lenght to embed
+**max_len: {int}, default = -1):** Max sequence lenght to embed (***arg for transformer model***)
 ## Input file 
 
 * It must be in fasta format
