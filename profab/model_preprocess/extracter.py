@@ -15,6 +15,7 @@ def extract_protein_feature(protein_feature,
                           place_protein_id,
                           input_folder,
                           fasta_file_name,
+                          output_folder= './',
                           take_avg = False,
                           max_len = -1
                           
@@ -48,15 +49,24 @@ def extract_protein_feature(protein_feature,
          input_folder: {string}, (default = 'input_folder'}: it is the path to the folder that contains the fasta file.
 
          fasta_file_name: {string}, (default ='sample'): it is the name of the fasta file exclude the '.fasta' extension.
+         
+         output_folder: {string}, (default = './'): output_folder where data will be saved
+         
+         take_avg: {bool}, (default = False): if True, average of vectors will be returned
         
-         take_avg: {bool}, (default = False), if True, average of vectors will be returned
-        
-         max_len: {int}, (default = -1), Max sequence lenght to embed
+         max_len: {int}, (default = -1): Max sequence lenght to embed
     '''
 
+    if protein_feature in ['T5XL','BERT']:
+            
+        return extract_deep_feature(fasta_file_name, input_folder, place_protein_id, protein_feature,output_folder,
+                                    take_avg,max_len)
+
+    
     feat_ext = feature_extracter(protein_feature,
                                  place_protein_id,
                                  input_folder,
+                                 output_folder,
                                  fasta_file_name)
 
     if protein_feature in feat_ext.POSSUM_desc_list:
@@ -67,16 +77,15 @@ def extract_protein_feature(protein_feature,
 
         return feat_ext.extract_iFeature_feature()
 
-    elif protein_feature in ['T5XL','BERT']:
-        
-        return extract_deep_feature(fasta_file_name, input_folder, place_protein_id, protein_feature)
+    
 
     else:
-        print(f"{bcolors.FAIL}Protein Feature extraction method is not in POSSUM, iFeature{bcolors.ENDC} or ProtTrans")
+        raise AttributeError(f"{bcolors.FAIL}Protein Feature extraction method is not in POSSUM, iFeature{bcolors.ENDC} or ProtTrans")
 
 
 
-def extract_deep_feature(fasta_file, input_folder, place_protein_id, protein_feature,take_avg = False,max_len = -1):
+def extract_deep_feature(fasta_file, input_folder, place_protein_id, protein_feature, output_folder, take_avg,max_len
+                         ):
     '''
     Description:
         This function is to transform protein sequences into continuous data
@@ -88,23 +97,30 @@ def extract_deep_feature(fasta_file, input_folder, place_protein_id, protein_fea
                            e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt. '|' then >sp is
                            in the zeroth position, protein id in the first(1) position.
 
-        input_folder: {string}, (default = 'input_folder'}: it is the path to the folder that contains the fasta file.
+        input_folder: {string}, (default = 'input_folder'): it is the path to the folder that contains the fasta file.
+        
+            
+        protein_feature: {str}, {'BERT','T5XL'}, transformer model.        
+
 
         fasta_file_name: {string}, (default ='sample'): it is the name of the fasta file exclude the '.fasta' extension.
+        
+        output_folder: {string}, (default = './'): output_folder where data will be saved
         
         take_avg: {bool}, (default = False), if True, average of vectors will be returned
         
         max_len: {int}, (default = -1), Max sequence lenght to embed
         
-        protein_feature: {str}, {'BERT','T5XL'}, transformer model.
+        
     Return:
-        embedded_data: {np.array}, transformed continous data.
+        output_file: {string}, name of output file
     
     '''
+    
     if protein_feature == 'T5XL':
-        return t5_features(fasta_file,input_folder, place_protein_id ,take_avg,max_len)
+        return t5_features(fasta_file,input_folder, place_protein_id ,take_avg,max_len,output_folder)
     elif protein_feature == 'BERT':
-        return bert_features(fasta_file,input_folder, place_protein_id ,take_avg,max_len)
+        return bert_features(fasta_file,input_folder, place_protein_id ,take_avg,max_len,output_folder)
 
 def onehotencoder():
     pass
