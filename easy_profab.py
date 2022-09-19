@@ -75,6 +75,19 @@ parser.add_argument('--place_protein_id',
                            " e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt."
                            " '|' then >sp is in the zeroth position, protein id in the first(1) "
                            "position.")
+parser.add_argument('--output_fasta',
+                    type = str,
+                    default = '.',
+                    help='Name of folder where output will be saved.')
+parser.add_argument('--take_avg',
+                    type = bool,
+                    default = False,
+                    help = 'If False, output will be saved as torch.tensor. If True, average of'
+                            'vectors will be saved as array. (arg for NLP methods)')
+parser.add_argument('--max_len',
+                    type = int,
+                    default = -1,
+                    help = 'Max sequence lenght to embed (arg for NLP methods)')
 
 parser.add_argument('--isUser',
                     type = bool,
@@ -111,8 +124,12 @@ def imp_train_result(data_name, model_path, kwargs, user_kwargs, fasta_kwargs):
             output_file = extract_protein_feature(
                 protein_feature = kwargs['protein_feature'],
                 place_protein_id = fasta_kwargs['place_protein_id'],
+                take_avg = kwargs['take_avg'],
+                max_len = kwargs['max_len'],
+                
                 input_folder = data_name,
-                fasta_file_name = fasta[:-6]
+                output_folder=fasta_kwargs['output_fasta'],
+                fasta_file_name = fasta[:-6],
                 )
             if re.search('positive',output_file):    
                 X_pos_file_name = output_file
@@ -285,6 +302,7 @@ if __name__ == '__main__':
         score_path = args.score_path,
         model_path = args.model_path,
         ratio = r,
+        output_fasta = args.output_fasta,
         protein_feature = args.protein_feature,
         pre_determined = args.pre_determined,
         set_type = args.set_type
