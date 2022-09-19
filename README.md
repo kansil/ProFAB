@@ -45,8 +45,7 @@ pre_determined (bool)| - | False | if False, data is given according to ratio ty
 scale_type (str)| 'normalizer'<br/>'standard'<br/>'max_abs'<br/>'min_max'<br/>'robust'|'standard' |determines the method to scale the data
 ml_type (str) | 'logistic_reg'<br/>'ridge_class'<br/>'KNN'<br/>'SVM'<br/>'random_forest'<br/>'MLP'<br/>'naive_bayes'<br/>decision_tree'<br/>'gradient_boosting'<br/>'xgboost'<br/>'lightgbm'<br/>'CNN'<br/>'RNN'<br/>'CNN' |'logistic_reg'| type of machine learning algorithm
 isFasta (bool) | - |False| If True, a data provided by user is Fasta file else numerical data should be introduced. While *isUser* = True, this parameter cannot be True at the same time. Format of fasta files must be **.fasta** and names of files should describe label. The path described in input file must include these files: "positive_data.fasta" and "negative_data.fasta"
-output_fasta (str) | - | '.' | Name of folder where output will be saved
-take_avg (bool) | - | False | If False, output will be saved as torch.tensor. If True, average of vectors will be saved as array. (arg for NLP methods)
+output_fasta (str) | - | '' | Name of folder where output will be saved
 max_len (int) | - | -1 | Max sequence lenght to embed (arg for NLP methods)
 place_protein_id (int)| - | 1 | It indicates the place of protein id in fasta header. e.g. fasta header: >sp|O27002|....|....|...., seperate the header wrt. '|' then >sp is in the zeroth position, protein id in the first(1) position
 isUser (bool)| - | False| If True, user data path must be defined in input file. While *isFasta* = True, this parameter cannot be True at the same time. If *label* = False, names of files should describe label. As an example, The path described in input file must include these files: "positive_data.txt" and "negative_data.txt". If ***label*** = True, it doesn't matter
