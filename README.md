@@ -14,7 +14,7 @@ As seen from the figure, in ProFAB, four main modules [import_dataset](profab/im
 ProFAB availabilty:
     Operating System: Platform independent (except Protein Feature Extraction which can be run in LINUX and MAC.)\
     Programming language: Python: >=3.7\
-    Package Requirements: tqdm (4.63.0), requests 2.27.1), numpy (1.21.2), scikit-learn (1.0.1)
+    Package Requirements: tqdm (4.63.0), requests 2.27.1), numpy (1.21.2), scikit-learn (1.0.1), pytorch 1.9.1
 
 To get repository, execute following line:
 ```
