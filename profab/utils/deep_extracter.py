@@ -4,7 +4,7 @@ Created on Fri Aug  5 11:25:51 2022
 
 @author: Sameitos
 """
-import re
+import os, re
 import numpy as np
 import torch
 
@@ -82,7 +82,7 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         
     '''
     
-    output_file = output_folder + '/' + fasta_file[:-5] + '_t5xl.txt'
+    output_file = output_folder + '/' + fasta_file + '_t5xl.txt'
     
     seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data, max_len)    
@@ -111,16 +111,17 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         embedding = model(input_ids=input_ids,attention_mask=attention_mask,decoder_input_ids = input_ids)[0]
             
     features = [] 
-    for seq_num in range(len(embedding)):
+    for k,seq_num in enumerate(len(embedding)):
         seq_len = (attention_mask[seq_num] == 1).sum()
         if take_avg:
             seq_emd = embedding[seq_num][1:seq_len-1].mean(dim=0).cpu().numpy()
+            features.append(seq_emd)
         else:
-            seq_emd = embedding[seq_num][1:seq_len-1]
-        features.append(seq_emd)
-    if len(features[0].shape) == 2:
-        torch.save(torch.tensor(features),output_file)
-    else:
+            if not os.path.exists(output_file[:-4]+'/'):
+                os.path.makedirs(output_file[:-4]+'/')
+            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+k+'.txt')
+    
+    if features:
         np.savetxt(output_file,features)
 
     return output_file
@@ -147,7 +148,7 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
         features: {np.array}, transformed continous data. 
     '''
     
-    output_file = output_folder + '/' + fasta_file[:-5] + '_bert.txt'
+    output_file = output_folder + '/' + fasta_file + '_bert.txt'
     seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data,max_len)
     
@@ -180,21 +181,21 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
     
     #print(embedding.size())
 
-    features = []
-    for seq_num in range(len(embedding)):
+    features = [] 
+    for k,seq_num in enumerate(len(embedding)):
         seq_len = (attention_mask[seq_num] == 1).sum()
         if take_avg:
             seq_emd = embedding[seq_num][1:seq_len-1].mean(dim=0).cpu().numpy()
+            features.append(seq_emd)
         else:
-            seq_emd = embedding[seq_num][1:seq_len-1]
-        features.append(seq_emd)
-    
-    
-    if len(features[0].shape) == 2:
-        torch.save(torch.tensor(features),output_file)
-    else:
+            if not os.path.exists(output_file[:-4]+'/'):
+                os.path.makedirs(output_file[:-4]+'/')
+            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+k+'.txt')
+            
+    if features:
         np.savetxt(output_file,features)
-    
+
+    if take_avg: return output_file[:-4]+'/'
     return output_file
 
 
