@@ -82,7 +82,10 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         
     '''
     
-    output_file = output_folder + '/' + fasta_file + '_t5xl.txt'
+    if output_folder is None:
+        output_file = fasta_file + '_t5_xl.txt'
+    else:
+        output_file = output_folder + '/' + fasta_file + '_t5xl.txt'
     
     seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data, max_len)    
@@ -124,6 +127,7 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
     if features:
         np.savetxt(output_file,features)
 
+    if not take_avg: return output_file[:-4]+'/'
     return output_file
 
     
@@ -148,7 +152,10 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
         features: {np.array}, transformed continous data. 
     '''
     
-    output_file = output_folder + '/' + fasta_file + '_bert.txt'
+    if output_folder is None:
+        output_file = fasta_file + '_bert.txt'
+    else:
+        output_file = output_folder + '/' + fasta_file + '_bert.txt'
     seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data,max_len)
     
@@ -195,7 +202,7 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
     if features:
         np.savetxt(output_file,features)
 
-    if take_avg: return output_file[:-4]+'/'
+    if not take_avg: return output_file[:-4]+'/'
     return output_file
 
 
