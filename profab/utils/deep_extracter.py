@@ -27,6 +27,7 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
     """
     fasta_dict = set()#dict()
     seq_list = []
+    name_list = []
     sequence = ""
     prot_id = ""
     with open("{}/{}.fasta".format(input_dir, fasta_file), "r") as fp:
@@ -35,6 +36,7 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
                 if prot_id != "" and prot_id not in fasta_dict:
                     fasta_dict.add(prot_id)#[prot_id] = sequence
                     seq_list.append(sequence)
+                    name_list.append(prot_id)
                 prot_id = line.strip().split("|")[place_protein_id]
                 if place_protein_id == 0:
                     prot_id = prot_id[1:]
@@ -43,10 +45,11 @@ def read_fasta_to_dict(input_dir, fasta_file, place_protein_id):
                     sequence = ""
             else:
                 sequence += line.strip()
+        name_list.append(prot_id)
         seq_list.append(sequence)
         fasta_dict.add(prot_id)#[prot_id] = sequence
     fp.close()
-    return seq_list
+    return seq_list,name_list
 
 def change_seq(seq_data,max_len):
     
@@ -87,7 +90,7 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
     else:
         output_file = output_folder + '/' + fasta_file + '_t5xl.txt'
     
-    seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
+    seq_data,name_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data, max_len)    
     
     from transformers import T5Tokenizer, T5Model
@@ -100,10 +103,6 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = model.to(device)
     model = model.eval()
-    
-    
-    embedded_data = []
-    #for seq in seq_data:
     
     ids = tokenizer.batch_encode_plus(seq_data, add_special_tokens=True, padding=True)
 
@@ -125,8 +124,11 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
             torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+seq_num+'.txt')
     
     if features:
-        np.savetxt(output_file,features)
-
+        with open(output_file,'w') as f:
+            for k,row in enumerate(features):
+                wrt_row = '\t'.join(np.array(row,dtype = str))
+                f.write(f'{name_data[k]}\t{wrt_row}\n')
+    
     if not take_avg: return output_file[:-4]+'/'
     return output_file
 
@@ -156,10 +158,8 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
         output_file = fasta_file + '_bert.txt'
     else:
         output_file = output_folder + '/' + fasta_file + '_bert.txt'
-    seq_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
+    seq_data,name_data = read_fasta_to_dict(input_dir, fasta_file, place_protein_id)
     seq_data = change_seq(seq_data,max_len)
-    
-    
     
     
     from transformers import BertModel, BertTokenizer
@@ -172,11 +172,6 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
     
     model = model.to(device)
     model = model.eval()
-    
-    #embedded_data = []
-    #seq_data = [re.sub(r"[UZOB]", "X", sequence) for sequence in seq_data]
-    
-    #for seq in seq_data:
         
     ids = tokenizer.batch_encode_plus(seq_data, add_special_tokens=True, padding=True)
 
@@ -197,10 +192,13 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
         else:
             if not os.path.exists(output_file[:-4]+'/'):
                 os.path.makedirs(output_file[:-4]+'/')
-            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+seq_num+'.txt')
+            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+name_data[seq_num]+'.txt')
             
     if features:
-        np.savetxt(output_file,features)
+        with open(output_file,'w') as f:
+            for k,row in enumerate(features):
+                wrt_row = '\t'.join(np.array(row,dtype = str))
+                f.write(f'{name_data[k]}\t{wrt_row}\n')
 
     if not take_avg: return output_file[:-4]+'/'
     return output_file
