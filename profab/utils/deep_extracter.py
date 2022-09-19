@@ -111,7 +111,7 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         embedding = model(input_ids=input_ids,attention_mask=attention_mask,decoder_input_ids = input_ids)[0]
             
     features = [] 
-    for k,seq_num in enumerate(len(embedding)):
+    for seq_num in range(len(embedding)):
         seq_len = (attention_mask[seq_num] == 1).sum()
         if take_avg:
             seq_emd = embedding[seq_num][1:seq_len-1].mean(dim=0).cpu().numpy()
@@ -119,7 +119,7 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
         else:
             if not os.path.exists(output_file[:-4]+'/'):
                 os.path.makedirs(output_file[:-4]+'/')
-            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+k+'.txt')
+            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+seq_num+'.txt')
     
     if features:
         np.savetxt(output_file,features)
@@ -182,7 +182,7 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
     #print(embedding.size())
 
     features = [] 
-    for k,seq_num in enumerate(len(embedding)):
+    for seq_num in range(len(embedding)):
         seq_len = (attention_mask[seq_num] == 1).sum()
         if take_avg:
             seq_emd = embedding[seq_num][1:seq_len-1].mean(dim=0).cpu().numpy()
@@ -190,7 +190,7 @@ def bert_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,outpu
         else:
             if not os.path.exists(output_file[:-4]+'/'):
                 os.path.makedirs(output_file[:-4]+'/')
-            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+k+'.txt')
+            torch.save(embedding[seq_num][1:seq_len-1],output_file[:-4]+'/feat_'+seq_num+'.txt')
             
     if features:
         np.savetxt(output_file,features)
