@@ -77,7 +77,7 @@ parser.add_argument('--place_protein_id',
                            "position.")
 parser.add_argument('--output_fasta',
                     type = str,
-                    default = '.',
+                    default = '',
                     help='Name of folder where output will be saved.')
 parser.add_argument('--take_avg',
                     type = bool,
@@ -124,11 +124,11 @@ def imp_train_result(data_name, model_path, kwargs, user_kwargs, fasta_kwargs):
             output_file = extract_protein_feature(
                 protein_feature = kwargs['protein_feature'],
                 place_protein_id = fasta_kwargs['place_protein_id'],
-                take_avg = kwargs['take_avg'],
-                max_len = kwargs['max_len'],
+                take_avg = True,
+                max_len = fasta_kwargs['max_len'],
                 
                 input_folder = data_name,
-                output_folder=fasta_kwargs['output_fasta'],
+                output_folder=kwargs['output_fasta'],
                 fasta_file_name = fasta[:-6],
                 )
             if re.search('positive',output_file):    
@@ -288,7 +288,8 @@ if __name__ == '__main__':
     if len(r) == 1: r = r[0]
     
     
-    fasta_kwargs = dict(place_protein_id = args.place_protein_id)
+    fasta_kwargs = dict(place_protein_id = args.place_protein_id,
+                        max_len = args.max_len)
     
     user_kwargs = dict(delimiter = args.delimiter,
                        name = args.name,
