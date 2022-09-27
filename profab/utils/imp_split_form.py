@@ -16,6 +16,8 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from zipfile import ZipFile
 
+import torch
+
 def download_data(server_path,save_path):
     
     '''
@@ -171,40 +173,42 @@ def self_data(file_name, delimiter, label, name):
             is considered as label of inputs else the last column is a 
             feature column. 
     '''
-    
-    with open(file_name, 'r') as f:
-            
-        if label:
-            
-            X_pos,X_neg = [],[]
-            for row in f:
-                row = re.split(delimiter,row.strip())
-                if name:
-                    if int(row[-1]) == 1:
-
-                        X_pos.append(row[1:-1])
-                    else:
-                        X_neg.append(row[1:-1])
-
-                else:
-                    if int(row[-1]) == 1:
-
-                        X_pos.append(row[1:-1])
-                    else:
-                        X_neg.append(row[1:-1])
-            
-            return X_pos,X_neg
-        else:
-            X = []
-            for row in f:
-                row = re.split(delimiter,row.strip())
+    try:
+        return torch.load(file_name)
+    except:
+        with open(file_name, 'r') as f:
                 
-                if name:
-                        X.append(row[1:])
-                else:
-                    X.append(row)
-            return X
-
+            if label:
+                
+                X_pos,X_neg = [],[]
+                for row in f:
+                    row = re.split(delimiter,row.strip())
+                    if name:
+                        if int(row[-1]) == 1:
+    
+                            X_pos.append(row[1:-1])
+                        else:
+                            X_neg.append(row[1:-1])
+    
+                    else:
+                        if int(row[-1]) == 1:
+    
+                            X_pos.append(row[1:-1])
+                        else:
+                            X_neg.append(row[1:-1])
+                
+                return X_pos,X_neg
+            else:
+                X = []
+                for row in f:
+                    row = re.split(delimiter,row.strip())
+                    
+                    if name:
+                            X.append(row[1:])
+                    else:
+                        X.append(row)
+                return X
+    
 
 def _classif_form_table(scores, score_path = 'score_path.csv'):
     '''

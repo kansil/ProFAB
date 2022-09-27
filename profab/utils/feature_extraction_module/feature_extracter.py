@@ -72,12 +72,14 @@ class feature_extracter(object):
     def __init__(self, protein_feature='aac_pssm',
                  place_protein_id=1,
                  input_folder='input_folder',
+                 output_folder= 'output_folder',
                  fasta_file_name='sample'):
 
         self.protein_feature = protein_feature
         self.place_protein_id = place_protein_id
         self.input_folder = input_folder
         self.fasta_file_name = fasta_file_name
+        self.output_folder = output_folder
 
         self.POSSUM_desc_list = {'aac_pssm', 'd_fpssm', 'smoothed_pssm', 'ab_pssm', 'pssm_composition',
                                   'rpm_pssm', 's_fpssm', 'dpc_pssm', 'k_separated_bigrams_pssm', 'eedp',
@@ -95,7 +97,8 @@ class feature_extracter(object):
             str: full path to the output file that contains extracted protein features
 
         """
-        fasta_dict = read_fasta_to_dict(self.input_folder, self.fasta_file_name, self.place_protein_id)
+        fasta_dict,lst = read_fasta_to_dict(self.input_folder, self.fasta_file_name, self.place_protein_id)
+        
         copy_form_pssm_matrices(fasta_dict)
 
         list_desc = [self.protein_feature]
@@ -120,10 +123,10 @@ class feature_extracter(object):
             
             
             ip = re.split('/',self.input_folder)[-1]
-            if not os.path.exists("feature_extraction_output/" + ip):
-            	os.makedirs("feature_extraction_output/" + ip)
+            if not os.path.exists(self.output_folder + '/' + ip):
+            	os.makedirs(self.output_folder + '/' + ip)
             
-            output_file = "feature_extraction_output/" + ip + "/{}_{}.txt".format(
+            output_file = self.output_folder + '/' + ip + "/{}_{}.txt".format(
                                                               self.fasta_file_name,
                                                               prot_feat)
 
@@ -157,10 +160,10 @@ class feature_extracter(object):
                                          temp_output_file))
 
             ip = re.split('/',self.input_folder)[-1]
-            if not os.path.isdir("feature_extraction_output/" + ip):
-            	os.makedirs("feature_extraction_output/" + ip)
+            if not os.path.isdir(self.output_folder + '/' + ip):
+            	os.makedirs(self.output_folder + '/' + ip)
 
-            output_file = "feature_extraction_output/" + ip + "/{}_{}.txt".format(
+            output_file = self.output_folder + '/' + ip + "/{}_{}.txt".format(
                                                               self.fasta_file_name,
                                                               prot_feat)
 

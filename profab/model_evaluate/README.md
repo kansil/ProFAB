@@ -24,11 +24,12 @@ This module is to considering performance results with many scoring metrics. Use
 
 #### Explanation of Parameters
 
--***model***: Fitting to predict labels
--***X***: type = {list, numpy array}, feature matrix to introduce to model
--***y***: type = {list, numpy array}, corresponding label matrix
--***preds***: type = bool, If True return predictions and scores else only return scores
--***learning_method***: {"classif","reg"}, default = "classif", Learning task to get corresponding metrics
+- ***model***: Fitting to predict labels
+- ***X***: type = {list, numpy array}, feature matrix to introduce to model
+- ***y***: type = {list, numpy array}, corresponding label matrix
+- ***preds***: type = bool, If True return predictions and scores else only return scores
+- ***isDeep***: {bool}, default = False, If True, model is evaluated with torch.no_grad()
+- ***learning_method***: {"classif","reg"}, default = "classif", Learning task to get corresponding metrics
 
 #### Usage
 
@@ -57,9 +58,9 @@ To see scores in .csv files in an order, this function is proposed.
 
 #### Explanation of Parameters
 
---***scores***: type = {dict}, includes scores of sets (train, test)
---***learning_method***: {"classif","reg"}, default = "classif", to set values in order
---***path***: default = 'score_path.csv', destination where table will be saved. Format must be .csv
+-- ***scores***: type = {dict}, includes scores of sets (train, test)
+-- ***learning_method***: {"classif","reg"}, default = "classif", to set values in order
+-- ***path***: default = 'score_path.csv', destination where table will be saved. Format must be .csv
 
 #### Usage
 

@@ -8,7 +8,7 @@ Created on Tue Mar  9 01:00:05 2021
 import os, sys, re
 import random
 from zipfile import ZipFile
-from ..utils import separator,  self_data, _rgr_data_import, _classif_data_import, download_data
+from ..utils import separator,  self_data, _classif_data_import, download_data
 
 class cls_data_loader():
     
@@ -326,6 +326,10 @@ class casual_importer():
                          name = self.name,
                          label = self.label)
     
+
+
+
+
 
 #This class will be used actively after regression based datasets are integrated to ProFAB
 # class rgs_data_loader():

@@ -31,6 +31,13 @@ Conjoint triad| Conjoint triad (CTriad) <br/> Conjoint k-spaced triad (KSCTriad)
 Quasi-sequence-order| Sequence-order-coupling number (SOCNumber) <br/> Quasi-sequence-order descriptors (QSOrder)     | 60 <br/> 100 
 Pseudo-amino acid composition| Pseudo-amino acid composition (PAAC) <br/> Amphiphilic PAAC (APAAC)                                     | 50 <br/> 80 
 
+<br/>Table.4: Protein descriptors from transformer models.
+
+| Protein Descriptor | Definition                                                    
+----------------------------------------|-----------------------------------------------------------------------
+ProtT5-XL-UniRef50 (T5XL)| Auto Regressive NLP model that uses UniRef50 dataset
+ProtBert (BERT)| Auto-encoder NLP model uses BERT algorithms
+
 
 ## Explanation of Parameters
 Here, we explain about
@@ -59,7 +66,11 @@ in the zeroth position, protein id in the first(1) position.
 
 **fasta_file_name: {string}, (default ='sample'):** it is the name of the fasta file exclude the '.fasta' extension.
 
+**output_folder: {string}, (default = '.'):** name of folder where output will be saved.
 
+**take_avg: {bool}, (default = False):** If False, output will be saved as torch.tensor. If True, average of vectors will be saved as array. (***arg for NLP methods***)
+
+**max_len: {int}, default = -1):** Max sequence lenght to embed (***arg for NLP methods***)
 ## Input file 
 
 * It must be in fasta format
@@ -82,7 +93,6 @@ Each PSSM file in the folder is named as **proteinID.pssm**.
 ## Output file
 
 * The extracted feature files will be located under
-**feature_extraction_module/output_folder** 
 folder with the name: **fasta_file_name_protein_feature.txt** (e.g. sample_AAC.txt)
 * The content of the output files: 
   * Each row corresponds to the extracted features of the protein sequence
