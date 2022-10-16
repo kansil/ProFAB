@@ -151,7 +151,8 @@ cls_rnn = dict(
             out_size = 64,
             num_layers = 5,
             p = 0.4,
-            nfold = 3
+            nfold = 3,
+            bidirectional = False
             )
 
 
