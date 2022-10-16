@@ -86,7 +86,7 @@ def t5_features(fasta_file, input_dir, place_protein_id,take_avg,max_len,output_
     '''
     
     if output_folder is None:
-        output_file = fasta_file + '_t5_xl.txt'
+        output_file = fasta_file + '_t5xl.txt'
     else:
         output_file = output_folder + '/' + fasta_file + '_t5xl.txt'
     
