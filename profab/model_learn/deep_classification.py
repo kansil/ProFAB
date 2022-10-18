@@ -105,7 +105,6 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
     else:
         n = len(X_train[0])
         
-    #rrint(X_train.size())
     
     if bidirectional:
         num_layers = 2*num_layers
@@ -122,9 +121,7 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
             model.load_state_dict(torch.load(model_path))
             return model
     
-    #model = RNNet(embedding_size,num_words,len(X_train[0]),out_size,
-    #             num_layers,p,ho).to(device)
-    
+
     criterion = nn.BCEWithLogitsLoss()
     
     optim = torch.optim.Adam(model.parameters(), lr = lr, weight_decay=eps)
@@ -178,7 +175,7 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
             train_loss = 0.0
             valid_loss = 0.0
             
-            #best_loss = float('inf')
+            
             
             for train_idx,valid_idx in rkf.split(X_train):
                 
@@ -188,7 +185,7 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
                 for x_tr,y_tr in train_batch_loader:
                     
                     optim.zero_grad()
-                    #print(x_tr.size())
+                    
                     pred = model(x_tr.to(device).float())
                     loss = criterion(pred,y_tr.to(device).float().unsqueeze(1))
                     train_loss += float(loss.item())
@@ -225,7 +222,7 @@ class CNNet(nn.Module):
         
         
         self.embedding_size = embedding_size
-        # self.num_words = num_words
+        
         self.seq_len = seq_len
         
         self.out_size = out_size
@@ -298,11 +295,11 @@ class CNNet(nn.Module):
         z2 = self.leaky(self.conv2(x))
         x2 = self.pool2(z2)
         
-        #print(x2.size())
+        
         union = torch.cat((x1,x2),2)
-        #print(union.size())
+        
         union = union.reshape(union.size(0),-1)
-        #print(union.size())
+        
         
         
         out = self.linear(union)
@@ -346,7 +343,7 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
             y_valid = torch.FloatTensor(y_valid)
             #X_valid = torch.from_numpy(X_valid)
             #y_valid = torch.from_numpy(y_valid)
-    print(X_train.size())
+    #print(X_train.size())
     if len(X_train.size()) == 2:
         X_train = X_train.unsqueeze(1)
         n = 1
@@ -356,8 +353,8 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
     else:
         n = len(X_train[0])
         
-    print(X_train.size())
-    print(X_train) 
+    #print(X_train.size())
+    #print(X_train) 
     
     model = CNNet(len(X_train[0][0]),n,out_size,kernel_size_1,kernel_size_2,stride,padding,
                  dilation,p).to(device)
