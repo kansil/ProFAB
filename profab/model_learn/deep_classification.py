@@ -388,7 +388,7 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
             for x_tr,y_tr in train_batch_loader:
                 
                 optim.zero_grad()
-                pred = model(x_tr.to(device).unsqueeze(1).float())
+                pred = model(x_tr.to(device).float())
                 loss = criterion(pred,y_tr.to(device).unsqueeze(1).float())
                 train_loss += float(loss.item())
                 loss.backward()
@@ -398,10 +398,8 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
             model.eval()
             with torch.no_grad():
                 for x_v,y_v in valid_batch_loader:
-                    pred_test = model(x_v.to(device).unsqueeze(1).float())
+                    pred_test = model(x_v.to(device).float())
                     loss = criterion(pred_test,y_v.to(device).unsqueeze(1).float())
-                    #pred_test = model(X_valid.to(device).unsqueeze(1).float())
-                    #loss = criterion(pred_test,y_valid.to(device).unsqueeze(1).float())
                     valid_loss+=loss.item()
             
             #print(f'epoch: {epoch} validation loss {valid_loss}')
