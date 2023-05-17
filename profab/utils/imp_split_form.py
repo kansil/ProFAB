@@ -193,9 +193,9 @@ def self_data(file_name, delimiter, label, name):
                     else:
                         if int(row[-1]) == 1:
     
-                            X_pos.append(row[1:-1])
+                            X_pos.append(row[:-1])
                         else:
-                            X_neg.append(row[1:-1])
+                            X_neg.append(row[:-1])
                 
                 return X_pos,X_neg
             else:
