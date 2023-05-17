@@ -411,7 +411,7 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
             print(f'epoch: {epoch+1} valid loss: {valid_loss}, train_loss: {train_loss}')
             if train_loss<best_loss:break 
         
-        if model_ath is not None:
+        if model_path is not None:
             print('saving model..')
             torch.save(best_model.state_dict(),model_path)
         return best_model
