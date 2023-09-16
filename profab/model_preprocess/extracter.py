@@ -8,7 +8,7 @@ Created on Tue Jan 11 18:25:15 2022
 from profab.utils.deep_extracter import t5_features, bert_features
 from profab.utils.feature_extraction_module.feature_extracter import feature_extracter
 from profab.utils.feature_extraction_module.utils import bcolors
-import category_encoders as ce
+#import category_encoders as ce
 
 
 def extract_protein_feature(protein_feature,
