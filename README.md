@@ -52,6 +52,7 @@ isUser (bool)| - | False| If True, user data path must be defined in input file.
 delimiter (str)| '\t' (tab)<br/>',' (comma)<br/>' ' (space)|'\t'| a character to separate columns in file
 name (bool)| - |False| If True, then first colmun is considered as name of inputs else the first column is a feature column
 label (bool)| - | False| If True, then last colmun is considered as label of inputs else the last column is a feature column 
+multi_label (bool)| - | False | If True, then all terms will be classified together. (multilabel classification)
 
 <br/>It can be run on terminal with a single line:
 
