@@ -1,6 +1,6 @@
 ## Description
 
-Provides several evaluation metrics to assess the performance of the trained models. For regression and classification different scoring metrics are presented to observe performance in many aspects.
+Provides several evaluation metrics to assess the performance of the trained models. For regression, binary classification and multilabel classification different scoring metrics are presented to observe performance in many aspects.
 
 ### Evaluation
 
