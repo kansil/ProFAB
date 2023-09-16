@@ -43,11 +43,13 @@ class ECNO(data_importer.cls_data_loader):
                  set_type = 'random',
                  ratio = 0.2,
                  label = None,
-                 pre_determined = True):
+                 pre_determined = True,
+                 ):
 
         super().__init__(ratio = ratio, protein_feature = protein_feature,
                          set_type = set_type,label = label,
-                         pre_determined = pre_determined, main_set = 'ec_dataset') 
+                         pre_determined = pre_determined, main_set = 'ec_dataset',
+                         ) 
 
 class GOID(data_importer.cls_data_loader):
     '''
@@ -85,11 +87,13 @@ class GOID(data_importer.cls_data_loader):
                  set_type = 'random',
                  ratio = 0.2,
                  label = None,
-                 pre_determined = False):
+                 pre_determined = False
+                 ):
         
         super().__init__(ratio = ratio, protein_feature = protein_feature,
                          set_type = set_type,label = label,
-                         pre_determined = pre_determined, main_set = 'go_dataset')       
+                         pre_determined = pre_determined, main_set = 'go_dataset'
+                         ) 
 
 class SelfGet(data_importer.casual_importer):
     

@@ -8,6 +8,7 @@ Created on Tue Mar  9 01:00:05 2021
 import os, sys, re
 import random
 from zipfile import ZipFile
+import numpy as np
 from ..utils import separator,  self_data, _classif_data_import, download_data
 
 class cls_data_loader():
@@ -63,7 +64,8 @@ class cls_data_loader():
             self.pre_determined = True
         
         if self.protein_feature not in ['paac', 'aac', 'gaac', 'ctdt','ctriad','socnumber', 'kpssm']:
-         	raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
+            pass
+         	#raise AttributeError('Please enter correct protein_feature. Options are: "paac, aac, gaac, ctdt, ctriad, socnumber, kpssm"')
         if self.protein_feature == 'kpssm': self.protein_feature = 'k_separated_bigrams_pssm'
         
         
@@ -82,7 +84,7 @@ class cls_data_loader():
                     'Please enter ratio value in true type. Options: "None, float and list" for pre_determined = False')
         
         
-    def get_data(self,data_name):
+    def get_data(self,data_name,prot_names = False):
         
         """
         Description:
@@ -121,6 +123,11 @@ class cls_data_loader():
             
             download_data(data_server_path,data_path)
             
+            if not os.path.isfile(self.main_set + '/' + data_name + '.zip'):
+                #data_path = self.main_set + '/' + data_name + '.zip'
+
+                return None
+            #return    
         #Rest is checking wheter files are optional and preparing datasets
         if not self.pre_determined:
 
@@ -130,25 +137,51 @@ class cls_data_loader():
             if pos_file not in ZipFile(data_path).namelist() or neg_file not in ZipFile(data_path).namelist():
                 self.look_options(ZipFile(data_path).namelist(), data_name)
 
-            pX,nX,X,y = _classif_data_import(zip_data = data_path, pos_file = 
+            pX,nX,X,y,tpN,tnN,tN  = _classif_data_import(zip_data = data_path, pos_file = 
                                                pos_file, neg_file = neg_file, label = self.label)
 
-
+            
             if self.label == 'positive':
                 return pX
             elif self.label == 'negative':
                 return nX
             
             else:
-                trdn = list(zip(X,y))
+                trdn = list(zip(list(range(len(tN))),X,y))
                 random.shuffle(trdn)
-                X,y = zip(*(trdn))
-                
+                idx_N,X,y = zip(*(trdn))
+                idx_N = np.array(list(idx_N)).reshape(-1,1)
+                X = list(X)
+                y = list(y)
                 if not self.ratio:
+                    if prot_names:
+                        return X,y,tN
                     return X,y
                 if self.ratio is not None:
-                    return separator(ratio = self.ratio,X = X,y =y)
+                    if type(self.ratio) == float:
+
+                        tX,teX,ty,tey = separator(ratio = self.ratio,X = np.concatenate((idx_N,X),axis = 1),y =y)
+                        idx_tN = np.array(tX)[:,0]
+                        idx_teN = np.array(teX)[:,0]
+                        tX = np.array(tX)[:,1:]
+                        teX = np.array(teX)[:,1:]
+                        if prot_names:
+                            return tX,teX,ty,tey,tN[np.array(idx_tN,dtype = int)],tN[np.array(idx_teN,dtype = int)]
+                        return tX,teX,ty,tey
+                    elif type(self.ratio) == list:
+                        tX,teX,vX,ty,tey,vy = separator(ratio = self.ratio,X = np.concatenate((idx_N,X),axis = 1),y =y)
+                        idx_tN = np.array(tX)[:,0]
+                        idx_teN = np.array(teX)[:,0]
+                        idx_vN = np.array(vX)[:,0]
+                        tX = np.array(tX)[:,1:]
+                        teX = np.array(teX)[:,1:]
+                        vX = np.array(vX)[:,1:]
+                        if prot_names:
+                            return tX,teX,vX,ty,tey,vy,tN[np.array(idx_tN,dtype = int)],tN[np.array(idx_teN,dtype = int)],tN[np.array(idx_vN,dtype = int)]
+                        return tX,teX,vX,ty,tey,vy
+                
                 else:
+                    
                     raise AttributeError(
                         'Please enter ratio value in true type. Options: "None, float and list" for pre_determined = False')
                     
@@ -170,11 +203,11 @@ class cls_data_loader():
             test_neg_idx = data_name + '/' + self.set_type + '_negative_test_indices.txt'
                         
 
-            tpX,tnX,tX,ty = _classif_data_import(zip_data = data_path, pos_file = pos_file,
+            tpX,tnX,tX,ty,tpN,tnN,tN = _classif_data_import(zip_data = data_path, pos_file = pos_file,
                                                          neg_file = neg_file, pos_indices = train_pos_idx,
                                                          neg_indices = train_neg_idx,
                                                          label = self.label)
-            tepX,tenX,teX,tey = _classif_data_import(zip_data = data_path, pos_file = pos_file,
+            tepX,tenX,teX,tey,tepN,tenN,teN = _classif_data_import(zip_data = data_path, pos_file = pos_file,
                                                                neg_file = neg_file,
                                                                pos_indices = test_pos_idx,
                                                                neg_indices = test_neg_idx,
@@ -188,12 +221,12 @@ class cls_data_loader():
                 valid_pos_idx = data_name + '/' + self.set_type + '_positive_validation_indices.txt'
                 valid_neg_idx = data_name + '/' + self.set_type + '_negative_validation_indices.txt'
                 
-                vpX,vnX,vX,vy = _classif_data_import(zip_data = data_path,pos_file = pos_file, neg_file = neg_file, 
+                vpX,vnX,vX,vy,vpN,vnN,vN = _classif_data_import(zip_data = data_path,pos_file = pos_file, neg_file = neg_file, 
                     pos_indices = valid_pos_idx,neg_indices = valid_neg_idx,
                     label = self.label)            
                 
-                return_pos.extend([vpX])
-                return_neg.extend([vnX])
+                return_pos.append([vpX])
+                return_neg.append([vnX])
 
             
             if self.label == 'positive':
@@ -204,28 +237,47 @@ class cls_data_loader():
                 return return_pos.extend(return_neg)
             else:
                 
-                trdn = list(zip(tX,ty))
+                trdn = list(zip(list(range(len(tN))),tX,ty))
                 random.shuffle(trdn)
-                tX,ty = zip(*trdn)
-            
-                terdn = list(zip(teX,tey))
+                idx_tN,tX,ty = zip(*trdn)
+                idx_tN = np.array(list(idx_tN)).reshape(-1,1)
+                tX = list(tX)
+                ty = list(ty)
+
+                terdn = list(zip(list(range(len(teN))),teX,tey))
                 random.shuffle(terdn) 
-                teX,tey = zip(*terdn)
-            
+                idx_teN,teX,tey = zip(*terdn)
+                idx_teN = list(idx_teN)
+                teX = list(teX)
+                tey = list(tey)
+
                 if self.set_type == 'temporal':
-                    vrdn = list(zip(vX,vy))
+                    vrdn = list(zip(list(range(len(teN))),vX,vy))
                     random.shuffle(vrdn)
-                    vX,vy = zip(*vrdn)
+                    idx_vN,vX,vy = zip(*vrdn)
+                    idx_vN = list(idx_vN)
+                    vX = list(vX)
+                    vy = list(vy)
+                    if prot_names:
+                        return tX,teX,vX,ty,tey,vy,tN[idx_tN],teN[idx_teN],vN[idx_vN]
                     return tX,teX,vX,ty,tey,vy
             
             
                 if self.ratio is None:
+                    if prot_names:
+                        return tX,teX,ty,tey,tN[idx_tN],teN[idx_teN]
                     return tX,teX,ty,tey
                     
                 if type(self.ratio) == float:
-                    tX,vX,ty,vy = separator(ratio = self.ratio,X = tX,y = ty)
+                    tX,vX,ty,vy = separator(ratio = self.ratio,X = np.concatenate((idx_tN,tX),axis = 1),y = ty)
+                    idx_tN = tX[:,0]
+                    idx_vN = vX[:,0]
+                    tX = tX[:,1:]
+                    vX = vX[:,1:]
+                    if prot_names:
+                        return tX,teX,vX,ty,tey,vy,tN[np.array(idx_tN,dtype = int)],teN[idx_teN],tN[np.array(idx_vN,dtype = int)]
                     return tX,teX,vX,ty,tey,vy
-                
+
                 else:
                     raise AttributeError(
                         'Please enter ratio value in true type. Options: "None, float" for pre_determined = True')
