@@ -30,10 +30,10 @@ Classification Parameters for algorithms:
 #Logistic Regression Parameters
 cls_logistic_regression_params = dict(
             penalty = ['l2'],
-            multi_class = ["auto",'ovr'],
+            multi_class = ["auto"],
             solver = ['newton-cg','saga', 'sag', 'lbfgs', 'liblinear'],
             C = np.linspace(0.001,100, num=100),
-            max_iter = [2000]
+            max_iter = [10]
             )
 
 #Ridge Class Parameters
@@ -54,10 +54,10 @@ cls_knn_params = dict(
 
 #Support Vector Machine Parameters
 cls_svm_params = dict(
-            kernel = ["linear","poly","rbf","sigmoid"],
-            C = np.linspace(0.5,50,200),
+            kernel = ["poly","rbf","sigmoid"],
+            C = np.linspace(0.5,50,100),
             gamma = [10**x for x in np.linspace(-3,0,num=50)],
-            max_iter = [2500]
+            max_iter = [10000]
             )
 
 #Random Forest Parameters
@@ -101,23 +101,23 @@ cls_gradient_boosting = dict(
 
 #XGBoost Classifier
 cls_xgboost = dict(
-            #max_depth = np.linspace(10,100,num = 20),
-            learning_rate = [10**x for x in np.linspace(-3.5,-2,num=10)],
-            use_label_encoder = [True],
-            #booster = np.array(['gbtree', 'gblinear','dart'],dtype = str),
-            tree_method = ['exact', 'approx', 'hist'],
-            max_leaves = np.linspace(10,100,num = 20,dtype = int),
-            #eval_metric = []
+            n_estimators = np.linspace(50,500,num = 50,dtype = int),
+            #max_depth = np.arange(10,200),
+            learning_rate = [10**x for x in np.linspace(-5.5,5,num=100)],
+            booster = np.array(['gbtree', 'gblinear','dart'],dtype = str),
+            tree_method = ['gpu_hist','exact'],
+            #max_leaves = np.linspace(0,num = 20,dtype = int),
+            eval_metric = ['merror']
             )
 
 cls_lightcbm = dict(
             boosting_type = ['gbdt','dart','goss'],
-            learning_rate = np.linspace(0.1,5,num = 20),
+            learning_rate = [10**x for x in np.linspace(-5,3,num = 30)],
             #num_leaves = np.linspace(20,100,num = 20,dtype = int),
-            n_estimators = np.linspace(100,300,num = 20,dtype = int),
-            min_split_gain = [10**x for x in np.linspace(-5,5,num=20)],
-            reg_alpha = [10**x for x in np.linspace(-3,0,num=20)],
-            reg_lambda = [10**x for x in np.linspace(-2.5,0,num=20)],
+            n_estimators = np.linspace(100,1000,num = 30,dtype = int),
+            min_split_gain = [10**x for x in np.linspace(-7,7,num=30)],
+            reg_alpha = [10**x for x in np.linspace(-4,2,num=50)],
+            reg_lambda = [10**x for x in np.linspace(-3.10,0,num=30)],
             objective = ['binary'],
 
             #max_depth = np.linspace(10,50,num = 15,dtype = int)
@@ -126,36 +126,34 @@ cls_lightcbm = dict(
 
 #Convolutional NN Parameters
 cls_cnn = dict(
-            epochs = 100,
-            learning_rate = 9*10**-4,
+            epochs = 200,
+            learning_rate = 6*10**-4,
             eps = 10**-5,
-            batch_size = 30,
-            embedding_size = 128,
-            out_size = 128,
-            kernel_size_1 = 2,
-            kernel_size_2 = 2,
+            batch_size = 32,
+            embedding_size = 512,
+            out_size = 512,
+            kernel_size_1 = 3,
+            kernel_size_2 = 3,
             stride = 1,
             padding = 0,
             dilation = 1,
-            hid_size = 15,
-            p = 0.4,
-            nfold = 3
+            hid_size = 512,
+            p = 0.2,
+            nfold = 3,
             )
 
 cls_rnn = dict(
-            epochs = 110,
-            learning_rate = 9*10**-4,
-            batch_size = 100,
+            epochs = 200,
+            learning_rate = 8.7*10**-4,
+            batch_size = 256,
             eps = 10**-5,
-            embedding_size = 64,
-            out_size = 64,
-            num_layers = 5,
-            p = 0.4,
-            nfold = 3,
-            bidirectional = False
+            embedding_size = 256,
+            out_size = 256,
+            num_layers = 3,
+            p = 0.2,
+            nfold = 4,
+            bidirectional = False,
             )
-
-
 
 '''
 Regression parameters for algorithms:

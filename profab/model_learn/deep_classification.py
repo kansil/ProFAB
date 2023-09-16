@@ -10,6 +10,7 @@ from sklearn.model_selection import RepeatedKFold, PredefinedSplit
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 
@@ -37,10 +38,12 @@ class RNNet(nn.Module):
                  out_size,
                  num_layers,
                  p,
-                 ho):
+                 ho,
+                 cls_num=1):
         
         super(RNNet,self).__init__()
         
+        self.cls_num = cls_num
         self.embedding_size = embedding_size
         # self.num_words = num_words
         # self.seq_len = seq_len
@@ -55,7 +58,7 @@ class RNNet(nn.Module):
         self.rnn = nn.RNN(self.embedding_size, self.out_size, num_layers = self.num_layers,
                           dropout = p)
         
-        self.linear = nn.Linear(self.out_size, 1)
+        self.linear = nn.Linear(self.out_size, cls_num)
 
         
     
@@ -66,6 +69,8 @@ class RNNet(nn.Module):
         output, hidden = self.rnn(x, self.ho)
         
         out = self.linear(output[:,-1])
+        if self.cls_num>1:
+            out = F.softmax(out,dim = 1)
         return out
 
 
@@ -111,19 +116,24 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
     
     ho = torch.randn(num_layers, n, out_size).to(device)
 
-    model = RNNet(len(X_train[0][0]),out_size,
-                 num_layers,p,ho).to(device)
-    
+    if y_train.unsqueeze(1).size()[-1]>1:
+        model = RNNet(len(X_train[0][0]),out_size,
+                     num_layers,p,ho,y_train.unsqueeze(1).size()[-1]).to(device)
+        criterion = nn.CrossEntropyLoss()
+    else:
+        model = RNNet(len(X_train[0][0]),out_size,
+                     num_layers,p,ho).to(device)
+        criterion = nn.BCEWithLogitsLoss()
+        y_train = y_train.unsqueeze(1)
+        y_valid = y_valid.unsqueeze(1)
+        
     if model_path is not None:
 
         if os.path.isfile(model_path):
             print('model already exists, it is loading..')
             model.load_state_dict(torch.load(model_path))
             return model
-    
-
-    criterion = nn.BCEWithLogitsLoss()
-    
+        
     optim = torch.optim.Adam(model.parameters(), lr = lr, weight_decay=eps)
     
     
@@ -143,7 +153,8 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
                 
                 optim.zero_grad()
                 pred = model(x_tr.to(device).float())
-                loss = criterion(pred,y_tr.to(device).float().unsqueeze(1))
+                #print(pred)
+                loss = criterion(pred,y_tr.to(device).float())
                 train_loss += float(loss.item())
                 loss.backward()
                 optim.step()
@@ -153,7 +164,7 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
             with torch.no_grad():
                 
                 pred_test = model(X_valid.to(device).float())
-                loss = criterion(pred_test,y_valid.to(device).float().unsqueeze(1))
+                loss = criterion(pred_test,y_valid.to(device).float())
                 valid_loss+=loss.item()
                 
             print(f'epoch: {epoch+1} valid loss: {valid_loss}, train_loss: {train_loss}')
@@ -168,7 +179,8 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
         return best_model
             
     else:
-        rkf = RepeatedKFold(n_splits = nfold, n_repeats = 2, random_state = 10000)
+        prf = open('predY.txt','w')
+        rkf = RepeatedKFold(n_splits = nfold, n_repeats = 5, random_state = 10000)
         best_loss = float('inf')
         for epoch in range(epochs):
             
@@ -187,7 +199,10 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
                     optim.zero_grad()
                     
                     pred = model(x_tr.to(device).float())
-                    loss = criterion(pred,y_tr.to(device).float().unsqueeze(1))
+                    #print('ohh noooo')
+                    #for i in range(len(pred)):
+                    #    prf.write(f'{pred[i]} {y_tr[i]}\n')
+                    loss = criterion(pred,y_tr.to(device).float())
                     train_loss += float(loss.item())
                     loss.backward()
                     optim.step()
@@ -196,7 +211,7 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
                 model.eval()
                 with torch.no_grad():
                     pred_test = model(X_train[valid_idx].to(device).float())
-                    loss = criterion(pred_test,y_train[valid_idx].to(device).float().unsqueeze(1))
+                    loss = criterion(pred_test,y_train[valid_idx].to(device).float())
                     valid_loss+=loss.item()
                 
 
@@ -205,6 +220,9 @@ def rnn_classifier(X_train, y_train, X_valid, y_valid, rnn_params, model_path):
                 best_model = model
             print(f'epoch: {epoch+1} valid loss: {valid_loss}, train_loss: {train_loss}')
             if train_loss< best_loss:break
+        for i in range(len(pred)):
+            prf.write(f'{pred[i]} {y_tr[i]}\n')
+        prf.close()
         if model_path is not None:
             print('saving model..')
             torch.save(best_model.state_dict(),model_path)
@@ -217,10 +235,11 @@ class CNNet(nn.Module):
     def __init__(self,embedding_size,seq_len,
                  out_size,
                  kernel_size_1,kernel_size_2,stride,padding,
-                 dilation,p):
+                 dilation,p,
+                 cls_num):
         super(CNNet,self).__init__()
         
-        
+        self.cls_num = cls_num
         self.embedding_size = embedding_size
         
         self.seq_len = seq_len
@@ -250,7 +269,7 @@ class CNNet(nn.Module):
         
         self.pool2 = nn.MaxPool1d(self.kernel_2,self.stride)
         
-        self.linear = nn.Linear(self.in_feature(),1)
+        self.linear = nn.Linear(self.in_feature(),cls_num)
         
         self.dropout = nn.Dropout(p)
         
@@ -303,8 +322,10 @@ class CNNet(nn.Module):
         
         
         out = self.linear(union)
-
-        
+        if self.cls_num>1:
+            print(out)
+            out = F.softmax(out,dim = 1)
+            print(out) 
         return out
 
     
@@ -324,26 +345,16 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
     p = cnn_params['p']
     
     nfold = cnn_params['nfold']
-    
-    #X_train,encoder = onehot_encoder(X_train, y_train)
-    #if X_valid:
-    #    X_valid = encoder.transform(X_valid)
-    
+
     if isinstance(X_train,(np.ndarray,list)):
-        print(len(X_train))
-        #print(len(X_train[0]))
-        #print(X_train)
-        #print(len(X_train[0][0]))
+        
         X_train = torch.FloatTensor(X_train)
         y_train = torch.FloatTensor(y_train)
-        #X_train = torch.from_numpy(X_train)
-        #y_train = torch.from_numpy(y_train)
+
         if X_valid is not None:
             X_valid = torch.FloatTensor(X_valid)
             y_valid = torch.FloatTensor(y_valid)
-            #X_valid = torch.from_numpy(X_valid)
-            #y_valid = torch.from_numpy(y_valid)
-    #print(X_train.size())
+
     if len(X_train.size()) == 2:
         X_train = X_train.unsqueeze(1)
         n = 1
@@ -352,23 +363,30 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
             X_valid = X_valid.unsqueeze(1)
     else:
         n = len(X_train[0])
-        
-    #print(X_train.size())
-    #print(X_train) 
+
     
-    model = CNNet(len(X_train[0][0]),n,out_size,kernel_size_1,kernel_size_2,stride,padding,
-                 dilation,p).to(device)
+    if y_train.unsqueeze(1).size()[-1]>1:
+        
+        model = CNNet(len(X_train[0][0]),n,out_size,kernel_size_1,kernel_size_2,stride,padding,
+                     dilation,p,y_train.unsqueeze(1).size()[-1]).to(device)
+        criterion = nn.CrossEntropyLoss()
+    else:
+        model = CNNet(len(X_train[0][0]),n,out_size,kernel_size_1,kernel_size_2,stride,padding,
+                     dilation,p).to(device)
+    
+        criterion = nn.BCEWithLogitsLoss()
+        
+        y_train = y_train.unsqueeze(1)
+        y_valid = y_valid.unsqueeze(1)
+    
+    
     if model_path is not None: 
         if os.path.isfile(model_path):
             print('model already exists, it is loading..')
             model.load_state_dict(torch.load(model_path))
             return model
-    
-    #model = CNNet(embedding_size,num_words,len(X_train[0]),out_size,
-    #             kernel_size_1,kernel_size_2,stride,padding,
-    #             dilation,p).to(device)
-    
-    criterion = nn.BCEWithLogitsLoss()
+        
+        
     
     optim = torch.optim.Adam(model.parameters(), lr = lr, weight_decay=eps)
     
@@ -389,20 +407,17 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
                 
                 optim.zero_grad()
                 pred = model(x_tr.to(device).float())
-                loss = criterion(pred,y_tr.to(device).unsqueeze(1).float())
+                loss = criterion(pred,y_tr.to(device).float())
                 train_loss += float(loss.item())
                 loss.backward()
                 optim.step()
-            #print(f'epoch: {epoch} training loss {train_loss}')
-            
+
             model.eval()
             with torch.no_grad():
                 for x_v,y_v in valid_batch_loader:
                     pred_test = model(x_v.to(device).float())
-                    loss = criterion(pred_test,y_v.to(device).unsqueeze(1).float())
+                    loss = criterion(pred_test,y_v.to(device).float())
                     valid_loss+=loss.item()
-            
-            #print(f'epoch: {epoch} validation loss {valid_loss}')
             
             if best_loss>valid_loss:
                 best_loss = valid_loss
@@ -426,7 +441,6 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
             valid_loss = 0.0
             
             for train_idx,valid_idx in rkf.split(X_train):
-                #best_loss = float('inf')
                 train_batch_loader = batch_loader(X_train[train_idx],y_train[train_idx],batch_size)
                 valid_batch_loader = batch_loader(X_train[valid_idx],y_train[valid_idx],batch_size)
                 model.train()
@@ -434,9 +448,7 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
                     
                     optim.zero_grad()
                     pred = model(x_tr.to(device).float())
-                    #print(pred.size())
-                    #print(y_tr.to(device).unsqueeze(1).float().size())
-                    loss = criterion(pred,y_tr.to(device).unsqueeze(1).float())
+                    loss = criterion(pred,y_tr.to(device).float())
                     train_loss += float(loss.item())
                     loss.backward()
                     optim.step()
@@ -445,11 +457,8 @@ def cnn_classifier(X_train, y_train, X_valid, y_valid, cnn_params, model_path):
                 model.eval()
                 with torch.no_grad():
                     for x_v,y_v in valid_batch_loader:
-                        #print(X_train[valid_idx].size()) 
                         pred_test = model(x_v.to(device).float())
-                        loss = criterion(pred_test,y_v.to(device).unsqueeze(1).float())
-                        #pred_test = model(X_train[valid_idx].to(device).unsqueeze(1).float())
-                        #loss = criterion(pred_test,y_train[valid_idx].to(device).unsqueeze(1).float())
+                        loss = criterion(pred_test,y_v.to(device).float())
                         valid_loss+=loss.item()
                 
 

@@ -7,7 +7,8 @@ Created on Tue May 26 18:45:38 2020
 
 import os, sys
 import numpy as np
-from sklearn.model_selection import RandomizedSearchCV,RepeatedStratifiedKFold, PredefinedSplit
+from sklearn.model_selection import RandomizedSearchCV,RepeatedStratifiedKFold, PredefinedSplit, RepeatedKFold
+from sklearn.multioutput import MultiOutputClassifier
 import pickle
 from .deep_classification import cnn_classifier, rnn_classifier
 import warnings
@@ -17,7 +18,7 @@ warnings.filterwarnings("ignore")
 class classifiers(object):
 
     
-    def __init__(self,path):     
+    def __init__(self,path,multi_label):     
         
         """
         Description: In class,6 different machine learning methods for regression 
@@ -36,8 +37,8 @@ class classifiers(object):
         """
         
         self.path = path
-        
-        self.n_folds = 10
+        self.multi_label = multi_label
+        self.n_folds = 10 
         self.n_jobs = -1
         self.random_state = 0
 
@@ -48,7 +49,12 @@ class classifiers(object):
 
         if X_valid is None: 
             
-            cv = RepeatedStratifiedKFold(n_splits= self.n_folds,n_repeats = 5, random_state= self.random_state)
+            if self.multi_label:
+                cv = RepeatedKFold(n_splits= self.n_folds,n_repeats = 10, random_state= self.random_state)
+            else:
+                cv = RepeatedStratifiedKFold(n_splits= self.n_folds,n_repeats = 10, random_state= self.random_state)
+            
+            
             
         else:
             
@@ -58,26 +64,23 @@ class classifiers(object):
             test_fold = [0 for x in range(len(X_train))] + [-1 for x in range(len(X_valid))]
             
             X_train = np.array(list(X_train) + list(X_valid))
-            y_train = np.array(list(y_train) + list(y_valid)).reshape(len(y_train)+len(y_valid),1)
-            y_valid = np.array(y_valid).reshape(len(y_valid),1)
-            #X_train = list(X_train)
-            #y_train = list(y_train)
-            
-            #len_tra, len_val = len(X_train),len(X_valid)
-            
-            #X_train.extend(list(X_valid))
-            #y_train.extend(list(y_valid))
-            
-            
-            #[0 if x in np.arange(len_tra) else -1 for x in np.arange(len_tra+len_val)]
-            
+            y_train = np.array(list(y_train) + list(y_valid)).reshape(len(y_train)+len(y_valid),len(y_train[0]))
+            #y_valid = np.array(y_valid).reshape(len(y_valid),1)
+
             cv = PredefinedSplit(test_fold)
-
-        clf = RandomizedSearchCV(model,self.parameters,n_iter = 10,
+        
+        if isinstance(y_train[0],int):#.shape[-1] !=1:
+            clf = RandomizedSearchCV(model,self.parameters,n_iter =10,
                                      n_jobs=self.n_jobs, cv = cv,
-                                     scoring="f1", random_state = self.random_state)
+                                     scoring="accuracy", random_state = self.random_state)
 
+        else:
+            clf = RandomizedSearchCV(model,self.parameters,n_iter =10,
+                    n_jobs=self.n_jobs, cv = cv,
+                    scoring="f1_samples", random_state = self.random_state)
+            
         if y_train is not None:
+
             clf.fit(X_train,y_train)
         else:
             clf.fit(X_train)
@@ -98,6 +101,9 @@ class classifiers(object):
 
         self.parameters = lrp
         model = LogisticRegression()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
         
 
@@ -107,6 +113,9 @@ class classifiers(object):
 
         self.parameters = rcp
         model = RidgeClassifier()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
         
@@ -116,6 +125,9 @@ class classifiers(object):
 
         self.parameters  = kp
         model = KNeighborsClassifier()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
     
@@ -125,6 +137,9 @@ class classifiers(object):
         
         self.parameters = sp
         model = SVC()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return  self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
@@ -134,6 +149,9 @@ class classifiers(object):
         
         self.parameters = rfp
         model = RandomForestClassifier()   
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return  self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
@@ -143,6 +161,9 @@ class classifiers(object):
 
         self.parameters = mlpp
         model = MLPClassifier()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
@@ -152,6 +173,9 @@ class classifiers(object):
 
         self.parameters = dtp
         model = DecisionTreeClassifier()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
@@ -161,6 +185,9 @@ class classifiers(object):
         
         self.parameters = gbp
         model = GBC()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            model = MultiOutputClassifier(model)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
 
 
@@ -169,6 +196,8 @@ class classifiers(object):
         from sklearn.naive_bayes import GaussianNB
         
         model = GaussianNB()
+        if self.multi_label:
+            model = MultiOutputClassifier(model)
         model.fit(X_train,y_train)
         with open(self.path,'wb') as f:
             pickle.dump(model, f)
@@ -177,11 +206,16 @@ class classifiers(object):
     def xg_boost(self,X_train,y_train,X_valid,y_valid):
         
         import xgboost as xgb 
-        from .hyperparameters import cls_xgboost
-        
+        from .hyperparameters import cls_xgboost 
         self.parameters = cls_xgboost
         model = xgb.XGBClassifier()
-        
+        if self.multi_label:
+            self.parameters['objective'] = ['multi:softmax']
+            self.parameters['num_class'] = [y_train.shape[-1]]
+            self.parameters = self.change_key(self.parameters) 
+            model = MultiOutputClassifier(model)
+            print(X_train.shape,y_train.shape)
+            #print(y_train)
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
     
     def light_gbm(self,X_train,y_train,X_valid,y_valid):
@@ -191,6 +225,11 @@ class classifiers(object):
         
         self.parameters = cls_lightcbm
         model = LGBMClassifier()
+        if self.multi_label:
+            self.parameters = self.change_key(self.parameters)
+            #self.parameters['num_classes'] = [y_train.shape[-1]]
+            model = MultiOutputClassifier(model)
+
         return self.get_best_model(model, X_train, y_train,X_valid, y_valid)
         
         
@@ -203,14 +242,23 @@ class classifiers(object):
     def RNN(self,X_train,y_train,X_valid,y_valid):
         
         from .hyperparameters import cls_rnn
-        
+
         return rnn_classifier(X_train,y_train,X_valid,y_valid,cls_rnn,self.path)
+
+
+    def change_key(self,ddd):
+        kkk_dict = {}
+        for i in ddd.keys():
+            kkk_dict['estimator__'+i] = ddd[i]
+            
+        return kkk_dict
 
 
 def classification_methods(X_train,y_train = None,
                            X_valid = None,y_valid = None,
                            ml_type = 'SVM', 
-                           path = None
+                           path = None,
+                           multi_label = False
                            ):
     
     """
@@ -237,18 +285,18 @@ def classification_methods(X_train,y_train = None,
     if path is not None:
         if ml_type != 'CNN' and ml_type != 'RNN':
             if os.path.isfile(path):
-                print(f'Model path {path} is already exist.'
-                      f'To not lose model please provide new model path name or leave path as None')
-                sys.exit(1)
+                print(f'Model path {path} is already exist. It is loading...')
+                      #f'To not lose model please provide new model path name or leave path as None')
+                #sys.exit(1)
+                return pickle.load(open(path,'rb'))#pickle.load(path)
+         
+    #if set(y_train) == set([1,-1]) or set(y_train) == set([1,0]):
+    #    pass
+    #else:
+    #    raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')
+    #print(multi_label) 
+    c = classifiers(path,multi_label)
         
-        
-    
-    if set(y_train) == set([1,-1]) or set(y_train) == set([1,0]):
-        pass
-    else:
-        raise ValueError(f'Data must be binary: {{1,-1}} or {{1,0}}')
-
-    c = classifiers(path)
     
     machine_methods = {'logistic_reg':c.logistic_regression,'ridge_class':c.ridge_class,
                      'KNN':c.KNN,'SVM':c.SVM,'random_forest':c.random_forest,
@@ -260,11 +308,6 @@ def classification_methods(X_train,y_train = None,
                                     y_train = y_train,
                                     X_valid = X_valid,
                                     y_valid = y_valid)
-
-
-
-
-
 
 
 
