@@ -128,6 +128,108 @@ def spearman(y,f):
 
     return rs
 
+def calc_f(cm):#ok
+
+    #maF = metrics.f1_score(y,f,labels = np.unique(y),average = 'macro')
+    #miF = metrics.f1_score(y,f,labels = np.unique(y),average = 'micro')
+    
+    miF = (cm[:,1,1].sum())/((cm[:,1,1].sum()) + 0.5*((cm[:,0,1].sum())+(cm[:,1,0].sum())))
+    
+    
+    #macro_f: avg of F
+    maF = sum((cm[:,1,1])/((cm[:,1,1]) + 0.5*((cm[:,0,1])+(cm[:,1,0]))))/len(cm)
+
+    return maF,miF
+
+def calc_precision(cm):#ok
+ 
+    # maP = metrics.precision_score(y,f,labels = np.unique(y),average = 'macro')
+    # miP = metrics.precision_score(y,f,labels = np.unique(y),average = 'micro')
+    
+    miP = cm[:,1,1].sum()/(cm[:,1,1].sum() + cm[:,0,1].sum())
+    
+    maP = sum(cm[:,1,1]/(cm[:,1,1] + cm[:,0,1]))/len(cm)
+    
+    return maP,miP
+def calc_recall(cm):#ok
+    # maR = metrics.recall_score(y,f,labels = np.unique(y),average = 'macro')
+    # miR = metrics.recall_score(y,f,labels = np.unique(y),average = 'micro')
+    
+    
+    miR = cm[:,1,1].sum()/(cm[:,1,1].sum() + cm[:,1,0].sum())
+    
+    maR = sum(cm[:,1,1]/(cm[:,1,1] + cm[:,1,0]))/len(cm)
+    
+    return maR,miR
+
+def calc_f05(cm):#ok
+
+    beta = 0.5
+    miF5 = (1+beta**2)*cm[:,1,1].sum()/(beta**2*(cm[:,1,1].sum()+cm[:,1,0].sum())+ cm[:,0,1].sum()+cm[:,1,1].sum())
+    
+    maF5 = sum((1+beta**2)*cm[:,1,1]/(beta**2*(cm[:,1,1]+cm[:,1,0])+ cm[:,0,1]+cm[:,1,1]))/len(cm)
+    
+    #macro_f: avg of F
+    #maF = sum((1+beta**2)*cm[:,1,1]/(beta**2 * cm[:,1,1] + cm[:,0,1]+cm[:,1,0]))/len(cm)
+
+    # maF5= metrics.fbeta_score(y,f,labels = np.unique(y),average = 'macro',beta = 0.5)
+    # miF5 = metrics.fbeta_score(y,f,labels = np.unique(y),average = 'micro',beta = 0.5)
+    
+    return maF5,miF5
+
+def calc_auc(y,f):#ok
+    maRoc= metrics.roc_auc_score(y,f,labels = np.unique(y),average = 'macro')
+    miRoc = metrics.roc_auc_score(y,f,labels = np.unique(y),average = 'micro')
+    
+    return maRoc,miRoc
+
+def calc_auprc(y,f):#nok
+    auprc = []
+    for i in range(y.shape[-1]):
+        precision, recall, thresholds = metrics.precision_recall_curve(y[:,i], f[:,i], pos_label=1)
+        auprc.append(metrics.auc(recall, precision))
+    maPRC = sum(auprc)/y.shape[-1]
+    return maPRC
+    
+def calc_mcc(cm):#nok
+
+    
+    maMCC = sum((cm[:,1,1] * cm[:,0,0] - cm[:,0,1] * cm[:,1,0])/
+            ((cm[:,1,1] + cm[:,0,1]) * (cm[:,1,1] + cm[:,1,0]) * (cm[:,0,0] + cm[:,0,1]) * (cm[:,0,0] + cm[:,1,0]))**0.5)/len(cm)
+    
+    
+    miMCC = (cm[:,1,1].sum() * cm[:,0,0].sum() - cm[:,0,1].sum() * cm[:,1,0].sum())/(
+        (cm[:,1,1].sum() + cm[:,0,1].sum()) * (cm[:,1,1].sum() + cm[:,1,0].sum()) * (cm[:,0,0].sum() + cm[:,0,1].sum()) * (cm[:,0,0].sum() + cm[:,1,0].sum()))**0.5
+        
+    return maMCC,miMCC
+    
+def calc_acc(cm):#nok
+    
+    maAcc = sum((cm[:,1,1] + cm[:,0,0])/(cm[:,1,0] + cm[:,0,0] + cm[:,1,1] + cm[:,0,1]))/len(cm)
+    miAcc = (cm[:,1,1].sum() + cm[:,0,0].sum())/(cm[:,1,0].sum() + cm[:,0,0].sum() + cm[:,1,1].sum() + cm[:,0,1].sum())
+    
+    return maAcc,miAcc
+    
+def cl_prec_rec_f1_acc_mcc_multilabel(y_true, y_pred):
+    cm = metrics.multilabel_confusion_matrix(y_true,y_pred)
+    performance_threshold_dict = {}
+    performance_threshold_dict['Macro_Precision'],performance_threshold_dict['Micro_Precision'] = calc_precision(cm)
+    performance_threshold_dict['Macro_Recall'],performance_threshold_dict['Micro_Recall'] = calc_recall(cm)
+    performance_threshold_dict['Macro_F1_Score'],performance_threshold_dict['Micro_F1_Score'] = calc_f(cm)
+    performance_threshold_dict['Macro_F05_Score'],performance_threshold_dict['Micro_F05_Score'] = calc_f05(cm)#y_true,y_pred)
+    performance_threshold_dict['Macro_AUPRC'] = calc_auprc(y_true,y_pred)
+    performance_threshold_dict['Macro_AUC'],performance_threshold_dict['Micro_AUC'] = calc_auc(y_true,y_pred)
+    
+
+    print('confusuion matrix:\n',cm)
+    performance_threshold_dict['Macro_Accuracy'],performance_threshold_dict['Micro_Accuracy'] = calc_acc(cm)
+    #print('defrgdg')
+    performance_threshold_dict['Macro_MCC'],performance_threshold_dict['Micro_MCC'] = calc_mcc(cm)
+    #print('bbbbbbb neden neeeeeeeeddddeeeee') 
+    
+    return performance_threshold_dict
+
+
 def cl_prec_rec_f1_acc_mcc(y_true, y_pred):
     """
     Task:    To compute F1 score using the threshold of 7 M
@@ -382,7 +484,7 @@ def evaluate_score(model,X,y, preds = False, learning_method = 'classif', isDeep
         X: feature matrix
         y: label matrix
         preds: {bool}, default = False, if True, function returns predicted labels, too
-        learning_method: {string}, default = 'classif', return scoring metric according
+        learning_method: {string}, {'binary','multilabel','rgr'} default = 'binary', return scoring metric according
                         to learning method
         isDeep: {bool}, default = False, If True, model is evaluated with torch.no_grad()
     Returns
@@ -390,27 +492,52 @@ def evaluate_score(model,X,y, preds = False, learning_method = 'classif', isDeep
         f: {numpy array}, predicted label
     """
     if isDeep:
-        sgm = torch.nn.Sigmoid()
+        if isinstance(y[0],int):#y.shape[-1] == 1:
+            sgm = torch.nn.Sigmoid()
         
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        #print(type(X))
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
-        if isinstance(X,np.ndarray) or isinstance(X,list):
+        
+            if isinstance(X,np.ndarray) or isinstance(X,list):
             
-            X = torch.tensor(X).to(device)
+                X = torch.tensor(X).to(device)
             #y = torch.tensor(y).to(device)
         
-        if len(X.size()) == 1:
-            X = X.unsqueeze(0).unsqueeze(0).float()
-        elif len(X.size()) == 2:
-            X = X.unsqueeze(1).float()
-        #print(X)
-        #print(X.size()) 
-        model.eval()
-        with torch.no_grad():
-            pred = model(X)
-            pred = sgm(pred)
-        f = np.where(pred.cpu().detach().numpy()<0.5,0,1)
+            if len(X.size()) == 1:
+                X = X.unsqueeze(0).unsqueeze(0).float()
+            elif len(X.size()) == 2:
+                X = X.unsqueeze(1).float() 
+            model.eval()
+            with torch.no_grad():
+                pred = model(X)
+                pred = sgm(pred)
+            f = np.where(pred.cpu().detach().numpy()<0.5,0,1)
+        else:
+            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+            if isinstance(X,np.ndarray) or isinstance(X,list):
+                X = torch.tensor(X).to(device)
+            if len(X.size()) == 1:
+                X = X.unsqueeze(0).unsqueeze(0).float()
+            elif len(X.size()) == 2:
+                X = X.unsqueeze(1).float()
+            model.eval()
+            with torch.no_grad():
+
+                #pred = model(X)
+                f = []
+                for x in X:
+                    x = x.unsqueeze(0)
+                    #with torch.no_grad():
+                    pred = model(x)
+                    sf = np.where(pred.cpu().detach().numpy()<0.5,0,1)
+                    #print(sf)
+                    f.append(sf[:])
+                f = np.array(f)
+                f = f.squeeze()  
+            f = np.where(f<0.5,0,1)
+            #for i in range(len(f)):
+            #    print(pred[i],' ',f[i],' ',y[i])
         #print(type(f))
         #print(f)
     else:
@@ -425,9 +552,11 @@ def evaluate_score(model,X,y, preds = False, learning_method = 'classif', isDeep
         g = reg_prec_rec_f1_acc_mcc(y,f)
         
         Scores = {'MSE':a,'RMSE':b,'Spearman':c,'Pearson':d,'Average_AUC':e,'threshold based Metrics':g}
+    
+    elif learning_method == 'multilabel':
+        Scores = cl_prec_rec_f1_acc_mcc_multilabel(y,f)
         
     else:
-
         Scores = cl_prec_rec_f1_acc_mcc(y,f)
     
     if preds:
