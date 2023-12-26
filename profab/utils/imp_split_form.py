@@ -41,7 +41,7 @@ def download_data(server_path,save_path):
                 progress_bar.update(len(data))
                 file.write(data)
         progress_bar.close()
-    else:
+    else: 
         print("No given dataset is available in server.")
         sys.exit(1)
 
@@ -67,8 +67,9 @@ def separator(X,y,ratio):
         y_validation: {numpy array}: validation dataset's labels, returns if
             ratio is list
     '''
+    #print(X)
     if type(ratio) == float:
-
+        
         return train_test_split(X,y, test_size = ratio)
 
     elif type(ratio) == list:
@@ -101,56 +102,66 @@ def _classif_data_import(zip_data,pos_file,neg_file, label, pos_indices = None,n
     '''    
     
     pX,nX,X,y = [],[],[],[]
-    
+    nN,pN,N = [],[],[]
     with ZipFile(zip_data) as f:
         pf =  f.open(pos_file)
         nf = f.open(neg_file)
-        
+
         if pos_indices is not None and neg_indices is not None:
-	        pos_idx = set([int(i.decode('utf-8').strip('\n')) for i in f.open(pos_indices)])
-	        neg_idx = set([int(i.decode('utf-8').strip('\n')) for i in f.open(neg_indices)])
-	        for k,(rowx) in enumerate(pf):
-	            if k in pos_idx:
-	                rowx = re.split('\t',rowx.decode('utf-8').strip('\n'))
-	                rowx = list(np.array(rowx[1:],dtype = 'float64'))
-	                if label == 'positive':
-	                    pX.append(rowx)
-	                if label == None:
-	                    X.append(rowx)
-	                    y.append(1)
-	        for k,(rowx) in enumerate(nf):
-	            if k in neg_idx:
-	                rowx = re.split('\t',rowx.decode('utf-8').strip('\n'))
-	                rowx = list(np.array(rowx[1:],dtype = 'float64'))
-	                if label == 'negative':
-	                    nX.append(rowx)
-	                if label == None:
-	                    X.append(rowx)
-	                    y.append(-1)
+            pos_idx = set([int(i.decode('utf-8').strip('\n')) for i in f.open(pos_indices)])
+            neg_idx = set([int(i.decode('utf-8').strip('\n')) for i in f.open(neg_indices)])
+            for k,(row) in enumerate(pf):
+                if k in pos_idx:
+                    row = re.split('\t',row.decode('utf-8').strip('\n'))
+                    rowx = list(np.array(row[1:],dtype = 'float64'))
+                    if label == 'positive':
+                        pX.append(rowx)
+                        pN.append(row[0])
+                    if label == None:
+                        X.append(rowx)
+                        y.append(1)
+                        N.append(row[0])
+            for k,(row) in enumerate(nf):
+                if k in neg_idx:
+                    row = re.split('\t',row.decode('utf-8').strip('\n'))
+                    rowx = list(np.array(row[1:],dtype = 'float64'))
+                    if label == 'negative':
+                        nX.append(rowx)
+                        nN.append(row[0])
+                    if label == None:
+                        X.append(rowx)
+                        y.append(0)
+                        N.append(row[0])
+        
         else:
 
-            for rowx in pf:
-                rowx = re.split('\t',rowx.decode('utf-8').strip('\n'))
-                rowx = list(np.array(rowx[1:],dtype = 'float64'))
+            for row in pf:
+                row = re.split('\t',row.decode('utf-8').strip('\n'))
+                rowx = list(np.array(row[1:],dtype = 'float64'))
                 if label == 'positive':
                     pX.append(rowx)
+                    pN.append(row[0])
                     
                 if label == None:
                     X.append(rowx)
                     y.append(1)
-            for rowx in nf:
-                rowx = re.split('\t',rowx.decode('utf-8').strip('\n'))
-                rowx = list(np.array(rowx[1:],dtype = 'float64'))
+                    N.append(row[0])
+                    
+            for row in nf:
+                row = re.split('\t',row.decode('utf-8').strip('\n'))
+                
+                rowx = list(np.array(row[1:],dtype = 'float64'))
                 if label == 'negative':
                     nX.append(rowx)
-                    
+                    nN.append(row[0])    
                 if label == None:
                     X.append(rowx)
-                    y.append(-1)
+                    y.append(0)
+                    N.append(row[0])
     pf.close()
     nf.close()
-        
-    return pX,nX,X,y
+    
+    return pX,nX,X,y,np.array(pN,dtype = str),np.array(nN,dtype = str),np.array(N,dtype = str)
 
 def self_data(file_name, delimiter, label, name):
         
@@ -181,32 +192,40 @@ def self_data(file_name, delimiter, label, name):
             if label:
                 
                 X_pos,X_neg = [],[]
+                pN,nN = [],[]
                 for row in f:
                     row = re.split(delimiter,row.strip())
                     if name:
                         if int(row[-1]) == 1:
-    
+                            pN.append(row[0])
                             X_pos.append(row[1:-1])
                         else:
+                            nN.append(row[0])
                             X_neg.append(row[1:-1])
     
                     else:
                         if int(row[-1]) == 1:
-    
+                            pN.append(row[0])
                             X_pos.append(row[:-1])
                         else:
+                            nN.append(row[0])
                             X_neg.append(row[:-1])
-                
+                if name:
+                    X_pos,X_neg,pN,nN
                 return X_pos,X_neg
             else:
                 X = []
+                N = []
                 for row in f:
                     row = re.split(delimiter,row.strip())
                     
                     if name:
-                            X.append(row[1:])
+                        N.append(row[0])
+                        X.append(row[1:])
                     else:
                         X.append(row)
+                if name:
+                    X,N
                 return X
     
 
